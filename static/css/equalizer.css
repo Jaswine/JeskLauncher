@@ -1,0 +1,23 @@
+.equalizer {
+   margin-top: 10px;
+   border-top: 4px solid rgb(254,254,254,1);
+   display: flex;
+   justify-content: center;
+   align-items: start;
+   width: 100%;
+   max-width: 300px;
+   position: fixed;
+   bottom: 20vh;
+   border-radius: 10px;
+
+   /* display: none; */
+}
+.equalizer span {
+   display: block;
+   content: '';
+   width: 6px;
+   background-color: rgb(254,254,254,1);
+   transition: all .3s linear;
+   margin-top: -2px;
+   border-radius: 10px 10px  0 0;
+}

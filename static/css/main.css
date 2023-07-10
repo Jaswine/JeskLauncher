@@ -1,0 +1,230 @@
+@import "./variables.css";
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Black+Ops+One&family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Braah+One&family=Oswald:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Satisfy&display=swap');
+
+* {
+   box-sizing: border-box;
+
+   padding: 0;
+   margin: 0;
+
+   text-decoration: none;
+   border: none;
+   outline: none;
+}
+body {
+   color: #202020;
+   background-color: rgb(248, 248, 255);
+   font-size: var(--text-l);
+   font-family: var(--poppins);
+   
+   overflow: hidden;
+}
+
+.btn {
+   padding: 10px 20px;
+   background-color: rgb(188, 143, 143, .3);
+   font-size: 16px;
+   border-radius: 10px;
+   transition: all .3s linear;
+}
+.btn:hover {
+   background-color: rgb(142, 191, 254, .3);
+   cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+   .btn {
+      width: 100%;
+   }
+}
+
+::selection {
+   background-color: #bc8f8f;
+}
+
+/* TODO:  messages */
+.messages {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+}
+.message {
+   width: 100%;
+   position: fixed;
+   z-index: 5;
+   top: 20vh;
+   width: 100%;
+   max-width: 500px;
+   background-color: white;
+   border: 1px solid #202020;
+   border-radius: 10px;
+   padding: 8px 10px;
+   
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+.message_close {
+   transition: all .3s ease-in-out;
+   cursor: pointer;
+
+   padding:  6px;
+   border-radius: 150px;
+   background-color: transparent;
+}
+.message_close:hover{
+   background-color: #bc8f8f;
+   color: white;
+}
+
+/* TODO:  chill mode */
+.chill__mode {
+   position: fixed;
+   z-index: 100000000;
+   width: 100vw;
+   height: 100vh;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   right: 0;
+
+   display: none;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+
+   opacity: 0;
+   transition: all .5s lienear;
+   background-color: transparent;
+}
+
+.chill__phone__intro {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   font-family: 'Satisfy', cursive;
+   height: 100vh;
+}
+.chill__phone__intro h1 {
+   font-size: calc(7vh + 7vw);
+}
+.chill__phone__date {
+   font-size: calc(1.5vh + 1.5vw);
+   font-weight: 700;
+}
+.chill__phone__time {
+   font-size: calc(1.7vh + 1.7vw);
+   font-weight: bold
+}
+.chill__mode__exit {
+   position: fixed;
+   bottom: 5%;
+   right: 5%;
+   font-size: 42px;
+   /* TODO:  color: rgb(254,254,254,.2); */
+   transition: all .3s linear;
+   opacity: .9 !important;
+}
+.chill__mode__exit * {
+   opacity: .9 !important;
+}
+.chill__mode__exit:hover {
+   animation-name: transform;
+   cursor: pointer;
+   color: rosybrown
+}
+
+@keyframes transform {
+   0% {
+      transform: rotate(0deg);
+   }
+   100%{
+      transform: rotate(360deg);
+   }
+}
+
+.link {
+   font-size: 16px;
+   color: #bc8f8f;
+   transition: all .3s linear;
+}
+.link:hover {
+   color: #8ebffe;
+}
+
+/* TODO:  scroll bar */
+::-webkit-scrollbar {
+   width: 8px;
+   background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+   background-color: rgba(188,143,143,.2);
+   border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+   background-color: rgba(188,143,143,.8)
+}
+
+a {
+   color: #202020;
+}
+
+/* TODO: loader */
+#loader {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   width: 40px;
+   height:40px;
+   position: relative;
+   /* border: 5px solid rgba(188, 143, 143, 0.1); */
+   border-radius: 100px;
+   margin-left: 40%;
+   top: 5%;
+}
+#loader::after {
+   display: block;
+   content: '';
+   width:45px;
+   height: 45px;
+   position: absolute;
+   border-radius: 100px;
+   border-top: 3px solid #bc8f8f;
+   border-left: 3px solid #bc8f8f;
+   animation: rotateRight 1s linear infinite;
+}
+#loader::before {
+   display: block;
+   content: '';
+   width:25px;
+   height: 25px;
+   position: absolute;
+   border-radius: 100px;
+   border-right: 3px solid #bc8f8f;
+   border-bottom: 3px solid #bc8f8f;
+   animation: rotateLeft 1s linear infinite;
+}
+
+@keyframes rotateRight {
+   0% {
+      transform: rotate(0deg);
+   }
+
+   100% {
+      transform: rotate(360deg);
+   }
+}
+
+@keyframes rotateLeft {
+   0% {
+      transform: rotate(-0deg);
+   }
+
+   100% {
+      transform: rotate(-360deg);
+   }
+}

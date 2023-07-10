@@ -1,0 +1,41 @@
+{% load static %}
+<div class="column today"  style="
+   border-right: 1px solid rgb(20,20,20,.3);
+   border-left: 1px solid rgb(20,20,20,.3);
+   opacity: 1;
+">
+   <h3 
+      class="column__title"
+      style = "border-bottom: 1px solid rgb(20,20,20,.3)"
+   >Today</h3>
+   <div class="today__work" style=" height: 75.1vh; border-bottom: 1px solid rgb(20,20,20,.3)">
+      {% autoescape off %}
+      <div class='today__work__notfound'>
+         Messages Not Found
+      </div>
+      {% endautoescape %}
+   </div>
+   <form class="inbox__tasks inbox__today__tasks" method="POST" id='create-today-note-form'>
+      {% csrf_token %}
+      
+      <div class="inbox__add__tasks">
+         <h3>
+            <span  class="inbox__add__today__notes__notification__number" ></span>
+            <span  class="inbox__tasks__menu__button fa-solid fa-circle-chevron-down" title="Show All Titles" ></span>
+            Today's notes:
+         </h3>
+         <div class="inbox__add__tasks__form">
+            <input 
+               type="text" 
+               placeholder="Enter your today notes..." 
+               name="message"
+               class="add_note_today"
+            >
+            <button class="btn" hidden>send</button>
+      </div>
+   </div>
+   <div class="inbox__show__tasks" style='height: 12vh' id="today-notes-list"></div>
+   </form>  
+</div>
+
+<script src="{% static 'js/API/crudTodayNotes.js' %}" ></script>

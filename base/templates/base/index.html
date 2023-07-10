@@ -1,0 +1,29 @@
+{% include 'main.html' %}
+{% load static %}
+
+{% block title %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+
+<title>Home</title>
+{% endblock title %}
+
+{% block content %}
+<div class="page">
+      <div class="page__left">
+            <img src="" alt="mount" class="page__left__image">
+            <div class="page__left__mask" style='background-color: rgb(254,254,254,.8)'></div>
+      </div>
+      <div class="page__content">
+            {% include 'base/blocks/Inbox.html' %}
+            {% include 'base/blocks/Today.html' %}
+            {% include 'base/blocks/Calendar.html' %}
+      </div>
+ </div> 
+ 
+<script src="{% static 'js/API/crudTODO.js' %}" ></script>
+<script src="{% static 'js/API/getMessages.js' %}" ></script>
+<script src="{% static 'js/API/utils.js' %}" ></script>
+
+<script src="{% static 'js/components/todos.js' %}" ></script>
+<script src="{% static 'js/components/backImage.js' %}" ></script>
+{% endblock content %}

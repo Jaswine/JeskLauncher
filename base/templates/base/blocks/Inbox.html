@@ -1,0 +1,47 @@
+{% load static %}
+<div class="column inbox" style="opacity: 1">
+   <h3 class="column__title" style = "border-bottom: 1px solid rgb(20,20,20,.3);" >Inbox</h3>
+
+   <div class="column__notifications" style='border-bottom: 1px solid rgb(20,20,20,.3);' id = "messages-list">
+      <div id="loader"></div>
+   </div>
+   
+   <form class="inbox__tasks" method="POST" id="todo-create-form">
+      {% csrf_token %}
+      <div class="inbox__tasks__apps" style="border-bottom: 1px solid rgb(20,20,20,.3)">
+         <div 
+            class="inbox__tasks__app" 
+         >
+            <input type="checkbox" name="isJesk"  value="jesk" disabled>
+            <span>+Jesk</span>
+         </div>   
+         <div 
+            class="inbox__tasks__app"
+         >
+            <input type="checkbox" name="isGoogle_todo"  value="google_todo" disabled>
+            <span>+ <img src="{% static 'media/task-add-accent-light.svg' %}" alt="icon" class="inbox__tasks__app__icon" /> </span>
+         </div>    
+      </div>
+      <div class="inbox__add__tasks">
+         <h3>
+            <span  class="inbox__add__tasks__notification__number"></span>
+            <span  class="inbox__tasks__menu__button fa-solid fa-circle-chevron-down" title="Show All Titles   " ></span>
+            Notes +
+         </h3>
+         <div class="inbox__add__tasks__form">
+            <input 
+               type="text" 
+               placeholder="Enter your notes..." 
+               name="message"
+               class="add_note_inbox"
+            >
+            <button class="btn" hidden>send</button>
+      </div>
+   </div>
+
+   <div class="inbox__show__tasks" style='height:12vh' id='todo-list'></div>
+   
+   <div class='note__form'></div>
+
+   </form>  
+</div>

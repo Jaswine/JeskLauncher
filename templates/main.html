@@ -1,0 +1,47 @@
+    <!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   <link rel="stylesheet" href="static/css/main.css" type="text/css" >
+   <link rel="stylesheet" href="static/css/equalizer.css" type="text/css" >
+
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+   {% block title %}{% endblock title %}
+</head>
+<body>
+   {% if messages %}
+   <div class="messages">
+       {% for message in messages %}
+           <div class='message'>
+               {{message}}
+               <i class="message_close">X</i>
+           </div>
+       {% endfor %}
+   </div>
+{% endif %}
+
+<div class="chill__mode" id="chill__mode">
+    <div class="chill__phone__intro">
+        <h1 class="chill__phone__intro__title"></h1>
+        <div class="chill__phone__date"></div>
+        <div class="chill__phone__time"></div>
+        {% comment %} <div class="equalizer"></div> {% endcomment %}
+    </div> 
+    <div class="fa-solid fa-xmark close__chill__mode chill__mode__exit"></div>
+ </div>
+
+
+{% block content %}{% endblock content %}
+
+
+<script src="{% static 'js/components/close_messages.js' %}" ></script>
+<script src="{% static 'js/components/equalizer.js' %}" ></script>
+<script src="https://kit.fontawesome.com/0b77448ae5.js" crossorigin="anonymous"></script>
+</body>
+</html>
