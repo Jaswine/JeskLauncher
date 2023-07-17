@@ -32,6 +32,12 @@ body {
    background-color: rgb(142, 191, 254, .3);
    cursor: pointer;
 }
+.btn--del {
+   background-color: rgb(142, 191, 254, .3);
+}
+.btn--del:hover {
+   background-color: rgb(188, 143, 143, .3);
+}
 
 @media screen and (max-width: 600px) {
    .btn {
@@ -54,7 +60,7 @@ body {
    width: 100%;
    position: fixed;
    z-index: 5;
-   top: 20vh;
+   top: 28vh;
    width: 100%;
    max-width: 500px;
    background-color: white;
@@ -65,14 +71,17 @@ body {
    display: flex;
    justify-content: space-between;
    align-items: center;
+   z-index: 11;
 }
 .message_close {
    transition: all .3s ease-in-out;
    cursor: pointer;
 
-   padding:  6px;
+   padding:  6px 12px;
    border-radius: 150px;
+   font-weight: bold;
    background-color: transparent;
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .message_close:hover{
    background-color: #bc8f8f;
@@ -82,7 +91,7 @@ body {
 /* TODO:  chill mode */
 .chill__mode {
    position: fixed;
-   z-index: 100000000;
+   z-index: 1000;
    width: 100vw;
    height: 100vh;
    top: 0;
@@ -228,3 +237,10 @@ a {
       transform: rotate(-360deg);
    }
 }
+
+/*
+
+music in chillmode
+focus mode full
+
+*/

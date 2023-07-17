@@ -1,0 +1,46 @@
+{% include 'main.html' %}
+{% load static %}
+
+{% block title %}
+<link rel="stylesheet" href="{% static 'css/special/privacy.css' %}">
+<title>Privacy Policy</title>
+{% endblock title %}
+
+{% block content %}
+<div class="page">
+    {% include "special/header.html" %}
+
+    <div class="page__content">
+        <div class="page__menu">
+           <a href="#relationships">Взаимоотношения</a>
+           <a href="#usage">Использование</a>
+           <a href="#content">Ваш контент в JESK</a>
+           <a href="#problems">Проблемы</a>
+
+        </div>
+        <div class="page__info">
+
+            <div class="page__desc" id="relationships">
+                <h3>Взаимоотношения</h3>
+                <p>JESK разришает Вам использовать наш сервис, если Вы принимаете эти условия</p>
+            </div>
+            
+            <div class="page__desc" id="usage">
+                <h3>Использование</h3>
+                <p></p>
+            </div>  
+
+            <div class="page__desc" id="content">
+                <h3>Ваш контент в JESK</h3>
+                <p></p>
+            </div>  
+
+            <div class="page__desc" id="problems">
+                <h3>Проблемы</h3>
+                <p></p>
+            </div>  
+
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -9,15 +9,11 @@
    <form class="inbox__tasks" method="POST" id="todo-create-form">
       {% csrf_token %}
       <div class="inbox__tasks__apps" style="border-bottom: 1px solid rgb(20,20,20,.3)">
-         <div 
-            class="inbox__tasks__app" 
-         >
+         <div class="inbox__tasks__app" >
             <input type="checkbox" name="isJesk"  value="jesk" disabled>
             <span>+Jesk</span>
          </div>   
-         <div 
-            class="inbox__tasks__app"
-         >
+         <div class="inbox__tasks__app">
             <input type="checkbox" name="isGoogle_todo"  value="google_todo" disabled>
             <span>+ <img src="{% static 'media/task-add-accent-light.svg' %}" alt="icon" class="inbox__tasks__app__icon" /> </span>
          </div>    

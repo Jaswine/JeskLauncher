@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                   </div>
                 `;
-                messages_list.appendChild(div);
+                messages_list.appendChild(div)
               });
             } else {
               messages_list.innerHTML = `<h3>${data.message}</h3>`;

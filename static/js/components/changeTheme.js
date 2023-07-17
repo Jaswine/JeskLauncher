@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
    const inputElements = document.querySelectorAll('input')
    const aElements = document.querySelectorAll('a')
    const options = document.querySelectorAll('option')
-   const note__formElements = document.querySelectorAll('.note__form')
 
    // panel
    const accountsElements = document.querySelectorAll('.accounts')
@@ -18,7 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
    // some elements
    const page__left__mask = document.querySelectorAll('.page__left__mask')
    const message = document.querySelectorAll('.message')
-
+   const note__formElements = document.querySelectorAll('.note__form')
+   const settings = document.querySelectorAll('.settings')
 
    // TODO: get from local storage
    let theme = localStorage.getItem('theme')
@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
          // TODO: ____________ light theme ______________
 
          localStorage.setItem('theme', 'light')
+         document.getElementById('theme').innerHTML = `<i class="fa-regular fa-moon"></i>`
 
          document.body.style.color = '#202020'
          document.body.style.backgroundColor = 'ghostwhite'
@@ -59,6 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
          changeStyle('#202020', colorElements, 'color')
 
          changeStyle('#202020',inputElements, 'color')
+         changeStyle('1px solid rgb(20,20,20,.2)', inputElements ,'border')
+
          changeStyle('#202020',aElements, 'color')
          changeStyle('rgb(248, 248, 255, 1)', options ,'backgroundColor')
 
@@ -67,11 +70,12 @@ document.addEventListener('DOMContentLoaded', () => {
          changeStyle('rgb(248, 248, 255,.6)',page__left__mask, 'backgroundColor')
          changeStyle('rgb(248, 248, 255, 1)', message ,'backgroundColor')
          changeStyle('rgb(248, 248, 255)', note__formElements, 'backgroundColor')
+         changeStyle('rgb(248, 248, 255)', settings, 'backgroundColor')
       } else {
          // TODO:  ____________ dark theme ___________
 
          localStorage.setItem('theme', 'dark')
-
+         document.getElementById('theme').innerHTML = `<i class="fa-regular fa-sun"></i>`
 
          document.body.style.color = 'ghostwhite'
          document.body.style.backgroundColor = '#202020'
@@ -83,8 +87,11 @@ document.addEventListener('DOMContentLoaded', () => {
          changeStyle('rgb(20,20,20,1)', backgroundColorElements, 'backgroundColor')
          changeStyle('rgb(248, 248, 255)', colorElements, 'color')
 
-         changeStyle('ghostwhite',inputElements, 'color')
          changeStyle('ghostwhite',aElements, 'color')
+
+         changeStyle('ghostwhite', inputElements, 'color')
+         changeStyle('transparent', inputElements ,'backgroundColor')
+         changeStyle('1px solid rgb(248, 248, 255, .4)', inputElements ,'border')
 
          changeStyle('#202020', options ,'backgroundColor')
 
@@ -93,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
          changeStyle('rgb(20, 20, 20,.6)',page__left__mask, 'backgroundColor')
          changeStyle('#202020',message ,'backgroundColor')
          changeStyle('#202020', note__formElements, 'backgroundColor')
+         changeStyle('#202020', settings, 'backgroundColor')
       }
    }
 

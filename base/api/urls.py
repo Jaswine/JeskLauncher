@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import auth, todo, today_tasks, messages
+from .views import auth, todo, today_tasks, messages, user
 
 urlpatterns = [
     # TODO: ____ todos _____
@@ -11,5 +11,6 @@ urlpatterns = [
     path('today-notes/<str:pk>', today_tasks.today_notes_delete, name='today_notes_delete'),
 
     # TODO: ____ messages _____
-    path('messages', messages.messages_list, name='messages_list'),
+    path('messages', messages.messages_list, name='messages_list'),  
+    path('update-settings', user.update_settings, name='update_settings'), 
 ]

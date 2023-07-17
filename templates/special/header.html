@@ -1,0 +1,12 @@
+<div class="page__header">
+    <h2>JESK - Privacy</h2>
+    <div class="page__header__menu">
+        <a href="{% url 'privacy' %}">Privacy Policy</a>
+        <a href="{% url 'terms' %}">Terms of use</a>
+        {% if request.user %}
+            <a href="{% url 'base:index' %}">Home</a>
+        {% else %}
+            <a href="">Sign In</a>
+        {% endif %}
+    </div> 
+</div>

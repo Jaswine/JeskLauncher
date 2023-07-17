@@ -447,7 +447,7 @@ td:hover {
    background-color: rgb(188, 143, 143, .3);
 }
 
-.accounts {
+.accounts, .settings {
    display: flex;
    justify-content: center;
    align-items: center;
@@ -481,6 +481,7 @@ td:hover {
    display: flex;
    justify-content: center;
    align-items: center;
+   flex-direction: column;
    width: 100%;
    flex-wrap: wrap;
    margin: 10px 0;
@@ -574,7 +575,8 @@ td:hover {
    background-color: rgb(188, 143, 143, .3);
 }
 .callender__panel__top a {
-   background-color: rgb(188, 143, 143, .3);
+   /* background-color: rgb(188, 143, 143, .3); */
+   background-color: #a4969a;
    cursor: pointer;
    width: 100%;
    transition: all .3s linear;
@@ -589,7 +591,8 @@ td:hover {
    flex-direction: column;
 }
 .callender__panel__top a:hover {
-   background-color: rgb(142, 191, 254, .3);
+   /* background-color: rgb(142, 191, 254, .3); */
+   background-color: #95a5bb;
 }
 .callendar__window {
    display: none;
@@ -667,4 +670,43 @@ textarea:focus {
    justify-content: space-between;
    align-items: center;
    width: 100%;
+}
+.account__body__line {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   width: 100%;
+   gap: 10px;
+}
+.account__body__line input {
+   width: 100%;
+   padding: 10px;
+   margin-bottom: 2%;
+   border: 1px solid rgb(20,20,20,.2);
+   border-radius: 6px;
+   margin-top: 4px;
+   width: 100%;
+   font-size: 16px;
+
+   transition: all .3s linear;
+   max-width: 400px;
+}
+.account__body__line input:hover, .account__body__line input:focus {
+   border-color: #202020;
+}
+/* callendar panel for focus mode  */
+.callender__panel__focusmode {
+   position: fixed;
+   max-width: 40%;
+   top: -4px;
+   right: 0;
+   height: 40px;
+   z-index: 10;
+
+   padding: 0 6px;
+
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border-radius: 0 0 0 10px;
 }

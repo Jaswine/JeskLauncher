@@ -9,12 +9,15 @@
    >
       <div>
          <a id="theme">
-            <i class='fa-regular fa-sun'></i>
+            <i class="fa-regular fa-moon"></i>
          </a>
          <a id="changeBackImage">
             <i class="fa-sharp fa-regular fa-images"></i>
          </a>
          <a id="open_account" >+</a>
+         <a id="settings" >
+            <i class="fa-solid fa-gear"></i>
+         </a>
       </div>
       <a href="{% url 'base:sign-out' %}">Sign Out</a>
    </div>
@@ -133,7 +136,38 @@
    <a href="{% url 'socialaccount_connections' %}">Connect Social Account</a>
 </div>
 
+<div class="settings" style='display: none;'>
+   <div class="accounts__header">
+      <h3>Settings</h3>
+      <button class="btn close__settings"><i class="fa-solid fa-xmark"></i></button>
+   </div>
+   <form class="accounts__body" method="POST" id="settingsForm">   
+      {% csrf_token %}
+      <div class="account__body__line">
+         <label>Email:</label>
+         <input 
+            type="email" 
+            name="email"
+            placeholder="Enter your email..."
+            value="{{ request.user.email }}" />
+      </div>
+      
+      <div class="account__body__line">
+         <label>Password: </label>
+         <input 
+            type="password" 
+            name="password"
+            placeholder="Enter a new password..." />
+      </div>
+      <div class="account__body__line">
+         <button class="btn">Save</button>
+         <a class="btn btn--del" href="/delete-account">Delete Account</a>
+      </div>
+   </form>
+</div>
+
 <script src="{% static 'js/components/calendar.js' %}" ></script>
+<script src="{% static 'js/components/settings.js' %}" ></script>
 <script src="{% static 'js/components/changeTheme.js' %}" ></script>
 <script src="{% static 'js/components/focusMode.js' %}" ></script>
 <script src="{% static 'js/components/music.js' %}" ></script>

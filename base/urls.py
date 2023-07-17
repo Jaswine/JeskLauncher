@@ -8,6 +8,7 @@ from .views.base_auth_view import (sign_in_view,
 from .views.index_view import (index_view, 
                                delete_comment_view, 
                                delete_today_note_view)
+from .views.user import delete_account
 
 app_name ='base'
 
@@ -22,4 +23,6 @@ urlpatterns = [
    
    path('google-login/done/', google_login_done, name='google_login_done'),
    path('sign-in-social-media-view', sign_in_social_media_view, name='sign-in-social-media'),
+   
+   path('delete-account/', delete_account, name='delete_account'),
 ]

@@ -1,0 +1,20 @@
+{% include 'main.html' %}
+{% load static %}
+
+{% block title %}
+<link rel="stylesheet" href="{% static 'css/delete.css' %}">
+
+<title>Delete Account</title>
+{% endblock title %}
+
+{% block content %}
+<div class="page">
+      <div class="page__delete">
+         <h2>Do you want to delete your account?</h2>
+         <div class="buttons">
+            <a class="btn" href="/">Return Back </a>
+            <button class="btn btn--del" >Delete Account</button>
+         </div>
+      </div>
+ </div> 
+{% endblock content %}

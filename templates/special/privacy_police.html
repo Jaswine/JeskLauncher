@@ -1,0 +1,93 @@
+{% include 'main.html' %}
+{% load static %}
+
+{% block title %}
+<link rel="stylesheet" href="{% static 'css/special/privacy.css' %}">
+<title>Privacy Policy</title>
+{% endblock title %}
+
+{% block content %}
+<div class="page">
+    {% include "special/header.html" %}
+    <div class="page__content">
+        <div class="page__menu">
+           <a href="#collection-of-information">Collection of information</a>
+           <a href="#use-of-information">Use of Information</a>
+           <a href="#data-storage">Data storage</a>
+           <a href="#disclosure-to-third-parties">Disclosure to third parties</a>
+           <a href="#user-rights">User rights</a>
+           <a href="#agreement-with-privacy-policy">Agreement with privacy policy</a>
+           <a href="#privacy-policy-updates">Privacy policy updates</a>
+           <a href="#contact-us">Contact Us</a>
+        </div>
+        <div class="page__info">
+            <div class="page__desc" id="collection-of-information">
+                <h3>Collection of information</h3>
+                <p>Account Registration: When you register an account, we may collect certain information about you, including your name and email address, to create and maintain your account.</p>
+                <br>
+                <p>Social Networks: When you connect your social networks to your account, we may access certain data, such as your messages or other public information, in accordance with the rules and policies of the social networks.</p>
+            </div>
+            <div class="page__desc" id="use-of-information">
+                <h3>Use of Information</h3>
+                <p>Provision of Services: We use the information we collect to provide you with the services you access through our website. This may include displaying your social media posts and other features associated with your account.</p>
+            </div>
+            <div class="page__desc" id="data-storage">
+                <h3>Data storage</h3>
+                <p>We store the collected data for as long as we need it to provide you with our product. The duration of storage depends on the type of information and its importance for providing you with our product.</p>
+                <br>
+                <p>You can delete all your data yourself at any time, including personal information or content created or uploaded by you (photos).</p>
+            </div>
+            <div class="page__desc" id="disclosure-to-third-parties">
+                <h3>Disclosure to third parties</h3>
+                <p>Data Security: We take steps to protect your information and prevent unauthorized access or disclosure. However, we cannot guarantee the absolute security of data transmission on the Internet.</p>
+                <br>
+                <p>Compliance with Law: We do not disclose users' personal information to companies, organizations, and individuals not affiliated with us, but we may disclose your information to third parties if we believe it is necessary to comply with the law, legal process, or law enforcement requests.</p>
+            </div>
+            <div class="page__desc" id="user-rights">
+                <h3>User Rights</h3>
+                <p>As a user of our website, you have certain rights in relation to your personal data. We are committed to providing transparency and control over your information. </p>
+                <br>
+                <p>You have the following rights:</p>
+                <br>
+                <p>Right of Access: You can request access to the information we collect about you. We will provide you with details about what data we hold and how we use it.</p>
+                <br>
+                <p>Right to Correction: If you discover inaccuracies or errors in your information, you have the right to have it corrected. You can contact us and let us know about the necessary changes.</p>
+                <br>
+                <p>Right to delete: You can request that your information be deleted from our system. We undertake to delete your data if there are no legal grounds for keeping it.</p>
+                <br>
+                <p>Right to restriction of processing: In certain cases, you can request restriction of the processing of your data. For example, if you consider that the processing is unlawful or the data is no longer needed.</p>
+                <br>
+                <p>Right to data portability: You may request that your data be transferred to another service provider in a format that suits you, where technically feasible.</p>
+                <br>
+                <p>Right to Recovery: If a data breach occurs and your information becomes available to third parties, we will take all reasonable steps to restore the security of your data and notify you of the incident.</p>
+                <br>
+                <p>We make every effort to enforce your rights. If you would like to exercise your rights or have questions regarding the processing of your information, please contact us.</p>
+                <br>
+                <p>We value your privacy and will respect your rights under applicable law and our privacy policy.</p>
+            </div>
+            <div class="page__desc" id="agreement-with-privacy-policy">
+                <h3>Agreement with privacy policy</h3>
+                <p>By creating an account on our site, you agree to our privacy policy and the collection of information about you. We value your privacy and are committed to protecting your personal information.</p>
+                <br>
+               <p>We collect information, including data from your social networks such as Gmail and Google Todos, to provide you with site functionality that allows you to display your posts and tasks. We use this data solely to provide you with the best experience on our site.</p>
+                <br>
+                <p>It is important to note that we take security measures to protect your data and prevent unauthorized access to it. We do not share your information with third parties without your express consent, except as required to provide services to you or as required by applicable law.</p>
+                <br>
+                <p>You have the right to request access to, correction or deletion of your information. If you have questions or require assistance regarding our privacy policy, please contact us.</p>
+                <br>
+                <p>Please read our privacy policy before creating an account. By creating an account, you agree to our privacy policy and the collection of information about you.</p>
+                <br>
+                <p>Thank you for choosing our site and trusting us. We strive to provide you with the best experience on our service and treat your information with care.</p>
+            </div>
+            <div class="page__desc" id="privacy-policy-updates">
+                <h3>Privacy policy updates</h3>
+                <p>We may update our privacy policy from time to time. Any changes will be posted on this page and notice of material changes may be sent to you if required by law. Please check this page regularly for the latest information on our privacy policy.</p>
+            </div>
+            <div class="page__desc" id="contact-us">
+                <h3>Contact Us</h3>
+                <p>If you have any questions, comments or complaints regarding our privacy policy or data processing, please contact us at <b>jesk-launcher@gmail.com</b>.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
