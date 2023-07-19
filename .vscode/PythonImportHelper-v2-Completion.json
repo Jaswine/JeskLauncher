@@ -1248,7 +1248,7 @@
         "kind": 6,
         "importPath": "base.admin",
         "description": "base.admin",
-        "peekOfCode": "class ProfileAdmin(admin.ModelAdmin):\n   list_display = ('user', 'google_token')\nclass TodoAdmin(admin.ModelAdmin):\n   list_display = ('user', 'message', 'created_at' )\nadmin.site.register(Profile)\nadmin.site.register(Todo)",
+        "peekOfCode": "class ProfileAdmin(admin.ModelAdmin):\n   list_display = ('user', 'google_token')\nclass TodoAdmin(admin.ModelAdmin):\n   list_display = ('user', 'message', 'created_at' )\nadmin.site.register(Profile)\nadmin.site.register(Todo)\nadmin.site.register(TodaysNotes)",
         "detail": "base.admin",
         "documentation": {}
     },
@@ -1257,7 +1257,7 @@
         "kind": 6,
         "importPath": "base.admin",
         "description": "base.admin",
-        "peekOfCode": "class TodoAdmin(admin.ModelAdmin):\n   list_display = ('user', 'message', 'created_at' )\nadmin.site.register(Profile)\nadmin.site.register(Todo)",
+        "peekOfCode": "class TodoAdmin(admin.ModelAdmin):\n   list_display = ('user', 'message', 'created_at' )\nadmin.site.register(Profile)\nadmin.site.register(Todo)\nadmin.site.register(TodaysNotes)",
         "detail": "base.admin",
         "documentation": {}
     },
@@ -1311,7 +1311,7 @@
         "kind": 6,
         "importPath": "base.models",
         "description": "base.models",
-        "peekOfCode": "class Todo(models.Model):\n   user = models.ForeignKey(User, on_delete=models.CASCADE)\n   message = models.CharField(max_length=500, default='')\n   created_at = models.DateTimeField('Created Time', auto_now_add = True, null=True)\n   updated_at = models.DateTimeField(auto_now=True, null=True)\n   def __str__(self):\n      return self.user.username\nclass TodaysNotes(models.Model):\n   user = models.ForeignKey(User, on_delete=models.CASCADE)\n   message = models.CharField(max_length=500, default='')",
+        "peekOfCode": "class Todo(models.Model):\n   user = models.ForeignKey(User, on_delete=models.CASCADE)\n   message = models.CharField(max_length=500, default='')\n   created_at = models.DateTimeField('Created Time', auto_now_add = True, null=True)\n   updated_at = models.DateTimeField(auto_now=True, null=True)\n   def __str__(self):\n      return f'{self.user.username} - {self.message} - {self.created_at}'\nclass TodaysNotes(models.Model):\n   user = models.ForeignKey(User, on_delete=models.CASCADE)\n   message = models.CharField(max_length=500, default='')",
         "detail": "base.models",
         "documentation": {}
     },
@@ -1320,7 +1320,7 @@
         "kind": 6,
         "importPath": "base.models",
         "description": "base.models",
-        "peekOfCode": "class TodaysNotes(models.Model):\n   user = models.ForeignKey(User, on_delete=models.CASCADE)\n   message = models.CharField(max_length=500, default='')\n   created_at = models.DateTimeField('Created Time', auto_now_add = True, null=True)\n   updated_at = models.DateTimeField(auto_now=True, null=True)\n   def __str__(self):\n      return self.user.username",
+        "peekOfCode": "class TodaysNotes(models.Model):\n   user = models.ForeignKey(User, on_delete=models.CASCADE)\n   message = models.CharField(max_length=500, default='')\n   created_at = models.DateTimeField('Created Time', auto_now_add = True, null=True)\n   updated_at = models.DateTimeField(auto_now=True, null=True)\n   def __str__(self):\n      return f'{self.user.username} - {self.message} - {self.created_at}'",
         "detail": "base.models",
         "documentation": {}
     },
@@ -1698,7 +1698,7 @@
         "kind": 5,
         "importPath": "mysite.urls",
         "description": "mysite.urls",
-        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('', include('base.urls')),\n    path('api/', include('base.api.urls')),\n    path('accounts/', include('allauth.urls')),\n    path('privacy-police', views.privacy_policy, name='privacy'),\n    path('terms-of-use', views.terms_of_use, name='terms'),\n]",
+        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('', include('base.urls')),\n    path('api/', include('base.api.urls')),\n    path('accounts/', include('allauth.urls')),\n    path('privacy-police', views.privacy_policy, name='privacy'),\n    path('terms-of-use', views.terms_of_use, name='terms'),\n    path('delete-instructions', views.delete_instructions, name='delete-instructions'),\n]",
         "detail": "mysite.urls",
         "documentation": {}
     },
@@ -1707,7 +1707,7 @@
         "kind": 2,
         "importPath": "mysite.views",
         "description": "mysite.views",
-        "peekOfCode": "def privacy_policy(request):\n    return render(request, 'special/privacy_police.html')\ndef terms_of_use(request):\n    return render(request, 'special/terms_of_use.html')",
+        "peekOfCode": "def privacy_policy(request):\n    return render(request, 'special/privacy_police.html')\ndef terms_of_use(request):\n    return render(request, 'special/terms_of_use.html')\ndef delete_instructions(request):\n    return render(request, 'special/delete_instructions.html')",
         "detail": "mysite.views",
         "documentation": {}
     },
@@ -1716,7 +1716,16 @@
         "kind": 2,
         "importPath": "mysite.views",
         "description": "mysite.views",
-        "peekOfCode": "def terms_of_use(request):\n    return render(request, 'special/terms_of_use.html')",
+        "peekOfCode": "def terms_of_use(request):\n    return render(request, 'special/terms_of_use.html')\ndef delete_instructions(request):\n    return render(request, 'special/delete_instructions.html')",
+        "detail": "mysite.views",
+        "documentation": {}
+    },
+    {
+        "label": "delete_instructions",
+        "kind": 2,
+        "importPath": "mysite.views",
+        "description": "mysite.views",
+        "peekOfCode": "def delete_instructions(request):\n    return render(request, 'special/delete_instructions.html')",
         "detail": "mysite.views",
         "documentation": {}
     },

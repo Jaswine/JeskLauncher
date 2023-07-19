@@ -589,7 +589,27 @@ td:hover {
    justify-content: center;
    align-items: center;
    flex-direction: column;
+   position: relative;
 }
+/* .callender__panel__top a::before {
+   content: attr(title);
+   position: absolute;
+   background-color: rosybrown;
+  color: #202020;
+  font-weight: bold;
+  border-radius: 10px;
+  font-size: 14px;
+  top: -50%;
+  right: 0%;
+  z-index: 1;
+  border: 2px solid #202020;
+  opacity: 0;
+  transition: all .3s linear;
+}
+.callender__panel__top a:hover:before {
+   opacity: 1;
+} */
+
 .callender__panel__top a:hover {
    /* background-color: rgb(142, 191, 254, .3); */
    background-color: #95a5bb;
@@ -694,6 +714,23 @@ textarea:focus {
 .account__body__line input:hover, .account__body__line input:focus {
    border-color: #202020;
 }
+.account__body__docs {
+   display: flex;
+   justify-content: start;
+   align-items: center;
+   width: 100%;
+   margin-top: 10px;
+   gap: 20px;
+}
+.account__body__docs a {
+   opacity: .7;
+   font-size: 16px;
+   transition: all .3s linear;
+}
+.account__body__docs a:hover {
+   border-bottom: 1px solid rgb(32,32,32,.7);
+}
+
 /* callendar panel for focus mode  */
 .callender__panel__focusmode {
    position: fixed;

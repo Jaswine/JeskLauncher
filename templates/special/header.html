@@ -3,6 +3,7 @@
     <div class="page__header__menu">
         <a href="{% url 'privacy' %}">Privacy Policy</a>
         <a href="{% url 'terms' %}">Terms of use</a>
+        <a href="{% url 'delete-instructions' %}" >Delete instructions</a>
         {% if request.user %}
             <a href="{% url 'base:index' %}">Home</a>
         {% else %}

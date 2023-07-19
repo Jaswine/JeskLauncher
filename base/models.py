@@ -27,7 +27,7 @@ class Todo(models.Model):
    updated_at = models.DateTimeField(auto_now=True, null=True)
    
    def __str__(self):
-      return self.user.username
+      return f'{self.user.username} - {self.message} - {self.created_at}'
    
 class TodaysNotes(models.Model):
    user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -37,4 +37,4 @@ class TodaysNotes(models.Model):
    updated_at = models.DateTimeField(auto_now=True, null=True)
    
    def __str__(self):
-      return self.user.username
+      return f'{self.user.username} - {self.message} - {self.created_at}'

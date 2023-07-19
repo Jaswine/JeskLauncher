@@ -25,9 +25,13 @@ close__chill__mode.onclick = closeChillMode
 
 // close Chill Mode when you click on Escape
 document.addEventListener('keydown', (e) => {
-    // if (e.key === 'm') {
-        // openChillMode()
-    // }
+    if (e.key === 'm') {
+        if (chill__mode.style.display == 'block') {
+            closeChillMode()
+        } else {
+            openChillMode()
+        }
+    }
     if (e.key === 'Escape') {
         closeChillMode()
     }
@@ -62,6 +66,8 @@ function closeChillMode() {
     chill__mode.style.opacity = 0
     stopRenderTime()
 
+    NatureSoundsAudio.pause()
+
     setTimeout(() => {
         calendarChillMode.style.opacity = 1
         today.style.opacity = 1
@@ -76,6 +82,8 @@ function openChillMode() {
     calendarChillMode.style.opacity = 0
     today.style.opacity = 0
     inbox.style.opacity = 0
+
+    NatureSoundsAudio.play()
 
     setTimeout(() => {
         renderTime()

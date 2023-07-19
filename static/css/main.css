@@ -49,6 +49,7 @@ body {
    background-color: #bc8f8f;
 }
 
+
 /* TODO:  messages */
 .messages {
    display: flex;
@@ -237,10 +238,3 @@ a {
       transform: rotate(-360deg);
    }
 }
-
-/*
-
-music in chillmode
-focus mode full
-
-*/

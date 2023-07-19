@@ -88,11 +88,11 @@
             </div>
          </div> 
    
-            <a id="FocusMode">Focus mode</a>
-         </div>
+            <a id="FocusMode" title = 'F'>Focus mode</a>
+         </div>   
          <div class="callender__panel__top">
-            <a id="FullScreen">Full Screen</a>
-            <a id="ChillMode">Chill mode</a>
+            <a id="FullScreen" title = 'F11'>Full Screen</a>
+            <a id="ChillMode" title = 'C'>Chill mode</a>
          </div>
       </div> 
    </div>
@@ -162,6 +162,11 @@
       <div class="account__body__line">
          <button class="btn">Save</button>
          <a class="btn btn--del" href="/delete-account">Delete Account</a>
+      </div>
+      <div class="account__body__docs">
+         <a href="{% url 'privacy' %}">Privacy Police</a>
+         <a  href="{% url 'terms' %}">Terms of use</a>
+        <a href="{% url 'delete-instructions' %}" >Delete instructions</a>
       </div>
    </form>
 </div>

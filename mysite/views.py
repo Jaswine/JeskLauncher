@@ -6,3 +6,6 @@ def privacy_policy(request):
 
 def terms_of_use(request):
     return render(request, 'special/terms_of_use.html')
+
+def delete_instructions(request):
+    return render(request, 'special/delete_instructions.html')

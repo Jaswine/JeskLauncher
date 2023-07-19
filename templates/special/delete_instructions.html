@@ -1,0 +1,61 @@
+{% include 'main.html' %}
+{% load static %}
+
+{% block title %}
+<link rel="stylesheet" href="{% static 'css/special/privacy.css' %}">
+<title>Instructions for deleting data</title>
+{% endblock title %}
+
+{% block content %}
+<div class="page">
+    {% include "special/header.html" %}
+    <div class="page__content">
+        <div class="page__menu">
+           <a href="#deleting-an-account">Deleting an account</a>
+           <a href="#unlinking-social-networks">Unlinking Social Networks</a>
+           <a href="#deleting-messages-from-social-networks">Deleting messages from social networks</a>
+           <a href="#deleting-notes">Deleting notes</a>
+        </div>
+        <div class="page__info">
+            
+            <div class="page__desc" id="collection-of-information">
+                <h3>Deleting an account</h3>
+                <p>To delete your account in our application, as well as all your data from our platform, you can click on the gear icon</p>
+                <img src="/static/media/instructions/delete1.jpg" alt="delete1"/>
+                <p>then click on "Delete Account"</p>
+                <img src="/static/media/instructions/delete2.jpg" alt="delete2"/>
+                <p>and click on "Delete Account" again, the latter is needed to confirm that you definitely want to delete your account with all notes and tasks</p>
+                <img src="/static/media/instructions/delete3.jpg" alt="delete3"/>
+            </div>
+
+            <div class="page__desc" id="unlinking-social-networks">
+                <h3>Unlinking Social Networks</h3>
+                <p>If you want to unlink your social media accounts (such as Google or Facebook), you need to follow these steps:</p>
+                <b>For Google:</b>
+                <p>1) Sign in to your Google account.</p>
+                <p>2) Go to your security and privacy settings.</p>
+                <p>3) Find the "Connected apps and sites" section.</p>
+                <p>4) Find our app in the list of connected apps and uninstall it.</p>
+                <b>For Facebook:</b>
+                <p>1) Sign in to your Facebook account.</p>
+                <p>2) Go to "Settings" and select "Apps & websites".</p>
+                <p>3) Find our application in the list and uninstall it.</p>
+            </div>
+
+            <div class="page__desc" id="deleting-messages-from-social-networks">
+                <h3>Deleting messages from social networks</h3>
+                <p>We do not store messages received from your social media account. To delete messages, you must log into your social network account and delete them there.</p>
+            </div>
+
+            <div class="page__desc" id="deleting-notes">
+                <h3>Deleting notes</h3>
+                <p>In our application, you can delete the notes you have created by simply clicking on the cross.</p>
+                <img src="/static/media/instructions/delete-note1.jpg" alt="delete-note1"/>
+                <p>And then confirm the deletion by clicking on "Yes"</p>
+                <img src="/static/media/instructions/delete-note2.jpg" alt="delete-note2"/>
+            </div>
+            
+        </div>
+    </div>
+</div>
+{% endblock content %}
