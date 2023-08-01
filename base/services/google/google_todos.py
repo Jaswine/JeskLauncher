@@ -30,7 +30,7 @@ def GoogleTodoService(email_list, access_token):
             
             email_list.append({
                'id':  task['id'],
-               'type': 'google_todo',
+               'type': 'Google Todo',
                'title':  task['title'],
                'sender' : '',
                'link': f"https://mail.google.com/tasks/canvas?pli=1&vid=default&task={task['id']}",   

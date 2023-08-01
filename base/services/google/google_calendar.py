@@ -18,7 +18,7 @@ def CallendarService(email_list, access_token):
          
          email_list.append({
             'id': event['id'],
-            'type': 'google_event',
+            'type': 'Google Event',
             'title':  event['summary'], 
             'sender' : '',
             'link': f"https://calendar.google.com",

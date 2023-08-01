@@ -20,7 +20,7 @@ def GoogleYoutubeService(email_list, access_token):
          # # Process the tasks for the current list
          email_list.append({
             'id':  video_id,
-            'type': 'youtube_video',
+            'type': 'YouTube',
             'title':  activity['title'],
             'sender' : '',
             'link': f"https://mail.google.com/tasks/canvas?pli=1&vid=default&task={video_id}",   

@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let messages_list = document.getElementById('messages-list'); 
     let today__work = document.querySelector('.today__work')
     
-    // TODO: WITHOUT Async - 6s
-    // TODO: WITH Async  - 8s
+    // TODO: WITHOUT Async - 7s
+    // TODO: WITH Async  - 9s
 
     const showMessages = async () => {
         try {
@@ -21,14 +21,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 let icon_path = ''
 
                 if (message.type === 'Gmail') {
-                    icon_path = '/static/media/icons/gmail.svg'
-                } else if (message.type === 'google_todo') {
+                  icon_path = '/static/media/icons/gmail.svg'
+                } else if (message.type == 'Google Todo') {
                   icon_path = '/static/media/icons/google_todo.png'
+                } else if (message.type == 'YouTube') {
+                  icon_path = '/static/media/icons/youtube.svg'
                 }
+
 
                 div.innerHTML = `
                   <div class="notification__header">
-                    <img src="${icon_path}" alt="">
+                    <img src="${icon_path}" alt="${icon_path}">
                     <span>${message.type}</span>
                   </div>
                   <div class="notification__body">
