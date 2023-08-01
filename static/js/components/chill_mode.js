@@ -25,7 +25,7 @@ close__chill__mode.onclick = closeChillMode
 
 // close Chill Mode when you click on Escape
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'm') {
+    if (e.ctrlKey + e.key === 'm') {
         if (chill__mode.style.display == 'block') {
             closeChillMode()
         } else {

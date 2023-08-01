@@ -22,7 +22,6 @@ def today_notes_list_create(request):
         todo = TodaysNotes.objects.create(
             user=user, 
             message=message)
-        print(todo)
         data = {
                 'id': todo.id, 
                 'message': todo.message, 

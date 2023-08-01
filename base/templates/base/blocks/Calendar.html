@@ -128,10 +128,12 @@
       <span></span>
    </div>
    <div class="accounts__body">
-      <a class="login" href="{% provider_login_url 'google' %}"><i class="fa-brands fa-google"></i></a>
-      <a class="login" href="{% provider_login_url 'telegram' %}"><i class="fa-brands fa-telegram"></i></a>
-      <a class="login" href="{% provider_login_url 'github' %}"><i class="fa-brands fa-github"></i></a>
-      <a class="login" href="{% provider_login_url 'facebook' method='oauth2' %}"><i class="fa-brands fa-facebook"></i></a>            
+     {% comment %}
+       <a class="login" href="{% provider_login_url 'google' %}"><i class="fa-brands fa-google"></i></a>
+       <a class="login" href="{% provider_login_url 'telegram' %}"><i class="fa-brands fa-telegram"></i></a>
+       <a class="login" href="{% provider_login_url 'github' %}"><i class="fa-brands fa-github"></i></a>
+       <a class="login" href="{% provider_login_url 'facebook' method='oauth2' %}"><i class="fa-brands fa-facebook"></i></a>            
+     {% endcomment %}
    </div>
    <a href="{% url 'socialaccount_connections' %}">Connect Social Account</a>
 </div>

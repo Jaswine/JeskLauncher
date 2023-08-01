@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
    // click on the special buttons on keyboard
    document.addEventListener('keydown', (e) => {
-      if (e.key === 'f') {
+      if (e.ctrlKey + e.key === 'f') {
          if (today.style.maxWidth == '100%') {
             closeFocusMode()
          } else {

@@ -195,6 +195,10 @@ SOCIALACCOUNT_PROVIDERS = {
             
             'https://www.googleapis.com/auth/tasks.readonly',
             'https://www.googleapis.com/auth/calendar.readonly',
+            
+            'https://www.googleapis.com/auth/youtube',
+            'https://www.googleapis.com/auth/youtube.readonly',
+            'https://www.googleapis.com/auth/youtube.force-ssl',
         ],
         'AUTH_PARAMS': {
             'access_type': 'offline',

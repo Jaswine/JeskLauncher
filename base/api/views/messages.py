@@ -3,7 +3,7 @@ from allauth.socialaccount.models import SocialToken, SocialApp
 import requests
 
 from ...utils import  get_email_text, get_header_value
-from ...services.google import google_calendar, google_todos , google_gmail
+from ...services.google import google_calendar, google_todos , google_gmail, google_youtube
 
 
 def messages_list(request):
@@ -24,6 +24,9 @@ def messages_list(request):
         # GOOGLE GMAIL
         google_gmail.GoogleGmailService(email_list, access_token, get_email_text, get_header_value)
         
+        # GOOGLE TASKS
+        google_youtube.GoogleYoutubeService(email_list, access_token)
+        
         if len(email_list) > 0:
             data = [{
                     'id': message['id'],
@@ -32,12 +35,14 @@ def messages_list(request):
                     'sender': message['sender'],
                     'link': message['link'],
                     'text': message['text'],
-                    'created_time': message['created_time'],
+                    'created_time': str(message['created_time']),
                 } for message in email_list]
                             
+            data = sorted(data, key=lambda x: x['created_time'])
+            
             return JsonResponse({
                 'status':'success',
-                'messages': data,
+                'messages': data[::-1],
             }, safe=False)
             
         return JsonResponse({
