@@ -25,7 +25,7 @@ def GoogleYoutubeService(email_list, access_token):
             'sender' : '',
             'link': f"https://mail.google.com/tasks/canvas?pli=1&vid=default&task={video_id}",   
             'text': activity['description'],
-            'created_time': created_time
+            'created_time': created_time,
          })
                      
       return email_list

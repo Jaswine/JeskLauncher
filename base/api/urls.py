@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import auth, todo, today_tasks, messages, user
+from .views.google import google_todos
 
 urlpatterns = [
     # TODO: ____ todos _____
@@ -12,5 +13,10 @@ urlpatterns = [
 
     # TODO: ____ messages _____
     path('messages', messages.messages_list, name='messages_list'),  
-    path('update-settings', user.update_settings, name='update_settings'), 
+    path('update-settings', user.update_settings, name='update_settings'),
+    
+    path('delete-todo/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoServiceDelete, name='delete_google_todo'),
+    path('сomplete-todo/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoServiceComplete, name='complete_google_todo'),
+    
+    path('rewrite-tokens', user.rewrite_tokens, name='rewrite_tokens'), 
 ]

@@ -18,15 +18,18 @@ def GoogleTodoService(email_list, access_token):
          # Request tasks for the current list
          response_tasks = requests.get(f'https://www.googleapis.com/tasks/v1/lists/{list_id}/tasks', params={
             'access_token': access_token,
-            'maxResults': 10
+            # 'maxResults': 10,
+            "showCompleted": True,
          })
          
          # Process the tasks for the current list
          for task in response_tasks.json().get('items', []):
             created_time = task['updated']
+            print(f'________ todo _______________: {task}')
+            print(f'___task status____________ {task["status"]}')
+            
             # TODO: 2023-06-05T16:45:03.000Z        =>         2023-06-05 16:45:12
             created_time = datetime.strptime(created_time, "%Y-%m-%dT%H:%M:%S.%fZ")
-            
             
             email_list.append({
                'id':  task['id'],
@@ -35,7 +38,10 @@ def GoogleTodoService(email_list, access_token):
                'sender' : '',
                'link': f"https://mail.google.com/tasks/canvas?pli=1&vid=default&task={task['id']}",   
                'text': '',
-               'created_time': created_time
+               'created_time': created_time,
+               
+               'list_id': list_id,
+               'status': task['status'],
             })
                      
       return email_list

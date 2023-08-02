@@ -166,6 +166,7 @@
    padding: 2px 4px;
    margin: 2px;
    transition: all .3s linear;
+   cursor: pointer;
 }
 .notification__links > a:hover {
    background-color: rgb(142,191,254, .4);
@@ -575,8 +576,8 @@ td:hover {
    background-color: rgb(188, 143, 143, .3);
 }
 .callender__panel__top a {
-   /* background-color: rgb(188, 143, 143, .3); */
-   background-color: #a4969a;
+   background-color: rgb(188, 143, 143, .3);
+   /* background-color: #a4969a; */
    cursor: pointer;
    width: 100%;
    transition: all .3s linear;
@@ -611,8 +612,8 @@ td:hover {
 } */
 
 .callender__panel__top a:hover {
-   /* background-color: rgb(142, 191, 254, .3); */
-   background-color: #95a5bb;
+   background-color: rgb(142, 191, 254, .3);
+   /* background-color: #95a5bb; */
 }
 .callendar__window {
    display: none;

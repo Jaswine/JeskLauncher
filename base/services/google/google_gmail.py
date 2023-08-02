@@ -35,7 +35,6 @@ def GoogleGmailService(email_list, access_token, get_email_text, get_header_valu
                      'type': 'Gmail',
                      'title': get_header_value(email_data['payload']['headers'], 'Subject'), 
                      'sender': get_header_value(email_data['payload']['headers'], 'From'), 
-                     'list_id': '',
                      'link': 'https://mail.google.com/mail/u/0/#inbox/{}'.format(email_data['id']),
                      'text': get_email_text(email_data['payload']),
                      'created_time': created_time,

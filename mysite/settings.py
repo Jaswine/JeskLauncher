@@ -192,6 +192,8 @@ SOCIALACCOUNT_PROVIDERS = {
             'https://www.googleapis.com/auth/gmail.readonly',
             
             'https://www.googleapis.com/auth/tasks.readonly',
+            'https://www.googleapis.com/auth/tasks',
+            
             'https://www.googleapis.com/auth/calendar.readonly',
             
             'https://www.googleapis.com/auth/youtube',
@@ -200,24 +202,13 @@ SOCIALACCOUNT_PROVIDERS = {
         ],
         'AUTH_PARAMS': {
             'access_type': 'offline',
-            # 'prompt': 'consent',
+            'prompt': 'consent',
         },
         'APP': {
             'client_id': os.environ.get('GOOGLE_CLIENT_ID'),
             'secret': os.environ.get('GOOGLE_SECRET'),
             'key': ''
         },
-        'METHOD': 'oauth2',
-        'ACCESS_TOKEN_METHOD': 'POST',
-        'PROVIDER_ID': 'google',
-        # 'ACCESS_TOKEN_URL': 'https://oauth2.googleapis.com/token',
-        # 'AUTHORIZATION_URL': 'https://accounts.google.com/o/oauth2/auth',
-        'REQUEST_TOKEN_URL': None,
-        # 'USER_DATA_URL': 'https://www.googleapis.com/oauth2/v2/userinfo',
-        'VERIFIED_EMAIL': True,
-        'USE_SSL': True,
-        'REDIRECT_URI': 'http://localhost:8000/accounts/google/login/callback/',
-        # 'SOCIAL_TOKEN_MODEL': 'allauth.models.SocialToken', # указываем свою модель
     },
     'github': {
         'SCOPE': [
@@ -333,3 +324,5 @@ SIMPLE_JWT = {
 
 # # URL для получения авторизационного кода
 # GOOGLE_AUTH_RIDERECT_URL = GOOGLE_ + '?' + '&'.join([f'{key}={value}' for key, value in params.items()])
+
+# APPEND_SLASH = False

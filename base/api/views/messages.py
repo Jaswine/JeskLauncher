@@ -36,6 +36,9 @@ def messages_list(request):
                     'link': message['link'],
                     'text': message['text'],
                     'created_time': str(message['created_time']),
+                    
+                    'list_id': message.get('list_id', ''),
+                    'status': message.get('status', ''),
                 } for message in email_list]
                             
             data = sorted(data, key=lambda x: x['created_time'])
