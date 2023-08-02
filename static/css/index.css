@@ -748,3 +748,34 @@ textarea:focus {
    align-items: center;
    border-radius: 0 0 0 10px;
 }
+
+/* change message title */
+.change_message_title  {
+   position: relative;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   width: 100%;
+}
+.change_message_title input {
+   font-size: 1.5em;
+   font-weight: bold;
+   color: #202020;
+   background-color: transparent;
+   font-family: 'Poppins', sans-serif;
+   cursor: pointer;
+   width: 85%;
+}
+.change_message_title input:focus {
+   border-bottom: 2px solid #202020;
+}
+.change_message_title button {
+   opacity: 0;
+   width: 15%;
+   /* display: none; */
+}
+
+.change_message_title input:focus + button {
+   opacity: 1;
+   /* display: block; */
+}

@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 import json
 
-
+@csrf_exempt
 def GoogleTodoServiceDelete(request, todo_list, todo_id):
    if request.method == 'DELETE':
       socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()

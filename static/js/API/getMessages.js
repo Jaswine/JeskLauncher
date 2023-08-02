@@ -29,14 +29,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 console.log(message.status)
                 if (message.status == 'completed') {
-                  notification.style.opacity = '.3'
+                  div.style.opacity = '.3'
                 }
 
 
                 div.innerHTML = `
                   <div class="notification__header">
                     <img src="${icon_path}" alt="${icon_path}">
-                    <span>${message.type}</span>
+                    <span class='notification__type'>${message.type}</span>
                   </div>
                   <div class="notification__body">
                     <div class="notification__message">
@@ -69,19 +69,27 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.classList.contains('notification__title')) {
             let id = e.target.id
             let notification_message = e.target.parentNode
-            let type = e.target.parentNode.parentNode
+            let notification = e.target.parentNode.parentNode.parentNode
+
+            let type = notification.querySelector('.notification__type').innerHTML
             console.log(type)
+
             let notification__text = notification_message.querySelector('.notification__text')
             let notification__sender = notification_message.querySelector('.notification__sender')
             let notification__message__time = notification_message.querySelector('.notification__message__time')
 
             today__work.innerHTML = `
-                <h2>${e.target.textContent}</h2>
+                ${ type == 'Google Todo' ? `
+                  <form method='POST' class='change_message_title'>
+                    <input type='text' value='${e.target.textContent}' name='title' />
+                    <button class='btn'>save</button>
+                  </form> 
+                  ` : `<h2>${e.target.textContent} </h2>`}
                 <p>${notification__text.innerHTML}</p>
                 <p>
                     <b>${notification__sender.innerHTML}</b> - 
                     <b>${notification__message__time.innerHTML}</b>
-                </p>
+                </p>  
             `
         }
 

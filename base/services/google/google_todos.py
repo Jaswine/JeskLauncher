@@ -20,6 +20,8 @@ def GoogleTodoService(email_list, access_token):
             'access_token': access_token,
             # 'maxResults': 10,
             "showCompleted": True,
+            "showHidden": True,
+            # "showDeleted": True,
          })
          
          # Process the tasks for the current list
