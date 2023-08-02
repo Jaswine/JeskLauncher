@@ -27,14 +27,18 @@ def GoogleGmailService(email_list, access_token, get_email_text, get_header_valu
                   created_time = get_header_value(email_data['payload']['headers'], 'Date')
                   # TODO: Sat, 15 Jul 2023 08:26:59 +0000  =>  2023-06-05 16:45:12
                   
+                  dt = parser.parse(created_time)
+                  created_time = dt.strftime("%Y-%m-%d %H:%M:%S")
+                  
                   email_list.append({
                      'id': email_data['id'],
                      'type': 'Gmail',
                      'title': get_header_value(email_data['payload']['headers'], 'Subject'), 
                      'sender': get_header_value(email_data['payload']['headers'], 'From'), 
+                     'list_id': '',
                      'link': 'https://mail.google.com/mail/u/0/#inbox/{}'.format(email_data['id']),
                      'text': get_email_text(email_data['payload']),
-                     'created_time': created_time
+                     'created_time': created_time,
                   })
                   
    asyncio.run(fetch_emails())
