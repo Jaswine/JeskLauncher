@@ -7,8 +7,9 @@ from django.contrib.auth import update_session_auth_hash
 
 from django.contrib.auth.models import User
 
-from allauth.socialaccount.models import SocialToken
+from allauth.socialaccount.models import SocialToken, SocialAccount
 from google.oauth2.credentials import Credentials
+from oauthlib.oauth2 import WebApplicationClient
 import requests
 
 
@@ -52,31 +53,43 @@ def update_settings(request):
         
 @csrf_exempt
 def rewrite_tokens(request):
-    if request.method == 'GET':
-        social_token = SocialToken.objects.get(account__user=request.user, account__provider='google')  
+    social_token = SocialToken.objects.get(account__user=request.user, account__provider='google')  
+    
+    if social_token.token_secret:
+        client_id = SocialAccount.objects.get(user=request.user, provider='google').uid
+        client_secret = social_token.token,
+        token_endpoint = 'https://accounts.google.com/o/oauth2/token'
+            
+        # response = requests.get('https://accounts.google.com/o/oauth2/token', params={
+        #     'access_token': social_token.token,
+        # }) 
         
-        if social_token.token_secret:
-            response = requests.get('https://accounts.google.com/o/oauth2', params={
-                'access_token': social_token.token,
-            }) 
-            
-            print(response)    
-            
-            # social_token.token = refreshed_token
-            # social_token.save()
-            
-            return JsonResponse({
-                'status': 'success',
-                'message': 'Tokens rewritten successfully'
-            }, status=200)
-            
+        client = WebApplicationClient(client_id)
+
+        token_url, headers, body = client.prepare_refresh_token_request(
+            token_endpoint,
+            refresh_token=social_token.token_secret,
+        )
+        
+
+        token_response = requests.post(token_url, headers=headers, data=body, auth=(client_id, client_secret))
+
+        if token_response.status_code == 200:
+            new_token = token_response.json()
+            social_token.token = new_token['access_token']
+            social_token.save()
+        else:
+            print("Error refreshing token:", token_response.text)
+    
+        # social_token.token = refreshed_token
+        # social_token.save()
+        
         return JsonResponse({
-            'status': 'error',
-            'message': 'Tokens could not be rewritten because you don\'t have a valid refresh token'
+            'status': 'success',
+            'message': 'Tokens rewritten successfully'
         }, status=200)
         
     return JsonResponse({
-           'status': 'error',
-           'message': 'Invalid request method'
-        }, status=400)
-        
+        'status': 'error',
+        'message': 'Tokens could not be rewritten because you don\'t have a valid refresh token'
+    }, status=200)

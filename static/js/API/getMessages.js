@@ -88,7 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
               if (notification__todo_list) {
                 nListId = notification__todo_list.value
               }
-
             }
 
             today__work.innerHTML = `

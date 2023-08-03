@@ -15,9 +15,10 @@ urlpatterns = [
     path('messages', messages.messages_list, name='messages_list'),  
     path('update-settings', user.update_settings, name='update_settings'),
     
-    path('delete-todo/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoServiceDelete, name='delete_google_todo'),
-    path('сomplete-todo/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoServiceComplete, name='complete_google_todo'),
-    path('patch-title-todo/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoServicePatchTitle, name='patch_title_google_todo'),
+    path('delete-todo/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoDelete, name='delete_google_todo'),
+    path('сomplete-todo/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoComplete, name='complete_google_todo'),
+    path('patch-title-todo/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoPatchTitle, name='patch_title_google_todo'),
+    path('create-todo/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoCreate, name='create_google_todo'),
     
     path('rewrite-tokens', user.rewrite_tokens, name='rewrite_tokens'), 
 ]
