@@ -17,6 +17,7 @@ urlpatterns = [
     
     path('delete-todo/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoServiceDelete, name='delete_google_todo'),
     path('сomplete-todo/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoServiceComplete, name='complete_google_todo'),
+    path('patch-title-todo/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoServicePatchTitle, name='patch_title_google_todo'),
     
     path('rewrite-tokens', user.rewrite_tokens, name='rewrite_tokens'), 
 ]

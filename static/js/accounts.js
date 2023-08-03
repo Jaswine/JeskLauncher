@@ -1,12 +1,6 @@
-const accounts = document.querySelector('.accounts');
-const close_accounts = document.querySelector('.close__accounts');
-const open_account = document.querySelector('#open_account');
+const accounts = document.querySelector('.accounts')
 
-// accounts.style.display = 'flex';
-// accounts.style.opacity = '1';
-
-
-open_account.addEventListener('click', () => {
+document.querySelector('#open_account').addEventListener('click', () => {
    accounts.style.display = 'flex';
 
    setTimeout(() => {
@@ -14,7 +8,7 @@ open_account.addEventListener('click', () => {
    }, 300)
 })
 
-close_accounts.onclick = () => {
+document.querySelector('.close__accounts').onclick = () => {
    accounts.style.opacity = '0'
 
    setTimeout(() => {

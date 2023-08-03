@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
                   icon_path = '/static/media/icons/youtube.svg'
                 }
 
-                console.log(message.status)
                 if (message.status == 'completed') {
                   div.style.opacity = '.3'
                 }
@@ -40,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   </div>
                   <div class="notification__body">
                     <div class="notification__message">
-                      <span class="notification__title" id='${message.id}_title'>${message.title}</span>
+                      <span class="notification__title ${message.id}_title" id='${message.id}_title'>${message.title}</span>
                       <span class="notification__message__time">${message.created_time}</span>
                       <span class="notification__text">${message.text}</span>
                       <span class = "notification__sender">${message.sender}</span>
@@ -50,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
                       ${message.type == 'Google Todo'? `<a style="color: rgb(20,20,20,.6); border: 1px solid rgb(20,20,20,.3)" class='google_todo_accomplished'>Comp</a>` : ''}
                       ${message.type == 'Google Todo'? `<a style="color: rgb(20,20,20,.6); border: 1px solid rgb(20,20,20,.3)" class='google_todo_delete'>Del</a>` : ''}
                     </div>
+                    ${message.id ? `<input type='hidden' class='notification__todo_id' value='${message.id}' />`: ""}
                     ${message.list_id ? `<input type='hidden' class='notification__todo_list' value='${message.list_id}' />`: ""}
                   </div>
                 `;
@@ -72,11 +72,24 @@ document.addEventListener('DOMContentLoaded', () => {
             let notification = e.target.parentNode.parentNode.parentNode
 
             let type = notification.querySelector('.notification__type').innerHTML
-            console.log(type)
 
-            let notification__text = notification_message.querySelector('.notification__text')
-            let notification__sender = notification_message.querySelector('.notification__sender')
-            let notification__message__time = notification_message.querySelector('.notification__message__time')
+            let notification__todo_id = e.target.parentNode.parentNode.querySelector('.notification__todo_id')
+
+            let nId = nListId =''
+
+            if (notification__todo_id) {
+              nId = notification__todo_id.value
+            }
+
+            if (type == 'Google Todo') {
+              let notification__todo_list = e.target.parentNode.parentNode.querySelector('.notification__todo_list')
+              
+
+              if (notification__todo_list) {
+                nListId = notification__todo_list.value
+              }
+
+            }
 
             today__work.innerHTML = `
                 ${ type == 'Google Todo' ? `
@@ -85,12 +98,40 @@ document.addEventListener('DOMContentLoaded', () => {
                     <button class='btn'>save</button>
                   </form> 
                   ` : `<h2>${e.target.textContent} </h2>`}
-                <p>${notification__text.innerHTML}</p>
+                <p>${notification_message.querySelector('.notification__text').innerHTML}</p>
                 <p>
-                    <b>${notification__sender.innerHTML}</b> - 
-                    <b>${notification__message__time.innerHTML}</b>
+                    <b>${notification_message.querySelector('.notification__sender').innerHTML}</b> - 
+                    <b>${notification_message.querySelector('.notification__message__time').innerHTML}</b>
                 </p>  
+                <input type='hidden' id='today_work_id' value='${nId}'/>
+                ${nListId? `<input type='hidden' id='today_work_class_list' value='${nListId}'/>` : ''}
             `
+
+            if (type == 'Google Todo') {
+              document.querySelector('.change_message_title').addEventListener('submit', (e) => {
+                e.preventDefault()
+                let parent = e.target.parentNode
+                console.log(parent)
+          
+                let formData = new FormData(document.querySelector('.change_message_title'))
+                console.log(formData)
+          
+                fetch(`/api/patch-title-todo/${notification.querySelector('.notification__todo_list').value}/${notification.id}`, {
+                  method: 'POST',
+                  body: formData,
+                })
+                  .then(response => response.json())
+                  .then(data => {
+                    console.log(data)
+                  })
+                  .catch(error => {
+                    console.log('Error: ', error)
+                  })
+
+                let title = messages_list.querySelector(`.${nId}_title`)
+                title.innerHTML = formData.get('title')
+              })
+            }
         }
 
         // TODO: accomplished
@@ -141,18 +182,18 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(data => {
               notification.style.display = 'none'
-            })
+            })  
             .catch(error => {
               console.log('Error: ', error)
             })
         }
-    })    
+    }) 
 
     showMessages()
 
     setInterval(() => {
         showMessages()
-    }, 60000)
+    }, 60000) // 60000 == 1 minute
 
     setInterval(() => {
         console.log('1sec')
