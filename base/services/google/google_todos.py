@@ -13,7 +13,6 @@ def GoogleTodoService(email_list, access_token):
       
       for task_list in response_tasks.json().get('items', []):
          list_id = task_list['id']
-
          
          # Request tasks for the current list
          response_tasks = requests.get(f'https://www.googleapis.com/tasks/v1/lists/{list_id}/tasks', params={
@@ -43,6 +42,9 @@ def GoogleTodoService(email_list, access_token):
                'list_id': list_id,
                'status': task['status'],
             })
+         
+            
+      print('Google Todos loaded successfully ✅')   
                      
       return email_list
    

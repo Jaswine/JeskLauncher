@@ -13,6 +13,7 @@ def CallendarService(email_list, access_token):
       events = response_calendar.json().get('items', [])
       for event in events:
          created_time = event['created']
+         
          created_time = datetime.strptime(created_time, "%Y-%m-%dT%H:%M:%S.%fZ")
          description = event.get('description', '')
          
@@ -25,6 +26,8 @@ def CallendarService(email_list, access_token):
             'text': description,
             'created_time': created_time
          })
+         
+      print('Google Callendar Events loaded successfully ✅')
          
       return email_list
    

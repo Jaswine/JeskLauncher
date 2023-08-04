@@ -40,4 +40,9 @@ def GoogleGmailService(email_list, access_token, get_email_text, get_header_valu
                      'created_time': created_time,
                   })
                   
+         print('Google Email loaded successfully ✅')
+         
+         return email_list
+                  
+                  
    asyncio.run(fetch_emails())

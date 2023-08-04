@@ -15,8 +15,10 @@ def messages_list(request):
     if socialGoogleToken:
         access_token = socialGoogleToken.token
         
+        print('\n _______________ messages loading _____________\n')
+        
         # CALLENDAR GOOGLE
-        # google_calendar.CallendarService(email_list, access_token)
+        google_calendar.CallendarService(email_list, access_token)
             
         #GOOGLE TASKS
         google_todos.GoogleTodoService(email_list, access_token)
@@ -24,7 +26,7 @@ def messages_list(request):
         # GOOGLE GMAIL
         google_gmail.GoogleGmailService(email_list, access_token, get_email_text, get_header_value)
         
-        # GOOGLE TASKS
+        # GOOGLE YOUTUBE
         google_youtube.GoogleYoutubeService(email_list, access_token)
         
         if len(email_list) > 0:

@@ -25,6 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
                   icon_path = '/static/media/icons/google_todo.png'
                 } else if (message.type == 'YouTube') {
                   icon_path = '/static/media/icons/youtube.svg'
+                } else if (message.type == 'Google Event') {
+                  icon_path = '/static/media/icons/g-calendar.svg'
                 }
 
                 if (message.status == 'completed') {
@@ -47,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="notification__links">
                       <a href="${message.link}" target="_blank" style="color: rgb(20,20,20,.6); border: 1px solid rgb(20,20,20,.3)">Show</a>
                       ${message.type == 'Google Todo'? `<a style="color: rgb(20,20,20,.6); border: 1px solid rgb(20,20,20,.3)" class='google_todo_accomplished'>Comp</a>` : ''}
-                      ${message.type == 'Google Todo'? `<a style="color: rgb(20,20,20,.6); border: 1px solid rgb(20,20,20,.3)" class='google_todo_delete'>Del</a>` : ''}
+                      ${message.type == 'Google Todo' || message.type == 'Gmail' ? `<a style="color: rgb(20,20,20,.6); border: 1px solid rgb(20,20,20,.3)" class='google_todo_delete'>Del</a>` : ''}
                     </div>
                     ${message.id ? `<input type='hidden' class='notification__todo_id' value='${message.id}' />`: ""}
                     ${message.list_id ? `<input type='hidden' class='notification__todo_list' value='${message.list_id}' />`: ""}
@@ -83,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (type == 'Google Todo') {
               let notification__todo_list = e.target.parentNode.parentNode.querySelector('.notification__todo_list')
-              
 
               if (notification__todo_list) {
                 nListId = notification__todo_list.value
@@ -174,17 +175,35 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.classList.contains('google_todo_delete')) {
           let parent = e.target.parentNode
           let notification = parent.parentNode.parentNode
+
+          let type = notification.querySelector('.notification__type').innerHTML
           
-          fetch(`/api/delete-todo/${notification.querySelector('.notification__todo_list').value}/${notification.id}`, {
-            method: 'DELETE',
-          })
-            .then(response => response.json())
-            .then(data => {
-              notification.style.display = 'none'
-            })  
-            .catch(error => {
-              console.log('Error: ', error)
+          // ! ___________ DELETE GOOGLE TODO ___________
+          if (type == 'Google Todo') {
+            fetch(`/api/delete-todo/${notification.querySelector('.notification__todo_list').value}/${notification.id}`, {
+              method: 'DELETE',
             })
+              .then(response => response.json())
+              .then(data => {
+                notification.style.display = 'none'
+              })  
+              .catch(error => {
+                console.log('Error: ', error)
+              })
+          } else if (type == 'Gmail') {
+          // ! ___________ DELETE GMAIL LETTERS ___________
+            fetch(`/api/delete-email/${notification.id}`, {
+              method: 'DELETE',
+            })
+              .then(response => response.json())
+              .then(data => {
+                console.log(data)
+                notification.style.display = 'none'
+              })  
+              .catch(error => {
+                console.log('Error: ', error)
+              })
+          }
         }
     }) 
 

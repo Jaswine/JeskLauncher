@@ -14,6 +14,7 @@ def GoogleYoutubeService(email_list, access_token):
       
       for task_list in response.json().get('items', []):         
          activity = task_list.get('snippet', {})
+         print('___________youtube______ activity', activity)
          video_id = task_list['id']
          created_time = activity['publishedAt']
          
@@ -23,10 +24,12 @@ def GoogleYoutubeService(email_list, access_token):
             'type': 'YouTube',
             'title':  activity['title'],
             'sender' : '',
-            'link': f"https://mail.google.com/tasks/canvas?pli=1&vid=default&task={video_id}",   
+            'link': "",   
             'text': activity['description'],
             'created_time': created_time,
          })
+         
+      print('Google YouTube loaded successfully ✅')
                      
       return email_list
    
