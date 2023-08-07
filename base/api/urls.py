@@ -16,10 +16,11 @@ urlpatterns = [
     path('update-settings', user.update_settings, name='update_settings'),
     
     # TODO: ____ google todo _____
+    path('create-todo', google_todos.GoogleTodoCreate, name='create_google_todo'),
+    
     path('delete-todo/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoDelete, name='delete_google_todo'),
     path('сomplete-todo/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoComplete, name='complete_google_todo'),
     path('patch-title-todo/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoPatchTitle, name='patch_title_google_todo'),
-    path('create-todo/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoCreate, name='create_google_todo'),
     
     # TODO: ____ google email _____
     path('delete-email/<str:email_id>', google_email.GoogleGmailDelete, name='delete_google_email'),

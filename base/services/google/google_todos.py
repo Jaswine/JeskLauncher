@@ -8,7 +8,6 @@ def GoogleTodoService(email_list, access_token):
    async def fetch_todos():
       response_tasks = requests.get('https://www.googleapis.com/tasks/v1/users/@me/lists', params={
             'access_token': access_token,
-            'maxResults': 10
       })     
       
       for task_list in response_tasks.json().get('items', []):

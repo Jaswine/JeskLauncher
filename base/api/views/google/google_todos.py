@@ -70,19 +70,27 @@ def GoogleTodoPatchTitle(request, todo_list, todo_id):
             }, safe=False)
          
 @csrf_exempt   
-def GoogleTodoCreate(request, todo_list):
+def GoogleTodoCreate(request):
    if request.method == 'POST':
       socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
       
       if socialGoogleToken:
          access_token = socialGoogleToken.token
-         title = request.POST.get('title')
          
-         response = requests.create(f'https://tasks.googleapis.com/tasks/v1/lists/{todo_list}/tasks', params={
+         response = requests.get('https://www.googleapis.com/tasks/v1/users/@me/lists', params={
             'access_token': access_token,
-         }, json =  {
-            "title": title
          })
+         
+         all_list_todo = response.json().get('items', [])
+         print("list todo's", all_list_todo)
+         
+         # todo_list = ''
+         title = request.POST.get('title')
+         # response = requests.create(f'https://tasks.googleapis.com/tasks/v1/lists/{todo_list}/tasks', params={
+         #    'access_token': access_token,
+         # }, json =  {
+         #    "title": title
+         # })
          
          return  JsonResponse({
                'status': 'success',
