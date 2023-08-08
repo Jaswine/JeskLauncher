@@ -1,15 +1,8 @@
 {% load static %}
-<div class="column today"  style="
-   border-right: 1px solid rgb(20,20,20,.3);
-   border-left: 1px solid rgb(20,20,20,.3);
-   opacity: 1;
-   max-width: 50%;
-">
-   <h3 
-      class="column__title"
-      style = "border-bottom: 1px solid rgb(20,20,20,.3)"
-   >Today</h3>
-   <div class="today__work" style=" height: 75.1vh; border-bottom: 1px solid rgb(20,20,20,.3)">
+<div class="column today"  style="">
+   <h3 class="column__title">Today</h3>
+   
+   {% comment %} <div class="today__work" style=" height: 75.1vh; border-bottom: 1px solid rgb(20,20,20,.3)">
       {% autoescape off %}
       <div class='today__work__notfound'>
          Messages Not Found
@@ -36,7 +29,7 @@
       </div>
    </div>
    <div class="inbox__show__tasks" style='height: 12vh' id="today-notes-list"></div>
-   </form>  
+   </form>   {% endcomment %}
 </div>
 
-<script src="{% static 'js/API/crudTodayNotes.js' %}" ></script>
+{% comment %} <script src="{% static 'js/API/crudTodayNotes.js' %}" ></script> {% endcomment %}
