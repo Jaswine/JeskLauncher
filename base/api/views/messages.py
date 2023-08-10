@@ -8,6 +8,7 @@ from ...services.google import google_calendar, google_todos , google_gmail, goo
 
 def messages_list(request):
     email_list = []
+    included_apps = []
     # socialApp = SocialApp.objects.get(provider='google')
     
     socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
@@ -18,16 +19,18 @@ def messages_list(request):
         print('\n _______________ messages loading _____________\n')
         
         # CALLENDAR GOOGLE
-        google_calendar.CallendarService(email_list, access_token)
+        google_calendar.CallendarService(email_list, access_token, included_apps)
             
         #GOOGLE TASKS
-        google_todos.GoogleTodoService(email_list, access_token)
+        google_todos.GoogleTodoService(email_list, access_token, included_apps)
 
         # GOOGLE GMAIL
-        google_gmail.GoogleGmailService(email_list, access_token, get_email_text, get_header_value)
+        google_gmail.GoogleGmailService(email_list, access_token, get_email_text, get_header_value, included_apps)
         
         # GOOGLE YOUTUBE
-        google_youtube.GoogleYoutubeService(email_list, access_token)
+        google_youtube.GoogleYoutubeService(email_list, access_token, included_apps)
+        
+        print('__________ included_apps ___________', included_apps)
         
         if len(email_list) > 0:
             data = [{
@@ -38,7 +41,7 @@ def messages_list(request):
                     'link': message['link'],
                     'text': message['text'],
                     'created_time': str(message['created_time']),
-                    
+    
                     'list_id': message.get('list_id', ''),
                     'status': message.get('status', ''),
                 } for message in email_list]
@@ -47,6 +50,7 @@ def messages_list(request):
             
             return JsonResponse({
                 'status':'success',
+                'included_apps': [],
                 'messages': data[::-1],
             }, safe=False)
             

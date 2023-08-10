@@ -5,7 +5,7 @@ from datetime import datetime
 from dateutil import parser
 
 
-def GoogleGmailService(email_list, access_token, get_email_text, get_header_value):
+def GoogleGmailService(email_list, access_token, get_email_text, get_header_value, included_apps):
    async def fetch_emails():
       responseEmail = requests.get('https://www.googleapis.com/gmail/v1/users/me/messages', params={
          'access_token': access_token,
@@ -14,6 +14,8 @@ def GoogleGmailService(email_list, access_token, get_email_text, get_header_valu
       
       # print('______________response______________', response)
       if responseEmail.status_code == 200:
+         included_apps.append('Gmail')
+         
          emails = responseEmail.json().get('messages', [])
          # print('____________emails______________', emails)
 
@@ -22,7 +24,7 @@ def GoogleGmailService(email_list, access_token, get_email_text, get_header_valu
                email_response = requests.get(f'https://www.googleapis.com/gmail/v1/users/me/messages/{email_id}', params={
                   'access_token': access_token
                })
-               if email_response.status_code == 200:
+               if email_response.status_code == 200:                  
                   email_data = email_response.json()
                   created_time = get_header_value(email_data['payload']['headers'], 'Date')
                   # TODO: Sat, 15 Jul 2023 08:26:59 +0000  =>  2023-06-05 16:45:12

@@ -2,7 +2,54 @@
 <div class="column inbox">
    <h3 class="column__title" >Inbox</h3>
 
-   <div class="column__icons">
-      <div class="loader"></div>
+  <!-- ! Notifications -->
+  <div class="inbox__notifications">
+      <div class="inbox__icons">
+         <div class="loader"></div>
+      </div>
+      <div class="inbox__messages"></div>
+  </div>
+
+  <!-- ! Backlog Notes -->
+  <form class="inbox__backlog__notes" method="POST" id="backlog-notes-form">
+   {% csrf_token  %}
+   
+   {% comment %} ___ type adding _______ {% endcomment %}
+   <div class="inbox__backlog__notes__head">
+      <div class="inbox__backlog__notes__type">
+         <b>+</b>
+         <input type="checkbox" value="Jesk" >
+         <span>Jesk</span>
+      </div>
+      <div class="inbox__backlog__notes__type">
+         <b>+</b>
+         <input type="checkbox" value="Google Todo" >
+         <img src="/static/media/icons/google_todo.svg" alt="google todo">
+      </div>
    </div>
-</div>
+
+   <div class="inbox__backlog__notes__body">
+
+      {% comment %} ___ title_______ {% endcomment %}
+      <div class="inbox__backlog__notes__header">
+         <div class="pointer_up">
+            <span></span>
+            <span></span>
+         </div>
+         <h3>backlog notes +</h3>
+      </div>
+
+      {% comment %} ___ form for add _______ {% endcomment %}
+      <div class="inbox__backlog__notes__form">
+         <input type="text" name="message" placeholder="Enter your message..." />
+         <button type="submit"></button>
+      </div>
+
+      {% comment %} ___ show all notes _______ {% endcomment %}
+      <div class="inbox__backlog__notes__show" id="backlog-notes-list" ></div>
+
+   </div>
+  </form>
+   </div>
+
+<script src="{% static 'js/API/crudTODO.js' %}"></script>
