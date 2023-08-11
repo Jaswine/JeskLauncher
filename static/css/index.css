@@ -86,6 +86,8 @@
     max-width: 25%;
     transition: all .3s linear;
     position: relative;
+
+    background-color: transparent;
  }
 
  /* column__icons */
@@ -407,7 +409,9 @@
 /*
 ! ______ CALENDAR _______
 */
-
+.calendar {
+   row-gap: 4px;
+}
 /*
  ? _____ SETTINGS ______
 */
@@ -419,7 +423,7 @@
    gap: 10px;
 
    width: 100%;
-   height: 6vh;
+   height: 10vh;
    padding: 4px 10px;
 }
 .calendar__settings button, a {
@@ -441,6 +445,7 @@
    align-items: center;
    flex-direction: column;
    padding: 0 10px;
+   border-radius: 5px;
 }
 .calendar__header {
    display: flex;
@@ -518,9 +523,11 @@
 }
 .calendar__body tr td:hover:after {
    opacity: 1;
+   color: var(--white);
 }
 .calendar__body tr .active::after {
    opacity: 1;
+   color: var(--white);
 }
 
 
@@ -537,6 +544,7 @@
 
    width: 100%;
    height: 30vh;
+
 }
 .calendar__motivation__type {
    position: absolute;
@@ -562,6 +570,7 @@
 
    cursor: pointer;
    color: var(--white);
+   
 }
 #motivation_type option {
    background-color: var(--violet);
@@ -582,6 +591,8 @@
 
    background: rgb(34,25,141);
    background: linear-gradient(145deg, rgba(34,25,141,1) 0%, rgba(27,25,112,1) 100%); 
+
+   border-radius: 5px 5px 5px 20px;
 }
 .calendar__motivation__place textarea {
    width: 100%;
@@ -603,4 +614,44 @@
    font-family: var(--brunoAceSC);
 
    margin: auto;
+}
+
+/*
+ ? _____ FOOTER ______
+*/
+.calendar__footer {   
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+
+   width: 100%;
+   height: 10vh;
+   
+   gap: 4px;
+   padding-bottom: 2px;
+}
+.calendar__footer__line {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+
+   width: 100%;
+   height: 50%;
+   gap: 4px;
+}
+.calendar__footer__line button {
+   background-color: var(--oviolet);
+   color: var(--lightgray);
+
+   width: 100%;
+   height: 100%;
+
+   border-radius: 5px 0 0 10px; 
+   font-size: 14px; 
+   cursor: pointer;
+}
+.calendar__footer__line button:hover {
+   background-color: var(--violet);
+   color: var(--white);
 }

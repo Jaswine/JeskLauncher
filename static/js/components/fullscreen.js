@@ -1,8 +1,5 @@
-// Full Screen
-const FullScreen = document.getElementById('FullScreen')
-
-
-FullScreen.onclick = () => {
+// TODO: Full screen
+document.querySelector('#fullScreen').onclick = () => {
     if (document.documentElement.requestFullscreen()) {
        document.exitFullscreen()
     } else{
