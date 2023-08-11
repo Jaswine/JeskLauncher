@@ -107,6 +107,33 @@
    height: 70vh;
    width: 100%;
 
+   overflow-x: hidden;
+
+   display: flex;
+   justify-content: start;
+   align-items: center; 
+   flex-direction: column;
+}
+.inbox__icons {
+   width: 100%;
+   height: 10vh;
+   overflow-x: auto;
+   overflow-y: hidden;
+
+   display: flex;
+   justify-content: center;
+   align-items: center; 
+   gap: 8px;
+}
+.inbox__icons .icon img {
+   width: 24px;
+   height: 24px;
+   filter: grayscale(100);
+}
+.inbox__messages {
+   width: 100%;
+   height: 60vh;
+
    overflow-y: auto;
    overflow-x: hidden;
 
@@ -274,6 +301,9 @@
    height: 7vh;
    padding: 0px 0 6px;
 }
+#today-notes-list {
+   height: 12vh;
+}
 .inbox__backlog__note {
    background-color: rgba(106, 106, 106, 0.25);
    color: var(--lightgray);
@@ -333,4 +363,41 @@
    justify-content: space-between;
    align-items: center;
    width: 100%;
+}
+
+/*
+ ! ______ TODAY ________
+*/
+.column {
+   align-items: start;
+}
+.inbox__today__notes {
+   width: 60%;
+   position: relative;
+   height: 23vh;
+}
+.inbox__today__notes::after {
+   display: block;
+   content: '';
+   width: 96%;
+   height: 14px;
+   border-top: 1.5px solid var(--olightgray);
+
+   position: absolute;
+   top: -14px;
+   border-radius: 6px;
+}
+.today__work {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+
+   width: 100%;
+   height: 70vh
+}
+.today__work__notfound {
+  color: var(--olightgray);
+  font-family: var(--brunoAceSC);
+  font-size: 22px;
 }

@@ -30,7 +30,6 @@ def messages_list(request):
         # GOOGLE YOUTUBE
         google_youtube.GoogleYoutubeService(email_list, access_token, included_apps)
         
-        print('__________ included_apps ___________', included_apps)
         
         if len(email_list) > 0:
             data = [{
@@ -50,7 +49,7 @@ def messages_list(request):
             
             return JsonResponse({
                 'status':'success',
-                'included_apps': [],
+                'included_apps': included_apps,
                 'messages': data[::-1],
             }, safe=False)
             

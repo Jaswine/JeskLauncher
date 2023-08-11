@@ -116,3 +116,35 @@ a:hover {
   background-color: var(--black);
   color: var(--white);
 }
+
+/* message */
+.message {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  top: 15vh;
+  left: 35vw;
+  right: 35vw;
+
+  position: fixed;
+
+  width: 30vw;
+  height: 40vh;
+  background-color: rgba(10, 0, 50, 0.46);
+
+  padding: 10px;
+  border-radius: 40px;
+  padding: 4vh 5vw;
+}
+
+/* icon */
+.icon {
+  background-color: transparent;
+  color: var(--olightgray);
+  cursor: pointer;
+  font-size: 24px;
+}
+.icon:hover {
+  color: var(--white);
+}
