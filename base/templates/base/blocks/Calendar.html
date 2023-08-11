@@ -1,10 +1,41 @@
 {% load static socialaccount account %}
 
 <div class="column calendar">
-   <h3 class="column__title">Callendar</h3>
+   <!-- _________ SETTINGS __________ -->
+   <div class="calendar__settings">
+      <button id="changeTheme">
+         <i class="fa-regular fa-moon"></i>
+      </button>
+      <button id="addMoreAccounts">
+         +
+      </button>
+      <button id="settings">
+         <i class="fa-solid fa-gear"></i>
+      </button>
+      <a href="{% url 'base:sign-out' %}">
+         <i class="fa-solid fa-right-from-bracket"></i>
+      </a>
+   </div>
+
+   <!-- _________ CALENDAR __________ -->
+   <div class="calendar__calendar">
+      <div class="calendar__header" id="calendar_header"></div>
+      <div class="calendar__body" id="calendar_body"></div>
+   </div>
+
+   <!-- _________ MOTIVATION __________ -->
+   <div class="calendar__motivation">
+      
+   </div>
+
+   <!-- _________ FOOTER __________ -->
+   <div class="calendar__footer">
+
+   </div>
+
 </div>
 
-{% comment %} <script src="{% static 'js/components/calendar.js' %}" ></script>
+{% comment %} 
 <script src="{% static 'js/components/settings.js' %}" ></script>
 <script src="{% static 'js/components/changeTheme.js' %}" ></script>
 <script src="{% static 'js/components/focusMode.js' %}" ></script>
@@ -14,3 +45,5 @@
 
 <script src="{% static 'js/components/showForm.js' %}" ></script>
 <script src="{% static 'js/components/chill_mode.js' %}" ></script> {% endcomment %}
+
+<script src="{% static 'js/components/calendar.js' %}" ></script>

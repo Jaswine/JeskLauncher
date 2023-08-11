@@ -95,7 +95,11 @@ body {
 
 input, button, select, textarea, a, .btn {
   transition: all .3s linear;
+  background-color: transparent;
+  color: var(--lightgray);
 }
+
+/* ! LINKS */
 a {
   color: var(--lightgray);
   cursor: pointer;

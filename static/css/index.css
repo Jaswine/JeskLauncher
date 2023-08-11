@@ -45,7 +45,7 @@
     align-items: center;
 
     width: 100%;
-    height: 7vh;
+    height: 6vh;
     font-size: 22px;
     
     font-family: var(--brunoAceSC);
@@ -104,7 +104,7 @@
    * ____ NOTIFICATIONs ____
 */
 .inbox__notifications {
-   height: 70vh;
+   height: 75vh;
    width: 100%;
 
    overflow-x: hidden;
@@ -113,6 +113,7 @@
    justify-content: start;
    align-items: center; 
    flex-direction: column;
+   padding: 0 4px;
 }
 .inbox__icons {
    width: 100%;
@@ -132,7 +133,7 @@
 }
 .inbox__messages {
    width: 100%;
-   height: 60vh;
+   height: 65vh;
 
    overflow-y: auto;
    overflow-x: hidden;
@@ -148,7 +149,8 @@
 */
 .inbox__backlog__notes {
    padding: 10px 6px ;
-   height: 23vh;
+   /* height: 24vh; */
+   height: 19vh;
    width: 100%;
 }
 .inbox__backlog__notes__head {
@@ -298,8 +300,8 @@
    flex-direction: column;
    width: 100%;  
    overflow-y: auto;
-   height: 7vh;
-   padding: 0px 0 6px;
+   height: 5vh;
+   /* padding: 0px 0 6px; */
 }
 #today-notes-list {
    height: 12vh;
@@ -371,10 +373,24 @@
 .column {
    align-items: start;
 }
+.today__work {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+
+   width: 100%;
+   height: 74vh
+}
+.today__work__notfound {
+  color: var(--olightgray);
+  font-family: var(--brunoAceSC);
+  font-size: 22px;
+}
 .inbox__today__notes {
    width: 60%;
    position: relative;
-   height: 23vh;
+   height: 20vh;
 }
 .inbox__today__notes::after {
    display: block;
@@ -384,20 +400,125 @@
    border-top: 1.5px solid var(--olightgray);
 
    position: absolute;
-   top: -14px;
+   top: -8px;
    border-radius: 6px;
 }
-.today__work {
+
+/*
+! ______ CALENDAR _______
+*/
+
+/*
+ ? _____ SETTINGS ______
+*/
+.calendar__settings {
+   display: flex;
+   justify-content: start;
+   align-items: center;
+
+   gap: 10px;
+
+   width: 100%;
+   height: 6vh;
+   padding: 4px 10px;
+}
+.calendar__settings button, a {
+   font-size: 20px;
+   font-weight: bold;
+
+}
+/*
+ ? _____ CALENDAR ______
+*/
+.calendar__calendar {
+   height: 50vh;
+   /* height: 300px; */
+   width: 100%;   
+   background-color: var(--violet);
+
    display: flex;
    justify-content: center;
    align-items: center;
    flex-direction: column;
-
-   width: 100%;
-   height: 70vh
+   padding: 0 10px;
 }
-.today__work__notfound {
-  color: var(--olightgray);
-  font-family: var(--brunoAceSC);
-  font-size: 22px;
+.calendar__header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+
+   max-width: 80%;
+   width: 100%;
+   padding: 14px 0;
+   width: 100%;
+
+   font-size: 18px;
+}
+.calendar__header left, right, h3 {
+   font-size: 14px;
+   font-weight: 600;
+   color: var(--lightgray);
+}
+.calendar__header left, right {
+   color: var(--olightgray);
+   font-size: 14px;
+
+   transition: all .3s linear;
+}
+.calendar__header left:hover, right:hover {
+   color: #4A3AFF;
+   cursor: pointer;
+}
+.calendar__body {
+   border-top: 1.4px solid rgba(209, 209, 209, 0.3);
+   padding: 14px 0; 
+
+}
+.calendar__body table {
+
+}
+.first_tr {
+   margin-bottom: 6px;
+}
+.first_tr th {
+   color: var(--olightgray);
+   font-size: 16px;
+   font-weight: 500;
+}
+.calendar__body tr {
+
+}
+.calendar__body tr td {
+   padding: 12px 14px;
+   color: var(--lightgray);
+   font-size: 14px;
+   
+   position: relative;
+
+   transition: all .3s linear;
+   z-index: 1;
+   cursor: pointer;
+}
+.calendar__body tr td::after {
+   display: block;
+   content: '';
+   width: 26px;
+   height: 24px;
+   background-color: #4A3AFF;
+   position: absolute;
+   border-radius: 100px;
+   top: 10px;
+   left: 8px;
+   z-index: -1;
+   opacity: 0;
+   transform: rotate(10deg);
+
+   transition: all .3s linear;
+   cursor: pointer;
+}
+.calendar__body tr td:hover:after {
+   opacity: 1;
+}
+.calendar__body tr .active::after {
+   opacity: 1;
 }

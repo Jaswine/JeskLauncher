@@ -4,10 +4,10 @@
 
   <!-- ! Notifications -->
   <div class="inbox__notifications">
-      <div class="inbox__icons">
+      <div class="inbox__icons" id='inbox-icons'></div>
+      <div class="inbox__messages" id='messages-list'>
          <div class="loader"></div>
       </div>
-      <div class="inbox__messages"></div>
   </div>
 
   <!-- ! Backlog Notes -->
@@ -24,7 +24,7 @@
       <div class="inbox__backlog__notes__type">
          <b>+</b>
          <input type="checkbox" value="Google Todo" >
-         <img src="/static/media/icons/google_todo.svg" alt="google todo">
+         <img src="/static/media/icons/Google Todo.svg" alt="google todo">
       </div>
    </div>
 
@@ -46,7 +46,9 @@
       </div>
 
       {% comment %} ___ show all notes _______ {% endcomment %}
-      <div class="inbox__backlog__notes__show" id="backlog-notes-list" ></div>
+      <div  class="inbox__backlog__notes__show" 
+            id="backlog-notes-list" 
+            style="height: 0vh" ></div>
 
    </div>
   </form>
