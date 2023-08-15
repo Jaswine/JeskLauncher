@@ -214,9 +214,9 @@ SOCIALACCOUNT_PROVIDERS = {
             'prompt': 'consent',
         },
         'APP': {
-            'client_id': os.environ.get('GOOGLE_CLIENT_ID'),
-            'secret': os.environ.get('GOOGLE_SECRET'),
-            'key': ''
+            'client_id': '402939344578-5b58lkdodgtrfvshgprcekrh2ca6v4u8.apps.googleusercontent.com',
+            'secret': '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',
+            'key': 'AIzaSyDxbDg69gBQZX7a7Kl0Q1dLDYL9YqPWk9I',
         },
     },
     'github': {
@@ -246,7 +246,7 @@ SOCIALACCOUNT_PROVIDERS = {
             'key': os.environ.get('FACEBOOK_KEY'),
         },
         'METHOD': 'oauth2',
-        'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
+        # 'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
         'SCOPE': ['email', 'public_profile'],
         'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
         'INIT_PARAMS': {'cookie': True},
@@ -261,7 +261,7 @@ SOCIALACCOUNT_PROVIDERS = {
             'short_name'
         ],
         'EXCHANGE_TOKEN': True,
-        'LOCALE_FUNC': 'path.to.callable',
+        # 'LOCALE_FUNC': 'path.to.callable',
         'VERIFIED_EMAIL': False,
         'VERSION': 'v13.0',
         'GRAPH_API_URL': 'https://graph.facebook.com/v13.0',

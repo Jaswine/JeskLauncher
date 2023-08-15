@@ -28,15 +28,28 @@
         {% endif %}
    </div>
 
-{% comment %} <div class="chill__mode" id="chill__mode">
-    <div class="chill__phone__intro">
-        <h1 class="chill__phone__intro__title"></h1>
-        <div class="chill__phone__date"></div>
-        <div class="chill__phone__time"></div>
-        <div class="equalizer"></div>
-    </div> 
-    <div class="fa-solid fa-xmark close__chill__mode chill__mode__exit"></div>
- </div> {% endcomment %}
+ <div class="chill__mode" id="chill__mode" style='display: none; opacity: 1;'>
+    <div class="chill__mode__left">
+        <a href="">
+            <img src="/static/media/logos/Frame 198.png" alt="logo">
+        </a>
+        <div class="chill__mode__left__menu">
+            <span></span>
+        </div>
+    </div>
+    <div class="chill__mode__center">
+        <h2>
+            relaxing means calming your body and <br>
+            mind and getting rid of panic and anxiety.
+        </h2>
+    </div>
+    <div class="chill__mode__right">
+        <a id='chill__mode__exit'>
+            FOCUS MODE
+            <i class="fa-solid fa-caret-right"></i>
+        </a>
+    </div>
+ </div> 
 
 
 {% block content %}{% endblock content %}
