@@ -8,25 +8,22 @@
 {% endblock title %}
 
 {% block content %}
-<div class="page">
-      <div class="page__left">
-            <img src="" alt="mount" class="page__left__image">
-            <div class="page__left__mask" style='background-color: rgb(254,254,254,.8)'></div>
-      </div>
-      <div class="page__content">
-            {% include 'base/blocks/Inbox.html' %}
-            {% include 'base/blocks/Today.html' %}
-            {% include 'base/blocks/Calendar.html' %}
-      </div>
+<div class="page" style="background-image: url('/static/media/Rectangle.png');">
+      {% include 'base/blocks/Inbox.html' %}
+      {% include 'base/blocks/Today.html' %}
+      {% include 'base/blocks/Calendar.html' %}
+      <div class="page__window"></div>
  </div> 
  
-<script src="{% static 'js/API/crudTODO.js' %}" ></script>
-<script src="{% static 'js/API/getMessages.js' %}" ></script>
+{% comment %}
 <script src="{% static 'js/API/rewriteTokens.js' %}" ></script>
 
-<script src="{% static 'js/API/utils.js' %}" ></script>
 <script src="{% static 'js/API/settings.js' %}" ></script>
 
-<script src="{% static 'js/components/todos.js' %}" ></script>
-<script src="{% static 'js/components/backImage.js' %}" ></script>
+<script src="{% static 'js/components/backImage.js' %}" ></script> {% endcomment %}
 {% endblock content %}
+
+<script src="{% static 'js/API/utils.js' %}" ></script>
+<script src="{% static 'js/API/getMessages.js' %}" ></script>
+<script src="{% static 'js/components/todos.js' %}" ></script>
+

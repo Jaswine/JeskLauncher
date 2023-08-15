@@ -1,20 +1,25 @@
+const calendar = document.querySelector('#calendar_body')
+
+const currentDate = new Date()
+
+
 function createCalendar(elem, year, month) {
 
    let mon = month - 1; // месяцы в JS идут от 0 до 11, а не от 1 до 12
    let d = new Date(year, mon);
 
-   let table = '<table><tr class="first_tr"><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th><th>S</th></tr><tr>';
+   let table = '<table><tr class="first_tr"><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th>Su</th></tr><tr>';
 
    // пробелы для первого ряда
    // с понедельника до первого дня месяца
    // * * * 1  2  3  4
    for (let i = 0; i < getDay(d); i++) {
-     table += '<td></td>';
+      table += '<td></td>';
    }
 
-   // <td> ячейки календаря с датами
+   // <> ячейки календаря с датами
    while (d.getMonth() == mon) {
-     table += '<td>' + d.getDate() + '</td>';
+     table += `<td class=${d.getDate() == currentDate.getDate() ? 'active': '' }>` + d.getDate() + '</td>';
 
      if (getDay(d) % 7 == 6) { // вс, последний день - перевод строки
        table += '</tr><tr>';
@@ -43,16 +48,14 @@ function createCalendar(elem, year, month) {
    return day - 1;
  }
 
- const callendar__header = document.querySelector('#callendar__header')
+ const callendar__header = document.querySelector('#calendar_header')
 
  const left = document.createElement('left')
  const right = document.createElement('right')
  const h3 = document.createElement('h3')
 
- left.innerHTML = '<'
- right.innerHTML = '>'
-
- const currentDate = new Date()
+ left.innerHTML = '<i class="fa-solid fa-chevron-left"></i>'
+ right.innerHTML = '<i class="fa-solid fa-chevron-right"></i>'
 
  let month = currentDate.getMonth()
  let year = currentDate.getFullYear()
@@ -102,14 +105,3 @@ function createCalendar(elem, year, month) {
  createCalendar(calendar, year, month+1);
 
 callendar__header.append(left, h3, right)
-
-// const callendar__place__input = document.querySelector('.callendar__place__input')
-
-// callendar__place__input.addEventListener('change', (e) => {
-//   // console.log(e.target.value)
-
-//   year = e.target.value
-
-//   monthRender(h3, month)
-//   createCalendar(calendar, year, month+1);
-// })

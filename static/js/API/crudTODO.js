@@ -1,9 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    let create_form = document.querySelector('#todo-create-form')
-    let todo_list = document.querySelector('#todo-list')
-    let todos_notification__number = document.querySelector('.inbox__add__tasks__notification__number')
-
-    let add_note_inbox = document.querySelector('add_note_inbox')
+    let create_form = document.querySelector('#backlog-notes-form')
+    let todo_list = document.querySelector('#backlog-notes-list')
 
     const showTodos = () => {
         fetch('/api/todos')
@@ -11,19 +8,17 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 todo_list.innerHTML = ''
 
-                todos_notification__number.innerHTML = data.size
                 data.todos.forEach(todo => {
                     const div = document.createElement('div')
-                    div.classList.add('note')
+                    div.classList.add('inbox__backlog__note')
                     div.innerHTML = `
-                        ${todo.message}
                         <a 
-                            class="material-symbols-outlined note__delete" 
-                            style="border: 1px solid rgb(20,20,20,.3)"
+                            class="material-symbols-outlined inbox__backlog__note__delete" 
                             id = "${todo.id}"
                         >
                             close
                         </a>
+                        ${todo.message}
                     `
                     todo_list.appendChild(div)
                 })
@@ -46,8 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(data => {
                 showTodos()
-                add_note_inbox.value = ''
-            })  
+                
+                create_form
+                    .querySelector('.inbox__backlog__notes__form')
+                    .querySelector('input')
+                    .value = ''
+            })      
             .catch(error => {
                 console.error('Error:', error);
             });
@@ -56,13 +55,14 @@ document.addEventListener('DOMContentLoaded', () => {
     todo_list.addEventListener('click', (e) => {
         if (e.target.classList.contains('material-symbols-outlined')) {
             let todoItem = e.target.id;
-            let note__form = document.querySelector('.note__form')
+
+            let note__form = document.querySelector('.page__window')
 
             note__form.style.display = 'flex'
             note__form.innerHTML = `
                 <h2>Do you want to delete this note?</h2>
                 <div>
-                    <span class = 'btn note__form__close'>No, close</span>
+                    <a class = 'note__form__close'>No, close</a>
                     <span class = 'btn note__form__confirm' >Yes</span>
                 </div>
             `

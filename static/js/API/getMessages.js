@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     let messages_list = document.getElementById('messages-list'); 
-    let today__work = document.querySelector('.today__work')
+    let inbox_icons = document.querySelector('#inbox-icons');
+    // let today__work = document.querySelector('.today__work')
     
     // TODO: WITHOUT Async - 7s
     // TODO: WITH Async  - 9s
@@ -10,55 +11,74 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('/api/messages');
             const data = await response.json();
         
-            messages_list.innerHTML = '';
+            messages_list.innerHTML = ''
+            inbox_icons.innerHTML = ''
         
             if (data.status === 'success') {
-              data.messages.forEach((message) => {
-                const div = document.createElement('div');
-                div.classList.add('notification');
-                div.id = `${message.id}`;
-                let icon_path = ''
+              console.log(data)
 
-                if (message.type === 'Gmail') {
-                  icon_path = '/static/media/icons/gmail.svg'
-                } else if (message.type == 'Google Todo') {
-                  icon_path = '/static/media/icons/google_todo.png'
-                } else if (message.type == 'YouTube') {
-                  icon_path = '/static/media/icons/youtube.svg'
-                } else if (message.type == 'Google Event') {
-                  icon_path = '/static/media/icons/g-calendar.svg'
-                }
+              inbox_icons.innerHTML += `
+                <button class='icon'>
+                  <span class="material-symbols-outlined">
+                    mark_chat_unread
+                  </span>
+                </button>
+              `
 
-                if (message.status == 'completed') {
-                  div.style.opacity = '.3'
-                }
+              data.included_apps.forEach((app) => {
+                inbox_icons.innerHTML += `
+                  <button class='icon'>
+                    <img src="/static/media/icons/${app}.svg" alt="${app}">
+                  </button>
+                  `
+              })
+
+              // data.messages.forEach((message) => {
+              //   const div = document.createElement('div');
+              //   div.classList.add('notification');
+              //   div.id = `${message.id}`;
+              //   let icon_path = ''
+
+              //   if (message.type === 'Gmail') {
+              //     icon_path = '/static/media/icons/gmail.svg'
+              //   } else if (message.type == 'Google Todo') {
+              //     icon_path = '/static/media/icons/google_todo.png'
+              //   } else if (message.type == 'YouTube') {
+              //     icon_path = '/static/media/icons/youtube.svg'
+              //   } else if (message.type == 'Google Event') {
+              //     icon_path = '/static/media/icons/g-calendar.svg'
+              //   }
+
+              //   if (message.status == 'completed') {
+              //     div.style.opacity = '.3'
+              //   }
 
 
-                div.innerHTML = `
-                  <div class="notification__header">
-                    <img src="${icon_path}" alt="${icon_path}">
-                    <span class='notification__type'>${message.type}</span>
-                  </div>
-                  <div class="notification__body">
-                    <div class="notification__message">
-                      <span class="notification__title ${message.id}_title" id='${message.id}_title'>${message.title}</span>
-                      <span class="notification__message__time">${message.created_time}</span>
-                      <span class="notification__text">${message.text}</span>
-                      <span class = "notification__sender">${message.sender}</span>
-                      </div>
-                    <div class="notification__links">
-                      <a href="${message.link}" target="_blank" style="color: rgb(20,20,20,.6); border: 1px solid rgb(20,20,20,.3)">Show</a>
-                      ${message.type == 'Google Todo'? `<a style="color: rgb(20,20,20,.6); border: 1px solid rgb(20,20,20,.3)" class='google_todo_accomplished'>Comp</a>` : ''}
-                      ${message.type == 'Google Todo' || message.type == 'Gmail' ? `<a style="color: rgb(20,20,20,.6); border: 1px solid rgb(20,20,20,.3)" class='google_todo_delete'>Del</a>` : ''}
-                    </div>
-                    ${message.id ? `<input type='hidden' class='notification__todo_id' value='${message.id}' />`: ""}
-                    ${message.list_id ? `<input type='hidden' class='notification__todo_list' value='${message.list_id}' />`: ""}
-                  </div>
-                `;
+              //   div.innerHTML = `
+              //     <div class="notification__header">
+              //       <img src="${icon_path}" alt="${icon_path}">
+              //       <span class='notification__type'>${message.type}</span>
+              //     </div>
+              //     <div class="notification__body">
+              //       <div class="notification__message">
+              //         <span class="notification__title ${message.id}_title" id='${message.id}_title'>${message.title}</span>
+              //         <span class="notification__message__time">${message.created_time}</span>
+              //         <span class="notification__text">${message.text}</span>
+              //         <span class = "notification__sender">${message.sender}</span>
+              //         </div>
+              //       <div class="notification__links">
+              //         <a href="${message.link}" target="_blank" style="color: rgb(20,20,20,.6); border: 1px solid rgb(20,20,20,.3)">Show</a>
+              //         ${message.type == 'Google Todo'? `<a style="color: rgb(20,20,20,.6); border: 1px solid rgb(20,20,20,.3)" class='google_todo_accomplished'>Comp</a>` : ''}
+              //         ${message.type == 'Google Todo' || message.type == 'Gmail' ? `<a style="color: rgb(20,20,20,.6); border: 1px solid rgb(20,20,20,.3)" class='google_todo_delete'>Del</a>` : ''}
+              //       </div>
+              //       ${message.id ? `<input type='hidden' class='notification__todo_id' value='${message.id}' />`: ""}
+              //       ${message.list_id ? `<input type='hidden' class='notification__todo_list' value='${message.list_id}' />`: ""}
+              //     </div>
+              //   `;
 
-                messages_list.appendChild(div)
+              //   messages_list.appendChild(div)
 
-              });
+              // });
             } else {
               messages_list.innerHTML = `<h3>${data.message}</h3>`;
             }

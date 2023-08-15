@@ -1,43 +1,60 @@
 {% load static %}
-<div class="column inbox" style="opacity: 1">
-   <h3 class="column__title" style = "border-bottom: 1px solid rgb(20,20,20,.3);" >Inbox</h3>
+<div class="column inbox">
+   <h3 class="column__title" >Inbox</h3>
 
-   <div class="column__notifications" style='border-bottom: 1px solid rgb(20,20,20,.3);' id = "messages-list">
-      <div id="loader"></div>
-   </div>
-   
-   <form class="inbox__tasks" method="POST" id="todo-create-form">
-      {% csrf_token %}
-      <div class="inbox__tasks__apps" style="border-bottom: 1px solid rgb(20,20,20,.3)">
-         <div class="inbox__tasks__app" >
-            <input type="checkbox" name="isJesk" class='inbox__tasks__type'  value="jesk" disabled>
-            <span>+Jesk</span>
-         </div>   
-         <div class="inbox__tasks__app">
-            <input type="checkbox" name="isGoogle_todo" class='inbox__tasks__type'  value="google_todo" disabled>
-            <span>+ <img src="{% static 'media/task-add-accent-light.svg' %}" alt="icon" class="inbox__tasks__app__icon" /> </span>
-         </div>    
+  <!-- ! Notifications -->
+  <div 
+      class="inbox__notifications"
+      style="height: 100%"
+   >
+      <div class="inbox__icons" id='inbox-icons'></div>
+      <div class="inbox__messages" id='messages-list'>
+         <div class="loader"></div>
       </div>
-      <div class="inbox__add__tasks">
-         <h3>
-            <span  class="inbox__add__tasks__notification__number"></span>
-            <span  class="inbox__tasks__menu__button fa-solid fa-circle-chevron-down" title="Show All Titles   " ></span>
-            Notes +
-         </h3>
-         <div class="inbox__add__tasks__form">
-            <input 
-               type="text" 
-               placeholder="Enter your notes..." 
-               name="message"
-               class="add_note_inbox"
-            >
-            <button class="btn" hidden>send</button>
+  </div>
+
+  <!-- ! Backlog Notes -->
+  <form class="inbox__backlog__notes" method="POST" id="backlog-notes-form">
+   {% csrf_token  %}
+   
+   {% comment %} ___ type adding _______ {% endcomment %}
+   <div class="inbox__backlog__notes__head">
+      <div class="inbox__backlog__notes__type">
+         <b>+</b>
+         <input type="checkbox" value="Jesk" >
+         <span>Jesk</span>
+      </div>
+      <div class="inbox__backlog__notes__type">
+         <b>+</b>
+         <input type="checkbox" value="Google Todo" >
+         <img src="/static/media/icons/Google Todo.svg" alt="google todo">
       </div>
    </div>
 
-   <div class="inbox__show__tasks" style='height:12vh' id='todo-list'></div>
-   
-   <div class='note__form'></div>
+   <div class="inbox__backlog__notes__body">
 
-   </form>  
-</div>
+      {% comment %} ___ title_______ {% endcomment %}
+      <div class="inbox__backlog__notes__header">
+         <div class="pointer_up inbox__tasks__menu__button">
+            <span></span>
+            <span></span>
+         </div>
+         <h3>backlog notes +</h3>
+      </div>
+
+      {% comment %} ___ form for add _______ {% endcomment %}
+      <div class="inbox__backlog__notes__form">
+         <input type="text" name="message" placeholder="Enter your message..." />
+         <button type="submit"></button>
+      </div>
+
+      {% comment %} ___ show all notes _______ {% endcomment %}
+      <div  class="inbox__backlog__notes__show" 
+            id="backlog-notes-list" 
+            style="height: 0vh" ></div>
+
+   </div>
+  </form>
+   </div>
+
+<script src="{% static 'js/API/crudTODO.js' %}"></script>
