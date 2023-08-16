@@ -48,8 +48,13 @@
     height: 6vh;
     font-size: 22px;
     
-    font-family: var(--brunoAceSC);
-    position: relative;
+   font-family: var(--bayerSans);
+   color: var(--white);
+   position: relative;
+
+   font-size: 34  px;
+   font-weight: 400;
+   line-height: normal;
  }
  .column__title::after {
     display: block;
@@ -248,7 +253,7 @@
    margin-top: 4px;
 }
 .inbox__backlog__notes__header h3 {
-   font-family: var(--brunoAceSC);
+   font-family: var(--bayerSans);
    font-size: 14px;
    color: var(--white);
 }
@@ -378,7 +383,7 @@
    display: none;
 }
 .page__window h2 {
-   font-family: var(--brunoAceSC);
+   font-family: var(--bayerSans);
 }
 .page__window div {
    display: flex;
@@ -407,7 +412,7 @@
 }
 .today__work__notfound {
   color: var(--olightgray);
-  font-family: var(--brunoAceSC);
+  font-family: var(--bayerSans);
   font-size: 22px;
 }
 .inbox__today__notes {
@@ -613,7 +618,7 @@
    background: rgb(34,25,141);
    background: linear-gradient(145deg, rgba(34,25,141,1) 0%, rgba(27,25,112,1) 100%); 
 
-   border-radius: 5px 5px 5px 20px;
+   border-radius: 5px 5px 5px 30px;
 }
 .calendar__motivation__place textarea {
    width: 100%;
@@ -623,18 +628,24 @@
    max-height: 100%;
 
    min-width: 100%;
-   min-height: 100%;
+   min-height: 200px;
 
    border: none;
    outline: none;
    overflow-y: hidden;
 
+   font-size: 24px;
+   font-family: var(--bayerSans);
+
    text-align: center;
 
-   font-size: 24px;
-   font-family: var(--brunoAceSC);
-
-   margin: auto;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   
+   /* Отступы для центрирования текста */
+   padding: 20px; /* Пример значения отступа */
+   box-sizing: border-box;
 }
 
 /*
@@ -687,4 +698,101 @@
    position: fixed;
    bottom: 10px;
    right: 10px;
+}
+
+
+
+/* accounts */
+.accounts, .settings {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+
+   top: 15vh;
+   left: 20vw;
+   right: 20vw;
+
+   position: fixed;
+
+   width: 60vw;
+   height: 60vh;
+   background-color: rgba(10, 0, 50, 0.86);
+
+   box-shadow: 0 0 100vw 50vw rgb(0,0,0,.4), 0 0 1000px 10px rgba(10, 0, 50, 0.86);
+   row-gap: 40px;
+   padding: 10px;
+   border-radius: 40px;
+   padding: 2vh 4vw;
+
+   z-index: 100;
+   transition: all .3s linear;
+}
+.accounts__header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   width: 100%;
+}
+.accounts__header h3 {
+   font-size: 28px;
+   font-family: var(--bayerSans);
+   color: var(--white);
+}
+.accounts__body {
+   display: flex;
+   justify-self: start;
+   align-items: center;
+   flex-wrap: wrap;
+}
+.accounts__body i {
+   font-size: 38px;
+}
+.accounts__body i:hover {
+   transition: all .3s linear;
+}
+.settings .account__body__line {
+   width: 100%;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin: 8px 0;
+}
+.settings .account__body__line label {
+   color: var(--olightgray);
+   font-size: 16px;
+   width: 100%;
+   margin-bottom: 2px;
+}
+.settings .account__body__line input {
+   padding: 6px 10px;
+   font-size: 18px;
+   margin-bottom: 6px;
+   max-width: 600px;
+   width: 100%;
+   border-bottom: 2px solid var(--olightgray);
+}
+.settings .account__body__line input:hover {
+   border-color: var(--white);
+}
+.account__body__line .btn--del {
+   background-color: var(--black);
+}
+.account__body__line .btn--del:hover {
+   background-color: var(--blue);
+}
+.account__body__docs {
+   display: flex;
+   justify-content: start;
+   align-items: start;
+   width: 100%;
+   gap: 8px;
+   margin-top: 10px;
+}
+.account__body__docs a {
+   font-size: 14px;
+   color: var(--olightgray);
+}
+.account__body__docs a:hover {
+   color: var(--white);
 }

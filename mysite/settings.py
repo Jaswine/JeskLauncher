@@ -26,7 +26,7 @@ ALLOWED_HOSTS = ['*']
 # pip install django djangorestframework django-cors-headers django-allauth django_extension djangorestframework-simplejwt dj_database_url google-auth google-api-python-client python-telegram-bot
 
 # Application definition
-INSTALLED_APPS = [
+INSTALLED_APPS = [    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -74,12 +74,12 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     # 'allauth.account.auth_backends.AuthenticationBackend',
     "corsheaders.middleware.CorsMiddleware",
-    
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'mysite.urls'

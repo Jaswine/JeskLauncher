@@ -1,6 +1,6 @@
 const accounts = document.querySelector('.accounts')
 
-document.querySelector('#open_account').addEventListener('click', () => {
+document.querySelector('#addMoreAccounts').addEventListener('click', () => {
    accounts.style.display = 'flex';
 
    setTimeout(() => {

@@ -13,23 +13,29 @@ import django.contrib.auth
 def pre_social_login_callback(sender, request, sociallogin, **kwargs):
     socialtoken = sociallogin.token
     socialaccount = sociallogin.account
+    print('social account', socialaccount)
     
     user = socialaccount.user if hasattr(socialaccount, "user") else None
 
     if not user:
-        email = socialaccount.extra_data["email"]
-        
-        if email:
-            user = django.contrib.auth.models.User.objects.create_user(
-                username=socialaccount.uid, email=email
-            )
-            sociallogin.connect(request, user)
-        else:
-            user = django.contrib.auth.models.User.objects.create_user(
-                username=socialaccount.uid, email=''
-            )
-            sociallogin.connect(request, user)
+        try:
+            email = socialaccount.extra_data["email"]
             
+            if email:
+                user = django.contrib.auth.models.User.objects.create_user(
+                    username=socialaccount.uid, email=email
+                )
+                sociallogin.connect(request, user)
+            else:
+                user = django.contrib.auth.models.User.objects.create_user(
+                    username=socialaccount.uid, email=''
+                )
+                sociallogin.connect(request, user)
+        except:
+            user = django.contrib.auth.models.User.objects.create_user(
+                    username=socialaccount.uid, email=''
+                )
+            sociallogin.connect(request, user)
     
     # Delete existing social tokens
     allauth.socialaccount.models.SocialToken.objects.filter(account__user=socialaccount.user, account__provider=socialaccount.provider).delete()

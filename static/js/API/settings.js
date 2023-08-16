@@ -3,6 +3,24 @@ document.addEventListener('DOMContentLoaded', () => {
     let settingsForm = document.getElementById('settingsForm')
     let messages_place = document.querySelector('.messages')
 
+    const settings = document.querySelector('.settings')
+
+    document.querySelector('#openSettings').addEventListener('click', () => {
+        settings.style.display = 'flex';
+
+        setTimeout(() => {
+            settings.style.opacity = '1';
+        }, 300)
+    })
+
+    document.querySelector('.close__settings').addEventListener('click', () => {
+        settings.style.opacity = '0'
+
+        setTimeout(() => {
+            settings.style.display = 'none'
+        }, 300)
+    })
+
     // submit form
     settingsForm.addEventListener('submit', (e) => {
         e.preventDefault()
