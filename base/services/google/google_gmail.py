@@ -1,23 +1,26 @@
 import requests
 import asyncio
+import time
 
-from datetime import datetime
 from dateutil import parser
+from ...utils import format_time
 
 
 def GoogleGmailService(email_list, access_token, get_email_text, get_header_value, included_apps):
+   messages = []
+   
    async def fetch_emails():
+      start_time = time.time()
+      
       responseEmail = requests.get('https://www.googleapis.com/gmail/v1/users/me/messages', params={
          'access_token': access_token,
          'maxResults': 20
       })
       
-      # print('______________response______________', response)
       if responseEmail.status_code == 200:
          included_apps.append('Gmail')
          
          emails = responseEmail.json().get('messages', [])
-         # print('____________emails______________', emails)
 
          for email in emails:
                email_id = email['id']
@@ -32,7 +35,7 @@ def GoogleGmailService(email_list, access_token, get_email_text, get_header_valu
                   dt = parser.parse(created_time)
                   created_time = dt.strftime("%Y-%m-%d %H:%M:%S")
                   
-                  email_list.append({
+                  messages.append({
                      'id': email_data['id'],
                      'type': 'Gmail',
                      'title': get_header_value(email_data['payload']['headers'], 'Subject'), 
@@ -41,10 +44,14 @@ def GoogleGmailService(email_list, access_token, get_email_text, get_header_valu
                      'text': get_email_text(email_data['payload']),
                      'created_time': created_time,
                   })
-                  
-         print('Google Email loaded successfully ✅')
+           
+         email_list.extend(messages)
+                
+         elapsed_time = time.time() - start_time                  
+         print(f'Google Email loaded successfully ✅ - {format_time(elapsed_time)}')
+         time.sleep(1)
          
-         return email_list
-                  
                   
    asyncio.run(fetch_emails())
+   return messages         
+   

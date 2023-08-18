@@ -28,3 +28,8 @@ def refresh_token(token, refresh_token):
     token.save()
 
     return new_token
+
+def format_time(seconds):
+    m, s = divmod(seconds, 60)
+    h, m = divmod(m, 60)
+    return f"{int(h):02d}:{int(m):02d}:{int(s):02d}"

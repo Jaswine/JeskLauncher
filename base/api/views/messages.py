@@ -19,16 +19,16 @@ def messages_list(request):
         print('\n _______________ messages loading _____________\n')
         
         # CALLENDAR GOOGLE
-        google_calendar.CallendarService(email_list, access_token, included_apps)
-            
+        google_calendar_messages = google_calendar.CallendarService(email_list, access_token, included_apps)
+        
         #GOOGLE TASKS
-        google_todos.GoogleTodoService(email_list, access_token, included_apps)
+        google_todos_messages = google_todos.GoogleTodoService(email_list, access_token, included_apps)
 
         # GOOGLE GMAIL
-        google_gmail.GoogleGmailService(email_list, access_token, get_email_text, get_header_value, included_apps)
+        google_gmail_messages = google_gmail.GoogleGmailService(email_list, access_token, get_email_text, get_header_value, included_apps)
         
         # GOOGLE YOUTUBE
-        google_youtube.GoogleYoutubeService(email_list, access_token, included_apps)
+        google_youtube_messages = google_youtube.GoogleYoutubeService(email_list, access_token, included_apps)
         
         
         if len(email_list) > 0:
@@ -50,7 +50,13 @@ def messages_list(request):
             return JsonResponse({
                 'status':'success',
                 'included_apps': included_apps,
-                'messages': data[::-1],
+                'all_messages': data[::-1],
+                'services': {
+                    'Google_Event': google_calendar_messages,
+                    'Gmail': google_gmail_messages,
+                    'Google_Todo': google_todos_messages,
+                    'YouTube': google_youtube_messages,
+                },
             }, safe=False)
             
         return JsonResponse({
