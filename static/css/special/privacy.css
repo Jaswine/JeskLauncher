@@ -1,6 +1,12 @@
+@import './../variables.css';
+
 body {
     overflow-y: scroll;
-
+    background-image: url('/static/media/Rectangle.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
 }
 .page {
     padding: 0 5%;
@@ -14,6 +20,10 @@ body {
     justify-content: space-between;
     align-items: center;
     gap: 10px;
+    margin-bottom: 20px;
+}
+.page__header h2 {
+    font-family: var(--bayerSans);
 }
 .page__header__menu {
     display: flex;
@@ -24,9 +34,11 @@ body {
 .page__header__menu a {
     font-weight: 600;
     transition: all .3s linear;
+    color: var(--white);
 }
 .page__header__menu a:hover {
-    color: rgb(188, 143, 143, 1);
+    color: var(--blue);
+    text-shadow: 0 0  2px var(--white);
 }
 
 /* content */
@@ -42,18 +54,33 @@ body {
     flex-direction: column;
 }
 .page__menu a {
-    color: rgb(106, 106, 106);
+    color: var(--white);
     padding: 10px 8px;
     margin-bottom: 6px;
     border-radius: 6px;
 
     transition: all .3s linear;
+    font-weight: bold;
+
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 8px;
+}
+.page__menu a::before {
+    display: block;
+    content: '';
+    width: 8px;
+    height: 8px;
+    background-color: var(--white);
+    border-radius: 100px;
 }
 .page__menu a:hover {
-    background-color: rgb(188, 143, 143, .1)
+    background-color: var(--blue)
 }
 .page__info {
     width: 75%;
+    color: var(--lightgray);
 }
 .page__desc {
     margin-bottom: 16px;
@@ -62,6 +89,7 @@ body {
     font-size: 22px;
     margin-bottom: 10px;
     font-style: italic;
+    color: var(--white);
 }
 .page__desc  img {
     width: 100%;

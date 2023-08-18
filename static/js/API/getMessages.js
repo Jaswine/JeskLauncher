@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     let messages_list = document.getElementById('messages-list'); 
     let inbox_icons = document.querySelector('#inbox-icons');
+    let today__work = document.querySelector('.today__work')
 
     // TODO: WITHOUT Async - 7s
     // TODO: WITH Async  - 9s
@@ -51,10 +52,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 div.innerHTML = `
                  <h2 class="notification__title">${message.sender}</h2>
                  <div class="notification__text"> ${message.title}</div>
-                 <div class="notification__buttons"><a href="${message.link}" target='_blank'>show</a></div>
-                 <span class='notification__time'>
-                 ${message.created_time}
-                 </span>
+                 <div class="notification__buttons">
+                  <a href="${message.link}" target='_blank'>show</a>
+                  ${message.type == 'Gmail' || message.type == 'Google_Todo' ? "<a class='google_todo_delete'>del</a>" : ''}
+
+                 </div>
+                 <span class='notification__time'>${message.created_time}</span>
+
+                 <input type='hidden' class="notification__content" value='${message.text}' />
+                 <input type='hidden' class='notification_id' value='${message.id}' />
+                 <input type='hidden' class='notification__type' value='${message.type}' />
+                 ${message.list_id ? `<input type='hidden' class='list_id' value='${message.list_id}' />` : ''}
+                 ${message.status ? `<input type='hidden' class='status' value='${message.status}' />` : ''}
                 `;
 
                 messages_list.appendChild(div)
@@ -112,70 +121,63 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     messages_list.addEventListener('click', (e) => {
-        if (e.target.classList.contains('notification__title')) {
-            let id = e.target.id
-            let notification_message = e.target.parentNode
-            let notification = e.target.parentNode.parentNode.parentNode
+        if (e.target.classList.contains('notification__text')) {
+            let notification  = e.target.parentNode
 
             let type = notification.querySelector('.notification__type').innerHTML
 
-            let notification__todo_id = e.target.parentNode.parentNode.querySelector('.notification__todo_id')
+            // let notification__todo_id = e.target.parentNode.parentNode.querySelector('.notification__todo_id')
 
-            let nId = nListId =''
+            // let nId = nListId =''
 
-            if (notification__todo_id) {
-              nId = notification__todo_id.value
-            }
+            // if (notification__todo_id) {
+            //   nId = notification__todo_id.value
+            // }
 
-            if (type == 'Google Todo') {
-              let notification__todo_list = e.target.parentNode.parentNode.querySelector('.notification__todo_list')
+            // if (type == 'Google Todo') {
+            //   let notification__todo_list = e.target.parentNode.parentNode.querySelector('.notification__todo_list')
 
-              if (notification__todo_list) {
-                nListId = notification__todo_list.value
-              }
-            }
+            //   if (notification__todo_list) {
+            //     nListId = notification__todo_list.value
+            //   }
+            // }
+
+            let content = notification.querySelector('.notification__content').value
 
             today__work.innerHTML = `
-                ${ type == 'Google Todo' ? `
-                  <form method='POST' class='change_message_title'>
-                    <input type='text' value='${e.target.textContent}' name='title' />
-                    <button class='btn'>save</button>
-                  </form> 
-                  ` : `<h2>${e.target.textContent} </h2>`}
-                <p>${notification_message.querySelector('.notification__text').innerHTML}</p>
-                <p>
-                    <b>${notification_message.querySelector('.notification__sender').innerHTML}</b> - 
-                    <b>${notification_message.querySelector('.notification__message__time').innerHTML}</b>
-                </p>  
-                <input type='hidden' id='today_work_id' value='${nId}'/>
-                ${nListId? `<input type='hidden' id='today_work_class_list' value='${nListId}'/>` : ''}
+              <h2>${notification.querySelector('.notification__text').innerHTML}</h2>
+              <p>${content != 'null' ? content : ''}</p>
+              <div>
+                  <b>${notification.querySelector('.notification__title').innerHTML}</b> 
+                  <b>${notification.querySelector('.notification__time').innerHTML}</b>
+              </div>  
             `
 
-            if (type == 'Google Todo') {
-              document.querySelector('.change_message_title').addEventListener('submit', (e) => {
-                e.preventDefault()
-                let parent = e.target.parentNode
-                console.log(parent)
+            // if (type == 'Google Todo') {
+            //   document.querySelector('.change_message_title').addEventListener('submit', (e) => {
+            //     e.preventDefault()
+            //     let parent = e.target.parentNode
+            //     console.log(parent)
           
-                let formData = new FormData(document.querySelector('.change_message_title'))
-                console.log(formData)
+            //     let formData = new FormData(document.querySelector('.change_message_title'))
+            //     console.log(formData)
           
-                fetch(`/api/patch-title-todo/${notification.querySelector('.notification__todo_list').value}/${notification.id}`, {
-                  method: 'POST',
-                  body: formData,
-                })
-                  .then(response => response.json())
-                  .then(data => {
-                    console.log(data)
-                  })
-                  .catch(error => {
-                    console.log('Error: ', error)
-                  })
+            //     fetch(`/api/patch-title-todo/${notification.querySelector('.notification__todo_list').value}/${notification.id}`, {
+            //       method: 'POST',
+            //       body: formData,
+            //     })
+            //       .then(response => response.json())
+            //       .then(data => {
+            //         console.log(data)
+            //       })
+            //       .catch(error => {
+            //         console.log('Error: ', error)
+            //       })
 
-                let title = messages_list.querySelector(`.${nId}_title`)
-                title.innerHTML = formData.get('title')
-              })
-            }
+            //     let title = messages_list.querySelector(`.${nId}_title`)
+            //     title.innerHTML = formData.get('title')
+            //   })
+            // }
         }
 
         // TODO: accomplished
@@ -217,14 +219,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // TODO: delete
         if (e.target.classList.contains('google_todo_delete')) {
-          let parent = e.target.parentNode
-          let notification = parent.parentNode.parentNode
+          let notification = e.target.parentNode.parentNode
 
-          let type = notification.querySelector('.notification__type').innerHTML
+          let type = notification.querySelector('.notification__type').value
           
           // ! ___________ DELETE GOOGLE TODO ___________
-          if (type == 'Google Todo') {
-            fetch(`/api/delete-todo/${notification.querySelector('.notification__todo_list').value}/${notification.id}`, {
+          if (type == 'Google_Todo') {
+            fetch(`/api/delete-todo/${notification.querySelector('.list_id').value}/${notification.querySelector('.notification_id').value}`, {
               method: 'DELETE',
             })
               .then(response => response.json())
@@ -235,13 +236,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('Error: ', error)
               })
           } else if (type == 'Gmail') {
+
           // ! ___________ DELETE GMAIL LETTERS ___________
-            fetch(`/api/delete-email/${notification.id}`, {
+            fetch(`/api/delete-email/${notification.querySelector('.notification_id').value}`, {
               method: 'DELETE',
             })
               .then(response => response.json())
               .then(data => {
-                console.log(data)
                 notification.style.display = 'none'
               })  
               .catch(error => {
@@ -254,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setInterval(() => {
         showMessages()
-    }, 10000) // 60000 == 1 minute
+    }, 60000) // 60000 == 1 minute
 
     setInterval(() => {
         console.log('1sec')
