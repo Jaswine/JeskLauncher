@@ -49,12 +49,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 div.classList.add('notification')
                 div.id = `${message.id}`
 
+                if (message.status == 'completed') {
+                  div.style.opacity = '.3'
+                }
+
                 div.innerHTML = `
                  <h2 class="notification__title">${message.sender}</h2>
                  <div class="notification__text"> ${message.title}</div>
                  <div class="notification__buttons">
                   <a href="${message.link}" target='_blank'>show</a>
                   ${message.type == 'Gmail' || message.type == 'Google_Todo' ? "<a class='google_todo_delete'>del</a>" : ''}
+                  ${message.type == 'Google_Todo' ? "<a class='google_todo_accomplished'>comp</a>" : ''}
 
                  </div>
                  <span class='notification__time'>${message.created_time}</span>
@@ -63,7 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
                  <input type='hidden' class='notification_id' value='${message.id}' />
                  <input type='hidden' class='notification__type' value='${message.type}' />
                  ${message.list_id ? `<input type='hidden' class='list_id' value='${message.list_id}' />` : ''}
-                 ${message.status ? `<input type='hidden' class='status' value='${message.status}' />` : ''}
                 `;
 
                 messages_list.appendChild(div)
@@ -144,57 +148,60 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let content = notification.querySelector('.notification__content').value
 
+            console.log(notification.querySelector('.notification__type').value)
             today__work.innerHTML = `
-              <h2>${notification.querySelector('.notification__text').innerHTML}</h2>
+              ${notification.querySelector('.notification__type').value == 'Google_Todo' ? 
+              `<form method='POST' class='change_message_title' >
+                <input type="hidden" name="csrfmiddlewaretoken" value="6I82Yjvf9MUCF2JpH3TWUOuU8BQQPReGPwLnE2Xqn7QZVo9KgViprwl5msfKlzo3">
+                <input type='text' value='${notification.querySelector(".notification__text").innerHTML}' name='title' placeholder='Enter title' />
+                <button class='btn'>save</button>
+              </form>` : 
+              `<h2>${notification.querySelector(".notification__text").innerHTML}</h2>` }
               <p>${content != 'null' ? content : ''}</p>
               <div>
                   <b>${notification.querySelector('.notification__title').innerHTML}</b> 
                   <b>${notification.querySelector('.notification__time').innerHTML}</b>
-              </div>  
+              </div>
             `
 
-            // if (type == 'Google Todo') {
-            //   document.querySelector('.change_message_title').addEventListener('submit', (e) => {
-            //     e.preventDefault()
-            //     let parent = e.target.parentNode
-            //     console.log(parent)
+            if (type == 'Google Todo') {
+              document.querySelector('.change_message_title').addEventListener('submit', (e) => {
+                e.preventDefault()
+                let parent = e.target.parentNode
+                console.log(parent)
           
-            //     let formData = new FormData(document.querySelector('.change_message_title'))
-            //     console.log(formData)
+                let formData = new FormData(document.querySelector('.change_message_title'))
+                console.log(formData)
           
-            //     fetch(`/api/patch-title-todo/${notification.querySelector('.notification__todo_list').value}/${notification.id}`, {
-            //       method: 'POST',
-            //       body: formData,
-            //     })
-            //       .then(response => response.json())
-            //       .then(data => {
-            //         console.log(data)
-            //       })
-            //       .catch(error => {
-            //         console.log('Error: ', error)
-            //       })
+                fetch(`/api/patch-title-todo/${notification.querySelector('.list_id').value}/${notification.id}`, {
+                  method: 'POST',
+                  body: formData,
+                })
+                  .then(response => response.json())
+                  .then(data => {
+                    console.log(data)
+                  })
+                  .catch(error => {
+                    console.log('Error: ', error)
+                  })
 
-            //     let title = messages_list.querySelector(`.${nId}_title`)
-            //     title.innerHTML = formData.get('title')
-            //   })
-            // }
+                let title = messages_list.querySelector(`.${nId}_title`)
+                title.innerHTML = formData.get('title')
+              })
+            }  
         }
 
         // TODO: accomplished
         if (e.target.classList.contains('google_todo_accomplished')) {
-          let parent = e.target.parentNode
-          let notification = parent.parentNode.parentNode
-
-          id = notification.id
-
+          let notification = e.target.parentNode.parentNode
+          
           if (notification.style.opacity == '0.3') {
-            fetch(`/api/сomplete-todo/${notification.querySelector('.notification__todo_list').value}/${notification.id}`, {
+            fetch(`/api/сomplete-todo/${notification.querySelector('.list_id').value}/${notification.id}`, {
               method: 'POST',
               body: JSON.stringify({status: 'needsAction'}),
             })
               .then(response => response.json())
               .then(data => {
-                console.log(data)
                 notification.style.opacity = '1'
               })
               .catch(error => {
@@ -202,13 +209,12 @@ document.addEventListener('DOMContentLoaded', () => {
               })
 
           } else {
-            fetch(`/api/сomplete-todo/${notification.querySelector('.notification__todo_list').value}/${notification.id}`, {
+            fetch(`/api/сomplete-todo/${notification.querySelector('.list_id').value}/${notification.id}`, {
               method: 'POST',
               body: JSON.stringify({status: 'completed'}),
             })
               .then(response => response.json())
               .then(data => {
-                console.log(data)
                 notification.style.opacity = '.3'
               })
               .catch(error => {

@@ -937,4 +937,22 @@
    color: var(--white);
 }
 
-
+.change_message_title {
+   width: 100%;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+.change_message_title input {
+   font-size: 24px;
+   width: 80%;
+   padding: 6px;
+   font-family: var(--bayerSans);
+}
+.change_message_title button {
+   opacity: 0;
+   width: 20%;
+}
+.change_message_title input:hover + button {
+   opacity: 1;
+}
