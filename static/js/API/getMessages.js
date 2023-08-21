@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let inbox_icons = document.querySelector('#inbox-icons');
     let today__work = document.querySelector('.today__work')
 
+    let inbox__messages = document.querySelector('.inbox__messages')
+
     // TODO: WITHOUT Async - 7s
     // TODO: WITH Async  - 9s
 
@@ -148,10 +150,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let content = notification.querySelector('.notification__content').value
 
-            console.log(notification.querySelector('.notification__type').value)
             today__work.innerHTML = `
               ${notification.querySelector('.notification__type').value == 'Google_Todo' ? 
-              `<form method='POST' class='change_message_title' >
+              `<form class='change_message_title' method='POST'>
                 <input type="hidden" name="csrfmiddlewaretoken" value="6I82Yjvf9MUCF2JpH3TWUOuU8BQQPReGPwLnE2Xqn7QZVo9KgViprwl5msfKlzo3">
                 <input type='text' value='${notification.querySelector(".notification__text").innerHTML}' name='title' placeholder='Enter title' />
                 <button class='btn'>save</button>
@@ -164,29 +165,24 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
             `
 
-            if (type == 'Google Todo') {
+            if (notification.querySelector('.notification__type').value == 'Google_Todo') {
               document.querySelector('.change_message_title').addEventListener('submit', (e) => {
                 e.preventDefault()
-                let parent = e.target.parentNode
-                console.log(parent)
           
-                let formData = new FormData(document.querySelector('.change_message_title'))
-                console.log(formData)
-          
+                let formData = new FormData(document.querySelector('.change_message_title'))          
+
                 fetch(`/api/patch-title-todo/${notification.querySelector('.list_id').value}/${notification.id}`, {
                   method: 'POST',
                   body: formData,
                 })
                   .then(response => response.json())
-                  .then(data => {
-                    console.log(data)
-                  })
+                  .then(data => {})
                   .catch(error => {
                     console.log('Error: ', error)
                   })
 
-                let title = messages_list.querySelector(`.${nId}_title`)
-                title.innerHTML = formData.get('title')
+                let ntf = inbox__messages.querySelector(`#${notification.id}`)
+                ntf.querySelector('.notification__text').innerHTML = formData.get('title')
               })
             }  
         }

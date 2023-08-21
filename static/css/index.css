@@ -953,6 +953,6 @@
    opacity: 0;
    width: 20%;
 }
-.change_message_title input:hover + button {
+.change_message_title:hover button {
    opacity: 1;
 }
