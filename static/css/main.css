@@ -128,18 +128,29 @@ a:hover {
   align-items: center;
 
   top: 15vh;
-  left: 35vw;
-  right: 35vw;
+  left: 30vw;
+  right: 30vw;
 
   position: fixed;
 
-  width: 30vw;
-  height: 40vh;
+  width: 40vw;
   background-color: rgba(10, 0, 50, 0.46);
 
   padding: 10px;
   border-radius: 40px;
-  padding: 4vh 5vw;
+  padding: 2vh 3vw;
+  z-index: 10;
+  box-shadow: 0 0 10px 1px rgba(10, 0, 50, 0.46);
+}
+.message h2 {
+  font-size: 20px;
+}
+.message i {
+  color: var(--olightgray);
+  transition: all .3s linear;
+}
+.message i {
+  color: var(--white);
 }
 
 /* icon */

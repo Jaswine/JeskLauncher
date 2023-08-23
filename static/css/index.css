@@ -246,8 +246,8 @@
 .notification__buttons a {
    background-color: rgb(11,11,11,.43);
    border-radius: 6px;
-   font-size: 10px;
-   padding: 4px 6px;
+   font-size: 12px;
+   padding: 6px 8px;
 }
 .notification__buttons a:hover {
    background-color: black;
@@ -955,4 +955,48 @@
 }
 .change_message_title:hover button {
    opacity: 1;
+}
+
+/* answer on gmail later */
+.notification__answer__on__gmail {
+   background-color: rgb(11, 11, 11, .43);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 90%;
+   border-radius: 0 0 0 10px;
+   margin: 4px 0;
+   padding: 2px 4px ;
+}
+.notification__answer__on__gmail input {
+   padding: 6px ;
+   font-size: 14px;
+   background-color: transparent;
+   width: 100%;
+}
+.notification__answer__on__gmail button {
+   border-radius: 100px;
+   padding: 4px 6px;
+   background-color: var(--primary);
+
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+}
+.notification__answer__on__gmail button:hover {
+   background-color: var(--black);
+   cursor: pointer;
+}
+.notification__answer__on__gmail button:hover i {
+   color: var(--white);
+}
+.notification__answer__on__gmail button i {
+   font-size: 12px;
+   transition: all .3s linear;
+}
+.notification__content {
+   display: none;
+   opacity: 0;
+   visibility: hidden;
 }

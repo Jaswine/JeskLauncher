@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    let csrfToken = document.getElementById('csrf-token').getAttribute('data-csrf-token');
     let messages_list = document.getElementById('messages-list'); 
     let inbox_icons = document.querySelector('#inbox-icons');
     let today__work = document.querySelector('.today__work')
@@ -58,6 +59,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 div.innerHTML = `
                  <h2 class="notification__title">${message.sender}</h2>
                  <div class="notification__text"> ${message.title}</div>
+
+                 ${message.type == 'Gmail' ? `
+                  <form method='POST' class='notification__answer__on__gmail'>
+                    <input type="hidden" name="csrfmiddlewaretoken" value="6I82Yjvf9MUCF2JpH3TWUOuU8BQQPReGPwLnE2Xqn7QZVo9KgViprwl5msfKlzo3">
+                    <input type="text" name='message' placeholder='Answer...' />
+                    <button class='notification__answer__on__gmail__button'>
+                      <i class="fa-regular fa-paper-plane"></i>
+                    </button>
+                  </form>
+                 ` : ''}
+                
                  <div class="notification__buttons">
                   <a href="${message.link}" target='_blank'>show</a>
                   ${message.type == 'Gmail' || message.type == 'Google_Todo' ? "<a class='google_todo_delete'>del</a>" : ''}
@@ -66,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
                  </div>
                  <span class='notification__time'>${message.created_time}</span>
 
-                 <input type='hidden' class="notification__content" value='${message.text}' />
+                 <div class="notification__content">${message.text}</div>
                  <input type='hidden' class='notification_id' value='${message.id}' />
                  <input type='hidden' class='notification__type' value='${message.type}' />
                  ${message.list_id ? `<input type='hidden' class='list_id' value='${message.list_id}' />` : ''}
@@ -118,6 +130,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 getMessages(data.services[now_list])
               }
 
+               // TODO: Answer on letters
+              document.querySelectorAll('.notification__answer__on__gmail').forEach(element => {
+                element.addEventListener('submit', (e) => {
+                  e.preventDefault();
+                
+                  let form = e.target;
+                  let formData = new FormData(form);
+            
+                  formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+                
+                  let notification = form.parentNode; // Adjust this based on your HTML structure
+                
+                  fetch(`/api/google-gmail/${notification.id}`, {
+                    method: 'POST',
+                    body: formData
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                    console.log(data);
+                  })  
+                  .catch(error => {
+                    console.log('Error: ', error);
+                  });
+                });        
+              });
+
             } else {
               messages_list.innerHTML = `<h3>${data.message}</h3>`;
             }
@@ -126,29 +164,13 @@ document.addEventListener('DOMContentLoaded', () => {
           }
     }
 
+    // TODO: Buttons 
     messages_list.addEventListener('click', (e) => {
         if (e.target.classList.contains('notification__text')) {
             let notification  = e.target.parentNode
 
             let type = notification.querySelector('.notification__type').innerHTML
-
-            // let notification__todo_id = e.target.parentNode.parentNode.querySelector('.notification__todo_id')
-
-            // let nId = nListId =''
-
-            // if (notification__todo_id) {
-            //   nId = notification__todo_id.value
-            // }
-
-            // if (type == 'Google Todo') {
-            //   let notification__todo_list = e.target.parentNode.parentNode.querySelector('.notification__todo_list')
-
-            //   if (notification__todo_list) {
-            //     nListId = notification__todo_list.value
-            //   }
-            // }
-
-            let content = notification.querySelector('.notification__content').value
+            let content = notification.querySelector('.notification__content').innerHTML
 
             today__work.innerHTML = `
               ${notification.querySelector('.notification__type').value == 'Google_Todo' ? 
@@ -240,7 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
           } else if (type == 'Gmail') {
 
           // ! ___________ DELETE GMAIL LETTERS ___________
-            fetch(`/api/delete-email/${notification.querySelector('.notification_id').value}`, {
+            fetch(`/api/google-gmail/${notification.querySelector('.notification_id').value}`, {
               method: 'DELETE',
             })
               .then(response => response.json())
@@ -253,7 +275,9 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
     }) 
+
     showMessages()
+
 
     setInterval(() => {
         showMessages()

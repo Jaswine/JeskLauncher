@@ -50,6 +50,9 @@
     width: 100%;
     max-width: 400px; 
 }
+.form__title h2 {
+    font-size: black;
+}
 .form__inputs {
     margin-bottom: 10%;
     display: flex;

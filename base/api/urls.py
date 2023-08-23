@@ -23,7 +23,8 @@ urlpatterns = [
     path('patch-title-todo/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoPatchTitle, name='patch_title_google_todo'),
     
     # TODO: ____ google email _____
-    path('delete-email/<str:email_id>', google_email.GoogleGmailDelete, name='delete_google_email'),
+    path('google-gmail/<str:email_id>', google_email.GoogleGmail, name='google_gmail'),
+    path('google-gmail/<str:email_id>/trash', google_email.GoogleGmailAddToTrash, name='google_gmail_trash'),
     
     path('rewrite-tokens', user.rewrite_tokens, name='rewrite_tokens'), 
 ]

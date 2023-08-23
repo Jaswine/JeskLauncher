@@ -13,41 +13,28 @@ import django.contrib.auth
 def pre_social_login_callback(sender, request, sociallogin, **kwargs):
     socialtoken = sociallogin.token
     socialaccount = sociallogin.account
-    print('social account', socialaccount)
     
     user = socialaccount.user if hasattr(socialaccount, "user") else None
-
+    print('user', user)
+    
+     # Первый вход пользователя через социальную сеть
     if not user:
-        try:
-            email = socialaccount.extra_data["email"]
-            
-            if email:
-                user = django.contrib.auth.models.User.objects.create_user(
-                    username=socialaccount.uid, email=email
-                )
-                sociallogin.connect(request, user)
-            else:
-                user = django.contrib.auth.models.User.objects.create_user(
-                    username=socialaccount.uid, email=''
-                )
-                sociallogin.connect(request, user)
-        except:
-            user = django.contrib.auth.models.User.objects.create_user(
-                    username=socialaccount.uid, email=''
-                )
-            sociallogin.connect(request, user)
+        email = socialaccount.extra_data.get("email", "")
+        
+        user = django.contrib.auth.models.User.objects.create_user(
+            username=socialaccount.uid, email=email
+        )
+        sociallogin.connect(request, user)
     
     # Delete existing social tokens
     allauth.socialaccount.models.SocialToken.objects.filter(account__user=socialaccount.user, account__provider=socialaccount.provider).delete()
 
     # get social app
     socialApp = allauth.socialaccount.models.SocialApp.objects.get(provider=socialaccount.provider)
-    # print('_______social_account_provider________', socialaccount.provider)
         
-    refresh_token = socialaccount.extra_data.get("refresh_token")
+    refresh_token = socialaccount.extra_data.get("refresh_token", "")
     if refresh_token:
         socialtoken.token_secret = refresh_token
-
         
     socialtoken.app_id = socialApp.id
     socialtoken.account_id = socialaccount.id

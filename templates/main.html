@@ -21,8 +21,8 @@
         {% if messages %}
             {% for message in messages %}
                 <div class='message'>
-                    {{message}}
-                    <i class="message_close">x</i>
+                    <h2>{{message}}</h2>
+                    <i class="fa-solid fa-xmark message_close"></i>
                 </div>
             {% endfor %}
         {% endif %}
@@ -50,6 +50,7 @@
         </a>
     </div>
  </div> 
+
 
 
 {% block content %}{% endblock content %}
