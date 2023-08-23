@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // TODO: WITH Async  - 9s
 
     const showMessages = async () => {
-        try {
+        // try {
             const response = await fetch('/api/messages');
             const data = await response.json();
         
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                  <div class="notification__buttons">
                   <a href="${message.link}" target='_blank'>show</a>
-                  ${message.type == 'Gmail' || message.type == 'Google_Todo' ? "<a class='google_todo_delete'>del</a>" : ''}
+                  ${message.type == 'Gmail' || message.type == 'Google_Todo' || message.type == 'Google_Event' ? "<a class='google_todo_delete'>del</a>" : ''}
                   ${message.type == 'Google_Todo' ? "<a class='google_todo_accomplished'>comp</a>" : ''}
 
                  </div>
@@ -82,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
                  <input type='hidden' class='notification_id' value='${message.id}' />
                  <input type='hidden' class='notification__type' value='${message.type}' />
                  ${message.list_id ? `<input type='hidden' class='list_id' value='${message.list_id}' />` : ''}
+                 ${message.calendar_id ? `<input type='hidden' class='calendar_id' value='${message.calendar_id}' />` : ''}
                 `;
 
                 messages_list.appendChild(div)
@@ -159,9 +160,9 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
               messages_list.innerHTML = `<h3>${data.message}</h3>`;
             }
-          } catch (error) {
-            console.error('Error: ', error);
-          }
+          // } catch (error) {
+          //   console.error('Error: ', error);
+          // }
     }
 
     // TODO: Buttons 
@@ -267,6 +268,20 @@ document.addEventListener('DOMContentLoaded', () => {
             })
               .then(response => response.json())
               .then(data => {
+                notification.style.display = 'none'
+              })  
+              .catch(error => {
+                console.log('Error: ', error)
+              })
+          } else if (type == 'Google_Event') {
+
+            // ! ___________ DELETE EVENT ___________
+            fetch(`/api/google-event/${notification.querySelector('.calendar_id').value}/${notification.id}`, {
+              method: 'DELETE',
+            })
+              .then(response => response.json())
+              .then(data => {
+                console.log('Event: ', data)
                 notification.style.display = 'none'
               })  
               .catch(error => {

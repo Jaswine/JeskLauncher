@@ -10,12 +10,11 @@ class Profile(models.Model):
    )
    
    user = models.ForeignKey(User, on_delete=models.CASCADE)
+   avatar = models.ImageField(upload_to='avatars', blank=True, null=True)
    
    image = models.FileField(upload_to='motivate-content/', blank=True)
    text = models.CharField(max_length=100, blank=True)
-   
-   google_token = models.CharField(max_length=1500, blank=True)
-   
+         
    def __str__(self):
       return self.user.username
    

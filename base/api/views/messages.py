@@ -42,6 +42,8 @@ def messages_list(request):
                     'created_time': str(message['created_time']),
     
                     'list_id': message.get('list_id', ''),
+                    'calendar_id': message.get('calendar_id', ''),
+                    
                     'status': message.get('status', ''),
                 } for message in email_list]
                             

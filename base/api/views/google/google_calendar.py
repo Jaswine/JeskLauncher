@@ -5,7 +5,7 @@ from allauth.socialaccount.models import SocialToken, SocialApp
 from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
-def GoogleCallendarPatchTitle(request, calendarId, eventId):
+def GoogleCalendarPatchTitle(request, calendarId, eventId):
     socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
    
     if socialGoogleToken:
