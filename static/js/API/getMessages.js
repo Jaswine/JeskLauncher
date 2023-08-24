@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
               } else {
                 document.querySelector('#show_all_messages').classList.add('inbox-show')
 
-                getMessages(data.services[now_list])
+                getMessages(data.all_messages)
               }
 
                // TODO: Answer on letters

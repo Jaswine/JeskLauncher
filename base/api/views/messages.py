@@ -34,6 +34,7 @@ def messages_list(request):
                     'type': message['type'],
                     'title': message['title'],
                     'sender': message['sender'],
+                    'thumbnail': message.get('thumbnail', ''),
                     'link': message['link'],
                     'text': message['text'],
                     'created_time': str(message['created_time']),

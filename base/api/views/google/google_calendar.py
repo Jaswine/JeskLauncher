@@ -14,7 +14,6 @@ def GoogleCalendarPatchTitle(request, calendarId, eventId):
         # TODO: UPDATE Calendar Event
         if request.method == 'POST':
             summary = request.POST.get('title')
-            print('summary', summary)
          
             response = requests.patch(f'https://www.googleapis.com/calendar/v3/calendars/{calendarId}/events/{eventId}', params={
                 'access_token': access_token,

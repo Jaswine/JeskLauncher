@@ -26,7 +26,7 @@ def GoogleGmail(request, email_id):
                   f'https://www.googleapis.com/gmail/v1/users/me/messages/{email_id}/send',
                   params={'access_token': access_token},
                   json={
-                     "raw": base64.urlsafe_b64encode(message.encode("utf-8")).decode("utf-8")
+                     "raw": message
                   }
                )
                

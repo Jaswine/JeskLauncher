@@ -22,7 +22,8 @@ def GoogleYoutubeService(email_list, access_token, included_apps):
       if response.status_code == 200:
          included_apps.append('YouTube')
          
-         for task_list in response.json().get('items', []):         
+         for task_list in response.json().get('items', []):     
+            print(f'\n\n {task_list} \n\n')    
             activity = task_list.get('snippet', {})
             video_id = task_list['id']
             created_time = activity['publishedAt']
@@ -31,10 +32,11 @@ def GoogleYoutubeService(email_list, access_token, included_apps):
             messages.append({
                'id':  video_id,
                'type': 'YouTube',
-               'title':  activity['title'],
-               'sender' : '',
+               'title':  activity.get('title', ''),
+               'sender' : activity.get('channelTitle', ''),
+               'thumbnail': activity.get('thumbnails', '').get('default', '').get('url', ''),
                'link': "",   
-               'text': activity['description'],
+               'text': activity.get('description', ''),
                'created_time': created_time,
             })
                      

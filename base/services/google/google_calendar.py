@@ -20,7 +20,7 @@ def CallendarService(email_list, access_token, included_apps):
          events = response.json().get('items', [])
 
          for event in events:
-               print('event', event)
+               ('event', event)
                created_time = event['created']
                created_time = datetime.strptime(created_time, "%Y-%m-%dT%H:%M:%S.%fZ")
                description = event.get('description', '')
