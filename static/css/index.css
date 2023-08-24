@@ -857,7 +857,7 @@
 
    width: 60vw;
    height: 60vh;
-   background-color: rgba(10, 0, 50, 0.86);
+   background-color: var(--primary);
 
    box-shadow: 0 0 100vw 50vw rgb(0,0,0,.4), 0 0 1000px 10px rgba(10, 0, 50, 0.86);
    row-gap: 40px;
@@ -945,16 +945,21 @@
 }
 .change_message_title input {
    font-size: 24px;
-   width: 80%;
+   width: 100%;
    padding: 6px;
    font-family: var(--bayerSans);
 }
 .change_message_title button {
    opacity: 0;
    width: 20%;
+   display: none;
+}
+.change_message_title:hover input {
+   width: 80%;
 }
 .change_message_title:hover button {
    opacity: 1;
+   display: block;
 }
 
 /* answer on gmail later */
@@ -999,4 +1004,46 @@
    display: none;
    opacity: 0;
    visibility: hidden;
+}
+
+.check__calendar {
+   appearance: none;
+   background-color: var(--lightgray);
+   border-radius: 5px;
+   width: 20px !important;
+   height: 20px;
+   transition: all .3s linear;
+   cursor: pointer;
+   border-bottom: none !important;
+}
+.check__calendar:hover {
+   background-color: var(--oblue);
+}
+.check__calendar:checked {
+   background-color: var(--blue);
+}
+.close__settings {
+   background-color: transparent;
+   color: var(--olightgray);
+   font-size: 20px;
+}
+.close__settings:hover {
+   color: var(--white);
+}
+
+/* ! _______ without calendar ______ */
+.without_calendar {
+   width: 25%;
+   position:fixed;
+   right: 0;
+   padding: 0 6px
+}
+.without_calendar:first-child {
+   top: 0;
+   width: 10%;
+   max-height: 6vh;
+   height: 100%;
+}
+.without_calendar:last-child {
+   bottom: 0;
 }

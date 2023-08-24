@@ -7,6 +7,7 @@ from allauth.socialaccount.signals import (pre_social_login,
 import allauth.socialaccount
 from django.dispatch import receiver
 import django.contrib.auth
+import base
 
 
 @receiver(pre_social_login)
@@ -15,9 +16,8 @@ def pre_social_login_callback(sender, request, sociallogin, **kwargs):
     socialaccount = sociallogin.account
     
     user = socialaccount.user if hasattr(socialaccount, "user") else None
-    print('user', user)
     
-     # Первый вход пользователя через социальную сеть
+    # Первый вход пользователя через социальную сеть
     if not user:
         email = socialaccount.extra_data.get("email", "")
         

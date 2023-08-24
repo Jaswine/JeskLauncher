@@ -13,7 +13,8 @@ def GoogleCalendarPatchTitle(request, calendarId, eventId):
         
         # TODO: UPDATE Calendar Event
         if request.method == 'POST':
-            summary = request.POST.get('summary')
+            summary = request.POST.get('title')
+            print('summary', summary)
          
             response = requests.patch(f'https://www.googleapis.com/calendar/v3/calendars/{calendarId}/events/{eventId}', params={
                 'access_token': access_token,
@@ -21,7 +22,7 @@ def GoogleCalendarPatchTitle(request, calendarId, eventId):
                 "summary": summary
             })
             
-            if request.status_code == 200:
+            if response.status_code == 200:
                 return  JsonResponse({
                     'status': 'success',
                     'message': f'Event with ID {eventId} updated successfully'

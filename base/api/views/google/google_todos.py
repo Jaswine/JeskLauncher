@@ -82,7 +82,6 @@ def GoogleTodoCreate(request):
          })
          
          all_list_todo = response.json().get('items', [])
-         print("list todo's", all_list_todo)
          
          # todo_list = ''
          title = request.POST.get('title')

@@ -85,7 +85,7 @@
 <div class="settings" style='display: none; opacity: 1'>
    <div class="accounts__header">
       <h3>Settings</h3>
-      <button class="btn close__settings"><i class="fa-solid fa-xmark"></i></button>
+      <button class="close__settings"><i class="fa-solid fa-xmark"></i></button>
    </div>
    <form class="accounts__body" method="POST" id="settingsForm">   
       {% csrf_token %}
@@ -104,6 +104,13 @@
             type="password" 
             name="password"
             placeholder="Enter a new password..." />
+      </div>
+      <div class="account__body__line">
+         <label>Show Calendar: </label>
+         <input 
+            type="checkbox"
+            name="show_calendar"
+            class="check__calendar" />
       </div>
       <div class="account__body__line">
          <button class="btn">Save</button>

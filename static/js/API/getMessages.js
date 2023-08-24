@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // TODO: WITH Async  - 9s
 
     const showMessages = async () => {
-        // try {
+        try {
             const response = await fetch('/api/messages');
             const data = await response.json();
         
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
               const renderMessage = (message, messages_list) => {
                 const div = document.createElement('div')
                 div.classList.add('notification')
-                div.id = `${message.id}`
+                div.id = `id${message.id}`
 
                 if (message.status == 'completed') {
                   div.style.opacity = '.3'
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                   let notification = form.parentNode; // Adjust this based on your HTML structure
                 
-                  fetch(`/api/google-gmail/${notification.id}`, {
+                  fetch(`/api/google-gmail/${notification.querySelector('.notification_id').value}`, {
                     method: 'POST',
                     body: formData
                   })
@@ -160,9 +160,9 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
               messages_list.innerHTML = `<h3>${data.message}</h3>`;
             }
-          // } catch (error) {
-          //   console.error('Error: ', error);
-          // }
+          } catch (error) {
+            console.error('Error: ', error);
+          }
     }
 
     // TODO: Buttons 
@@ -170,11 +170,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.classList.contains('notification__text')) {
             let notification  = e.target.parentNode
 
-            let type = notification.querySelector('.notification__type').innerHTML
+            let type = notification.querySelector('.notification__type').value
             let content = notification.querySelector('.notification__content').innerHTML
 
             today__work.innerHTML = `
-              ${notification.querySelector('.notification__type').value == 'Google_Todo' ? 
+              ${type  == 'Google_Todo' || type == 'Google_Event' ? 
               `<form class='change_message_title' method='POST'>
                 <input type="hidden" name="csrfmiddlewaretoken" value="6I82Yjvf9MUCF2JpH3TWUOuU8BQQPReGPwLnE2Xqn7QZVo9KgViprwl5msfKlzo3">
                 <input type='text' value='${notification.querySelector(".notification__text").innerHTML}' name='title' placeholder='Enter title' />
@@ -188,23 +188,40 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
             `
 
-            if (notification.querySelector('.notification__type').value == 'Google_Todo') {
+            if (type == 'Google_Todo' || type == 'Google_Event' ) {
               document.querySelector('.change_message_title').addEventListener('submit', (e) => {
                 e.preventDefault()
           
                 let formData = new FormData(document.querySelector('.change_message_title'))          
 
-                fetch(`/api/patch-title-todo/${notification.querySelector('.list_id').value}/${notification.id}`, {
-                  method: 'POST',
-                  body: formData,
-                })
-                  .then(response => response.json())
-                  .then(data => {})
-                  .catch(error => {
-                    console.log('Error: ', error)
+                // TODO: update google todo
+                if (type == 'Google_Todo') {
+                  fetch(`/api/patch-title-todo/${notification.querySelector('.list_id').value}/${notification.querySelector('.notification_id').value}`, {
+                    method: 'POST',
+                    body: formData,
                   })
+                    .then(response => response.json())
+                    .then(data => {})
+                    .catch(error => {
+                      console.log('Error: ', error)
+                    })
+                // TODO: update google event
+                } else if (type == 'Google_Event') {
+                  fetch(`/api/google-event/${notification.querySelector('.calendar_id').value}/${notification.querySelector('.notification_id').value}`, {
+                    method: 'POST',
+                    body: formData,
+                  })
+                    .then(response => response.json())
+                    .then(data => {
+                      console.log(data)
+                    })
+                    .catch(error => {
+                      console.log('Error: ', error)
+                    })
+                }
 
-                let ntf = inbox__messages.querySelector(`#${notification.id}`)
+                let ntf = inbox__messages.querySelector(`#id${notification.querySelector('.notification_id').value}`)
+                console.log(ntf)
                 ntf.querySelector('.notification__text').innerHTML = formData.get('title')
               })
             }  
@@ -215,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
           let notification = e.target.parentNode.parentNode
           
           if (notification.style.opacity == '0.3') {
-            fetch(`/api/сomplete-todo/${notification.querySelector('.list_id').value}/${notification.id}`, {
+            fetch(`/api/сomplete-todo/${notification.querySelector('.list_id').value}/${notification.querySelector('.notification_id').value}`, {
               method: 'POST',
               body: JSON.stringify({status: 'needsAction'}),
             })
@@ -228,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
               })
 
           } else {
-            fetch(`/api/сomplete-todo/${notification.querySelector('.list_id').value}/${notification.id}`, {
+            fetch(`/api/сomplete-todo/${notification.querySelector('.list_id').value}/${notification.querySelector('.notification_id').value}`, {
               method: 'POST',
               body: JSON.stringify({status: 'completed'}),
             })
@@ -276,7 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
           } else if (type == 'Google_Event') {
 
             // ! ___________ DELETE EVENT ___________
-            fetch(`/api/google-event/${notification.querySelector('.calendar_id').value}/${notification.id}`, {
+            fetch(`/api/google-event/${notification.querySelector('.calendar_id').value}/${notification.querySelector('.notification_id').value}`, {
               method: 'DELETE',
             })
               .then(response => response.json())

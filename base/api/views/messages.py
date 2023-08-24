@@ -12,11 +12,8 @@ def messages_list(request):
     # socialApp = SocialApp.objects.get(provider='google')
     
     socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
-    # print(f'______________{socialGoogleToken}_____________')
     if socialGoogleToken:
         access_token = socialGoogleToken.token
-        
-        print('\n _______________ messages loading _____________\n')
         
         # CALLENDAR GOOGLE
         google_calendar_messages = google_calendar.CallendarService(email_list, access_token, included_apps)
