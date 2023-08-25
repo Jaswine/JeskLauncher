@@ -29,14 +29,14 @@ def GoogleGmailService(email_list, access_token, get_email_text, get_header_valu
                })
                if email_response.status_code == 200:                  
                   email_data = email_response.json()
-                  created_time = get_header_value(email_data['payload']['headers'], 'Date')
+                  created_time = get_header_value(email_data.get('payload', '').get('headers', ''), 'Date')
                   # TODO: Sat, 15 Jul 2023 08:26:59 +0000  =>  2023-06-05 16:45:12
                   
                   dt = parser.parse(created_time)
                   created_time = dt.strftime("%Y-%m-%d %H:%M:%S")
                   
                   messages.append({
-                     'id': email_data['id'],
+                     'id': email_data.get('id'),
                      'type': 'Gmail',
                      'title': get_header_value(email_data['payload']['headers'], 'Subject'), 
                      'sender': get_header_value(email_data['payload']['headers'], 'From'), 

@@ -20,13 +20,12 @@ def CallendarService(email_list, access_token, included_apps):
          events = response.json().get('items', [])
 
          for event in events:
-               ('event', event)
-               created_time = event['created']
+               created_time = event.get('created')
                created_time = datetime.strptime(created_time, "%Y-%m-%dT%H:%M:%S.%fZ")
                description = event.get('description', '')
 
                messages.append({
-                  'id': event['id'],
+                  'id': event.get('id'),
                   'type': 'Google_Event',
                   'title': event.get('summary', ''),
                   'sender': '',
@@ -49,7 +48,7 @@ def CallendarService(email_list, access_token, included_apps):
          calendar_list = response.json().get('items', [])
 
          # Create and run a list of tasks for fetching last events from all calendars
-         tasks = [fetch_last_event(calendar['id']) for calendar in calendar_list]
+         tasks = [fetch_last_event(calendar.get('id')) for calendar in calendar_list]
          await asyncio.gather(*tasks)
 
          elapsed_time = time.time() - start_time

@@ -31,22 +31,22 @@ def GoogleTodoService(email_list, access_token, included_apps):
             if response_tasks.status_code == 200:
                # Process the tasks for the current list
                for task in response_tasks.json().get('items', []):
-                  created_time = task['updated']
+                  created_time = task.get('updated', '')
                   
                   # TODO: 2023-06-05T16:45:03.000Z        =>         2023-06-05 16:45:12
                   created_time = datetime.strptime(created_time, "%Y-%m-%dT%H:%M:%S.%fZ")
                   
                   messages.append({
-                     'id':  task['id'],
+                     'id':  task.get('id', ''),
                      'type': 'Google_Todo',
-                     'title':  task['title'],
+                     'title':  task.get('title', ''),
                      'sender' : '',
                      'link': f"https://mail.google.com/tasks/canvas?pli=1&vid=default&task={task['id']}",   
                      'text': task.get('notes', ''),
                      'created_time': created_time,
                      
                      'list_id': list_id,
-                     'status': task['status'],
+                     'status': task.get('status', ''),
                   })
                
          email_list.extend(messages)
