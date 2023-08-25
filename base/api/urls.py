@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import auth, todo, today_tasks, messages, user
+from .views import todo, today_tasks, messages, user
 from .views.google import google_calendar, google_todos, google_email
 
 urlpatterns = [

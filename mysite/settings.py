@@ -1,6 +1,6 @@
 from pathlib import Path
-
 import os
+
 import dotenv
 
 dotenv.load_dotenv()
@@ -23,7 +23,8 @@ DEBUG = True
 
 # ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 ALLOWED_HOSTS = ['*']
-# pip install django djangorestframework django-cors-headers django-allauth django_extension djangorestframework-simplejwt dj_database_url google-auth google-api-python-client python-telegram-bot
+# pip install django  django-allauth  
+# dj_database_url google-auth google-api-python-client python-telegram-bot
 
 # Application definition
 INSTALLED_APPS = [    
@@ -37,7 +38,6 @@ INSTALLED_APPS = [
     'base',
     
     'django.contrib.sites',
-    'django_extensions',
      
     'allauth',
     'allauth.account',
@@ -46,17 +46,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.instagram',
-    'allauth.socialaccount.providers.microsoft',
-    
-    'allauth.socialaccount.providers.telegram',
     'allauth.socialaccount.providers.github',
-    'allauth.socialaccount.providers.trello',
-    
-    'rest_framework',
-    'rest_framework.authtoken',
-    'rest_framework_simplejwt',
-    
-    "corsheaders",
 ]
 
 #  python3 manage.py runserver_plus --cert-file /tmp/cert
@@ -79,7 +69,6 @@ MIDDLEWARE = [
     
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     # 'allauth.account.auth_backends.AuthenticationBackend',
-    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -214,9 +203,9 @@ SOCIALACCOUNT_PROVIDERS = {
             'prompt': 'consent',
         },
         'APP': {
-            'client_id': '402939344578-5b58lkdodgtrfvshgprcekrh2ca6v4u8.apps.googleusercontent.com',
-            'secret': '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',
-            'key': 'AIzaSyDxbDg69gBQZX7a7Kl0Q1dLDYL9YqPWk9I',
+            'client_id': os.environ.get('GOOGLE_CLIENT_ID'),
+            'secret': os.environ.get('GOOGLE_SECRET'),
+            'key': os.environ.get('GOOGLE_API_KEY'),
         },
     },
     'github': {
@@ -289,49 +278,3 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "allauth.account.context_processors.account",
     "allauth.socialaccount.context_processors.socialaccount",
 )
-
-
-# CORS_ALLOWED_ORIGINS = [
-#     'http://127.0.0.1:8000',
-#     'http://127.0.0.1:8080'
-# ]\
-    
-CORS_ALLOW_ALL_ORIGINS = True
-    
-    
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.IsAuthenticated',
-    ],
-}
-
-SIMPLE_JWT = {
-    'AUTH_HEADER_TYPES': ('Bearer',),
-}
-
-# CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID'),
-# CLIENT_SECRET = os.environ.get('GOOGLE_SECRET')
-# REDIRECT_URI = '/'
-
-
-# # URL для авторизации пользователя
-# GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/auth'
-
-# # URL для обмена авторизационного кода на токены доступа и обновления
-# GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token'
-
-# # Параметры авторизации
-# params = {
-#     'client_id': CLIENT_ID,
-#     'redirect_uri': REDIRECT_URI,
-#     'response_type': 'code',
-#     'scope': 'https://www.googleapis.com/auth/gmail.readonly',
-# }
-
-# # URL для получения авторизационного кода
-# GOOGLE_AUTH_RIDERECT_URL = GOOGLE_ + '?' + '&'.join([f'{key}={value}' for key, value in params.items()])
-
-# APPEND_SLASH = False
