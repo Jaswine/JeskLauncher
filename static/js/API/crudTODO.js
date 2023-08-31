@@ -29,17 +29,51 @@ document.addEventListener('DOMContentLoaded', () => {
             })
     }
 
-    create_form.addEventListener('submit', (e) => {
-        e.preventDefault()
+    // Получаем все input элементы с классом '.inbox__backlog__note__input'
+    let inputs = document.querySelectorAll('.inbox__backlog__note__input')
 
-        let formData = new FormData(create_form);
-        
-        fetch('/api/todos', {
+    // Функция для изменения стилей элементов и их родителя
+    const addStyles = (elem, opacity, shadow, bgcolor) => {
+        // Изменяем стили для каждого элемента-потомка родительского элемента
+        for (let child of elem.parentElement.children ) {
+            child.style.opacity = opacity
+        }
+
+        // Изменяем тень (box-shadow) и цвет фона родительского элемента
+        elem.parentElement.style.boxShadow = shadow
+        elem.parentElement.style.backgroundColor = bgcolor
+    }
+
+    // Добавляем обработчик события для каждого input элемента
+    inputs.forEach(input => {
+        input.addEventListener('click', (e) => {
+            if (input.checked) {
+                // Если текущий input выбран, сбрасываем состояние остальных
+                inputs.forEach(otherInput => {
+                    if (otherInput != input) {
+                        otherInput.checked = false;
+
+                        // Применяем стили для невыбранного input
+                        addStyles(otherInput, '.6', 'None')
+                    }   
+                });
+
+                // Применяем стили для выбранного input
+                addStyles(input, 1, '0 0 5px 1px RGBa(47, 0, 234, 0.46)', 'RGBa(47, 0, 234, 0.46)')
+            } else {
+                // Применяем стили для невыбранного input
+                addStyles(input, '.6', 'None', 'transparent')
+            }
+        })
+    })
+
+    const sendTodo = (path, data) => {            
+        fetch(path, {
             method: 'POST',
-            body: formData
+            body: data
         })
             .then(response => response.json())
-            .then(data => {
+            .then(e => {
                 showTodos()
                 
                 create_form
@@ -50,6 +84,23 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(error => {
                 console.error('Error:', error);
             });
+    }
+
+    // Добавляем обработчик события для формы
+    create_form.addEventListener('submit', (e) => {
+        e.preventDefault()
+
+        // Берем все данные из формы и создаем свою
+        let formData = new FormData(create_form);
+
+        // Проверяем какой
+        if (inputs[0].checked) {
+            sendTodo('/api/todos', formData)
+        } else if  (inputs[1].checked) {
+            sendTodo('/api/create-todo', formData)
+        } else {
+            sendTodo('/api/todos', formData)
+        }
     })
 
     todo_list.addEventListener('click', (e) => {

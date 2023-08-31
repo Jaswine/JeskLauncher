@@ -34,7 +34,8 @@ body {
 
 /* selection */
 ::selection {
-   background-color: var(--white);
+   background-color: var(--blue);
+   color: var(--white)
 }
 
 /* loader */

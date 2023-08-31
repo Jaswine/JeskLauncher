@@ -15,6 +15,13 @@
       <a href="{% url 'base:sign-out' %}">
          <i class="fa-solid fa-right-from-bracket"></i>
       </a>
+      <img 
+         {% if request.user.profile.avatar.url %}
+            src="/static/{{ request.user.profile.avatar }}"
+         {% else %}
+            src='https://images.pexels.com/photos/1086584/pexels-photo-1086584.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+         {% endif %}
+         alt='avatar' class='calendar__settings__avatar' />
    </div>
 
    <!-- _________ CALENDAR __________ -->
@@ -111,6 +118,13 @@
             type="checkbox"
             name="show_calendar"
             class="check__calendar" />
+      </div>
+      <div class="account__body__line">
+         <label>Upload a new avatar: </label>
+         <input 
+            type="file"
+            name="avatar"
+            class="upload__avatar" />
       </div>
       <div class="account__body__line">
          <button class="btn">Save</button>

@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   <form method='POST' class='notification__answer__on__gmail'>
                     <input type="hidden" name="csrfmiddlewaretoken" value="6I82Yjvf9MUCF2JpH3TWUOuU8BQQPReGPwLnE2Xqn7QZVo9KgViprwl5msfKlzo3">
                     <input type="text" name='message' placeholder='Answer...' />
-                    <button class='notification__answer__on__gmail__button'>
+                    <button class='notification__answer__on__gmail__button' type='submit'>
                       <i class="fa-regular fa-paper-plane"></i>
                     </button>
                   </form>
@@ -130,32 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 getMessages(data.all_messages)
               }
-
-               // TODO: Answer on letters
-              document.querySelectorAll('.notification__answer__on__gmail').forEach(element => {
-                element.addEventListener('submit', (e) => {
-                  e.preventDefault();
-                
-                  let form = e.target;
-                  let formData = new FormData(form);
-            
-                  formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-                
-                  let notification = form.parentNode; // Adjust this based on your HTML structure
-                
-                  fetch(`/api/google-gmail/${notification.querySelector('.notification_id').value}`, {
-                    method: 'POST',
-                    body: formData
-                  })
-                  .then(response => response.json())
-                  .then(data => {
-                    console.log(data);
-                  })  
-                  .catch(error => {
-                    console.log('Error: ', error);
-                  });
-                });        
-              });
 
             } else {
               messages_list.innerHTML = `<h3>${data.message}</h3>`;
@@ -306,6 +280,32 @@ document.addEventListener('DOMContentLoaded', () => {
               })
           }
         }
+
+         // TODO: Answer on letters
+         document.querySelectorAll('.notification__answer__on__gmail').forEach(elem => {
+          elem.addEventListener('submit', (e) => {
+            e.preventDefault();
+          
+            let form = e.target;
+            let formData = new FormData(form);
+      
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+          
+            let notification = form.parentNode; // Adjust this based on your HTML structure
+          
+            fetch(`/api/google-gmail/${notification.querySelector('.notification_id').value}`, {
+              method: 'POST',
+              body: formData
+            })
+              .then(response => response.json())
+              .then(data => {
+                console.log(data);
+              })  
+              .catch(error => {
+                console.log('Error: ', error);
+              });
+        })
+      });
     }) 
 
     showMessages()
@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setInterval(() => {
         showMessages()
-    }, 60000) // 60000 == 1 minute
+    }, 5000) // 60000 == 1 minute
 
     setInterval(() => {
         console.log('1sec')

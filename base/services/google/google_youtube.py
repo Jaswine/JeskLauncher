@@ -23,7 +23,7 @@ def GoogleYoutubeService(email_list, access_token, included_apps):
          included_apps.append('YouTube')
          
          for task_list in response.json().get('items', []):     
-            print(f'\n\n {task_list} \n\n')    
+            # print(f'\n\n {task_list} \n\n')    
             activity = task_list.get('snippet', {})
             video_id = task_list.get('id', '')
             created_time = activity.get('publishedAt', '')

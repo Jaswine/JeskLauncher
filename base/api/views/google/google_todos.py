@@ -81,16 +81,22 @@ def GoogleTodoCreate(request):
             'access_token': access_token,
          })
          
-         all_list_todo = response.json().get('items', [])
+         list = response.json().get('items', [])
+         first_list_id = list[0].get('id', '')
          
-         # todo_list = ''
-         title = request.POST.get('title')
-         # response = requests.create(f'https://tasks.googleapis.com/tasks/v1/lists/{todo_list}/tasks', params={
-         #    'access_token': access_token,
-         # }, json =  {
-         #    "title": title
-         # })
+         message = request.POST.get('message')
          
-         return  JsonResponse({
+         if first_list_id:
+            response = requests.post(f'https://tasks.googleapis.com/tasks/v1/lists/{first_list_id}/tasks', params={
+               'access_token': access_token,
+            }, json =  {
+               "title": message
+            })
+         
+            return  JsonResponse({
                'status': 'success',
+            }, safe=False)
+         else:
+            return  JsonResponse({
+               'status': 'error',
             }, safe=False)

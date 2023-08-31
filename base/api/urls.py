@@ -13,7 +13,8 @@ urlpatterns = [
 
     # TODO: ____ messages _____
     path('messages', messages.messages_list, name='messages_list'),  
-    path('update-settings', user.update_settings, name='update_settings'),
+    
+    path('settings', user.update_settings, name='update_settings'),
     
     # TODO: ____ google todo _____
     path('create-todo', google_todos.GoogleTodoCreate, name='create_google_todo'),
