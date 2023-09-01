@@ -6,7 +6,7 @@
       <button id="changeTheme">
          <i class="fa-regular fa-moon"></i>
       </button>
-      <button id="addMoreAccounts">
+      <button id="addMoreAccounts" class='open__settings'>
          +
       </button>
       <button class='open__settings'>
@@ -59,132 +59,138 @@
 
 </div>
 
-<div class="accounts" style='display: none; opacity: 0'>
-   <div class="accounts__header">
-      <h3>Added Accounts</h3>
-      <button class="btn close__accounts"><i class="fa-solid fa-xmark"></i></button>
+<div class="settings" style='display: none; opacity: 0'>
+   <div class="settings__content">
+      <div class="accounts__header">
+         <img src="/static/media/logos/jesk.svg" alt="jesk" class="logo">
+         <button class="close__settings"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <h2>Added accounts</h2>
+      <div class="accounts__body">
+      {% if user.socialaccount_set.all %}
+         {% for account in user.socialaccount_set.all %}
+         {% if account.provider == 'google' %}
+               <i class="fa-brands fa-google icon" ></i>
+            {% elif account.provider == 'github' %}
+            <i class="fa-brands fa-github icon"></i>
+            {% elif account.provider == 'trello' %}
+            <i class="fa-brands fa-trello"></i>
+            {% elif account.provider == 'facebook' %}
+            <i class="fa-brands fa-square-facebook"></i>
+            {% elif account.provider == 'github' %}
+            <i class="fa-brands fa-github"></i>
+            {% endif %} 
+         {% endfor %}
+      {% else %}
+         <p>No connected accounts.</p>
+      {% endif %}
+         <p>{{access_token}}</p>
+      </div> 
+      <h2>Add other accounts</h2>
+      <a href="{% url 'socialaccount_connections' %}">Connect Social Account</a>
    </div>
-   <div class="accounts__body">
-   {% if user.socialaccount_set.all %}
-      {% for account in user.socialaccount_set.all %}
-        {% if account.provider == 'google' %}
-            <i class="fa-brands fa-google icon" ></i>
-         {% elif account.provider == 'github' %}
-         <i class="fa-brands fa-github icon"></i>
-         {% elif account.provider == 'trello' %}
-         <i class="fa-brands fa-trello"></i>
-         {% elif account.provider == 'facebook' %}
-         <i class="fa-brands fa-square-facebook"></i>
-         {% elif account.provider == 'github' %}
-         <i class="fa-brands fa-github"></i>
-         {% endif %} 
-      {% endfor %}
-   {% else %}
-      <p>No connected accounts.</p>
-   {% endif %}
-      <p>{{access_token}}</p>
-   </div> 
-   <div class="accounts__header">
-      <h3>Add Other Accounts</h3>
-      <span></span>
-   </div>
-   <a href="{% url 'socialaccount_connections' %}">Connect Social Account</a>
 </div>
 
 <div class="settings" style='display: none; opacity: 1'>
-   <div class="accounts__header">
-      <h3>Settings</h3>
-      <button class="close__settings"><i class="fa-solid fa-xmark"></i></button>
+   <div class="settings__content">
+      <div class="accounts__header">
+         <img src="/static/media/logos/jesk.svg" alt="jesk" class="logo">
+         <button class="close__settings"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <h2>Settings</h2>
+      <form class="accounts__body" method="POST" id="inboxSettingsForm">   
+         {% csrf_token %}
+         <div class="account__body__checkbox">
+            <label>Show Gmail letters:</label>
+            <input 
+               type="checkbox"
+               name="show_calendar"
+               class="check__input"
+               checked />
+         </div>
+         <div class="account__body__checkbox">
+            <label>Show Google Todos:</label>
+            <input 
+               type="checkbox"
+               name="show_calendar"
+               class="check__input"
+               checked />
+         </div>
+         <div class="account__body__checkbox">
+            <label>Show Google Callendar events:</label>
+            <input 
+               type="checkbox"
+               name="show_calendar"
+               class="check__input"
+               checked />
+         </div>
+         <div class="account__body__checkbox">
+            <label>Show Youtube notifications:</label>
+            <input 
+               type="checkbox"
+               name="show_calendar"
+               class="check__input"
+               checked />
+         </div>
+         
+         <div class="account__body__line">
+            <button class="btn">Save</button>
+         </div>
+      </form>
    </div>
-   <form class="accounts__body" method="POST" id="inboxSettingsForm">   
-      {% csrf_token %}
-      <div class="account__body__line">
-         <label>Show Gmail letters:</label>
-         <input 
-            type="checkbox"
-            name="show_calendar"
-            class="check__input"
-            checked />
-      </div>
-      <div class="account__body__line">
-         <label>Show Google Todos:</label>
-         <input 
-            type="checkbox"
-            name="show_calendar"
-            class="check__input"
-            checked />
-      </div>
-      <div class="account__body__line">
-         <label>Show Google Callendar events:</label>
-         <input 
-            type="checkbox"
-            name="show_calendar"
-            class="check__input"
-            checked />
-      </div>
-      <div class="account__body__line">
-         <label>Show Youtube notifications:</label>
-         <input 
-            type="checkbox"
-            name="show_calendar"
-            class="check__input"
-            checked />
-      </div>
-      
-      <div class="account__body__line">
-         <button class="btn">Save</button>
-      </div>
-   </form>
 </div>
 
 
-<div class="settings" style='display: none; opacity: 1'>
-   <div class="accounts__header">
-      <h3>Settings</h3>
-      <button class="close__settings"><i class="fa-solid fa-xmark"></i></button>
+<div class="settings" style='display: none; opacity: 1; top: 6vh'>
+   <div class="settings__content">
+      <div class="accounts__header">
+         <img src="/static/media/logos/jesk.svg" alt="jesk" class="logo">
+         <button class="close__settings"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <h2>Settings</h2>
+      <form class="accounts__body" method="POST" id="settingsForm">   
+         {% csrf_token %}
+         <div class="account__body__line">
+            <label>Email:</label>
+            <input 
+               type="email" 
+               name="email"
+               placeholder="Enter your email..."
+               value="{{ request.user.email }}" />
+         </div>
+         
+         <div class="account__body__line">
+            <label>Password: </label>
+            <input 
+               type="password" 
+               name="password"
+               placeholder="Enter a new password..." />
+         </div>
+         <div class="account__body__line">
+            <label>Show Widgets: </label>
+            <input 
+               type="checkbox"
+               name="show_calendar"
+               class="check__calendar check__input" />
+         </div>
+         <div class="account__body__line">
+            <label>Upload a new avatar: </label>
+            <input 
+               type="file"
+               name="avatar"
+               class="upload__avatar" />
+         </div>
+         <div class="account__body__checkbox">
+            <button class="btn">Save</button>
+            <a class="btn btn--del" href="/delete-account">Delete Account</a>
+         </div>
+         <div class="account__body__docs">
+            <a href="{% url 'privacy' %}">Privacy Police</a>
+            <a  href="{% url 'terms' %}">Terms of use</a>
+           <a href="{% url 'delete-instructions' %}" >Delete instructions</a>
+         </div>
+      </form>
    </div>
-   <form class="accounts__body" method="POST" id="settingsForm">   
-      {% csrf_token %}
-      <div class="account__body__line">
-         <label>Email:</label>
-         <input 
-            type="email" 
-            name="email"
-            placeholder="Enter your email..."
-            value="{{ request.user.email }}" />
-      </div>
-      
-      <div class="account__body__line">
-         <label>Password: </label>
-         <input 
-            type="password" 
-            name="password"
-            placeholder="Enter a new password..." />
-      </div>
-      <div class="account__body__line">
-         <label>Show Widgets: </label>
-         <input 
-            type="checkbox"
-            name="show_calendar"
-            class="check__calendar check__input" />
-      </div>
-      <div class="account__body__line">
-         <label>Upload a new avatar: </label>
-         <input 
-            type="file"
-            name="avatar"
-            class="upload__avatar" />
-      </div>
-      <div class="account__body__line">
-         <button class="btn">Save</button>
-         <a class="btn btn--del" href="/delete-account">Delete Account</a>
-      </div>
-      <div class="account__body__docs">
-         <a href="{% url 'privacy' %}">Privacy Police</a>
-         <a  href="{% url 'terms' %}">Terms of use</a>
-        <a href="{% url 'delete-instructions' %}" >Delete instructions</a>
-      </div>
-   </form>
 </div>
 
 {% comment %} 
@@ -193,7 +199,6 @@
 <script src="{% static 'js/components/music.js' %}" ></script>
 <script src="{% static 'js/components/showForm.js' %}" ></script> {% endcomment %}
 
-<script src="{% static 'js/accounts.js' %}" ></script>
 <script src="{% static 'js/components/calendar.js' %}" ></script>
 <script src="{% static 'js/components/fullscreen.js' %}" ></script>
 <script src="{% static 'js/components/focusMode.js' %}" ></script>

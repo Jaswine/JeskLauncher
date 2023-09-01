@@ -91,4 +91,5 @@ input:focus {
 .page__form__another {
     position: absolute;
     bottom: 5vh;
+    font-size: calc((1vh + 1vw) * .7) ;
 }

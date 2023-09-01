@@ -872,24 +872,51 @@
    align-items: center;
    flex-direction: column;
 
-   top: 10vh;
-   left: 20vw;
-   right: 20vw;
-
    position: fixed;
-
-   width: 60vw;
-   height: 70vh;
-   background-color: var(--primary);
-
-   box-shadow: 0 0 100vw 50vw rgb(0,0,0,.4), 0 0 1000px 10px rgba(10, 0, 50, 0.86);
-   row-gap: 40px;
-   padding: 10px;
-   border-radius: 40px;
-   padding: 2vh 4vw;
 
    z-index: 100;
    transition: all .3s linear;
+
+   width: 100%;
+   max-width: 60vw;
+
+   top: 14vh;
+   left: 20vw;
+   right: 20vw;
+   overflow-y: auto;
+}
+.settings__content {
+   width: 100%;
+   height: 100%;
+
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+
+   background-color: #2F2CAB;
+   padding: calc((1vh + 1vw) * 1.2) calc((1vh + 1vw) * 1.2) calc((1vh + 1vw) * 3.4);
+   border-radius: 0 0 0 calc((1vh + 1vw) * 2.8);
+
+   gap: 20px;
+}
+.settings__content h2 {
+   font-family: var(--bayerSans);
+   font-size: calc((1vh + 1vw) * 1.6);
+   font-weight: 400    ;
+   padding: calc((1vh + 1vw) * .2) 0 calc((1vh + 1vw) * .8);
+}
+.settings::after {
+   /* display: block; */
+   content: '';
+   /* position: fixed; */
+   top: 0;
+   left: 0;
+   width: 100vw;
+   height: 100vh;
+   backdrop-filter: blur(5px);
+   position: fixed;
+   z-index: -1;
 }
 .accounts__header {
    display: flex;
@@ -897,11 +924,16 @@
    align-items: center;
    width: 100%;
 }
-.accounts__header h3 {
-   font-size: 28px;
+.accounts__header h2 {
+   font-size: calc((1vh + 1vw) * 1.6);
    font-family: var(--bayerSans);
    color: var(--white);
 }
+.accounts__header .logo {
+   width: calc((1vh + 1vw) * 1.2);
+   height: calc((1vh + 1vw) * 1.2);
+} 
+
 .accounts__body {
    display: flex;
    justify-self: start;
@@ -914,26 +946,47 @@
 .accounts__body i:hover {
    transition: all .3s linear;
 }
-.settings .account__body__line {
-   width: 100%;
+.settings .account__body__checkbox {
    display: flex;
    justify-content: space-between;
    align-items: center;
-   margin: 8px 0;
-}
-.settings .account__body__line label {
-   color: var(--olightgray);
-   font-size: 16px;
    width: 100%;
-   margin-bottom: 2px;
-}
-.settings .account__body__line input {
-   padding: 6px 10px;
-   font-size: 18px;
    margin-bottom: 6px;
-   max-width: 600px;
+}
+.settings .account__body__line {
    width: 100%;
-   border-bottom: 2px solid var(--olightgray);
+   display: flex;
+   justify-content: start;
+   align-items: start;
+   flex-direction: column;
+}
+.settings  label {
+   color: var(--lightgray);
+   font-size: calc((1vh + 1vw) * .8);
+   width: 100%;
+   margin-bottom: 4px;
+}
+.settings input {
+   font-size:  calc((1vh + 1vw) * .7);
+   background-color: var(--white);
+   border-radius: calc((1vh + 1vw) * .4);
+   padding: calc((1vh + 1vw) * .8) calc((1vh + 1vw) * .8);
+   width: 100%;
+   max-width: 50vw;
+   margin-bottom: calc((1vh + 1vw) * .8);
+   color: var(--primary);
+}
+.check__input {
+   background-color: var(--olightgray) !important;
+   appearance: none;
+   width: 24px !important;
+   height: 24px;
+   max-width: 24px;
+   border-radius: 4px;
+   padding: 0;
+}
+.check__input:checked {
+   background-color: var(--white) !important;
 }
 .settings .account__body__line input:hover {
    border-color: var(--white);
@@ -945,6 +998,7 @@
    background-color: var(--blue);
 }
 .account__body__docs {
+
    display: flex;
    justify-content: start;
    align-items: start;
@@ -1032,23 +1086,6 @@
    opacity: 0;
    visibility: hidden;
 }
-
-.check__input {
-   appearance: none;
-   background-color: var(--lightgray);
-   border-radius: 5px;
-   width: 20px !important;
-   height: 20px;
-   transition: all .3s linear;
-   cursor: pointer;
-   border-bottom: none !important;
-}
-.check__input:hover {
-   background-color: var(--oblue);
-}
-.check__input:checked {
-   background-color: var(--blue);
-}
 .close__settings {
    background-color: transparent;
    color: var(--olightgray);
@@ -1068,7 +1105,7 @@
 }
 .without_calendar:first-child {
    top: 0;
-   width: 10%;
+   width: 14%;
    max-height: 6vh;
    height: 100%;
 }
