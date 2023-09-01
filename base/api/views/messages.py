@@ -47,13 +47,19 @@ def messages_list(request):
                             
             data = sorted(data, key=lambda x: x['created_time'])
             
+            # print(f'\n\n{google_calendar_messages}\n\n')
+            google_calendar_messages = sorted(google_calendar_messages, key=lambda x: x['created_time'])
+            google_gmail_messages = sorted(google_gmail_messages, key=lambda x: x['created_time'])
+            google_todos_messages = sorted(google_todos_messages, key=lambda x: x['created_time'])
+            google_youtube_messages = sorted(google_youtube_messages, key=lambda x: x['created_time'])
+            
             return JsonResponse({
                 'status':'success',
                 'included_apps': included_apps,
                 'all_messages': data[::-1],
                 'services': {
                     'Google_Event': google_calendar_messages,
-                    'Gmail': google_gmail_messages,
+                    'Gmail':  google_gmail_messages,
                     'Google_Todo': google_todos_messages,
                     'YouTube': google_youtube_messages,
                 },

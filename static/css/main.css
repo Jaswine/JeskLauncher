@@ -135,13 +135,11 @@ a:hover {
   position: fixed;
 
   width: 40vw;
-  background-color: rgba(10, 0, 50, 0.46);
+  background-color: var(--black);
 
-  padding: 10px;
+  padding: calc((1vh + 1vw) * 1.2) calc((1vh + 1vw) * 2) ;
   border-radius: 40px;
-  padding: 2vh 3vw;
   z-index: 10;
-  box-shadow: 0 0 10px 1px rgba(10, 0, 50, 0.46);
 }
 .message h2 {
   font-size: 20px;
@@ -152,6 +150,7 @@ a:hover {
 }
 .message i {
   color: var(--white);
+  cursor: pointer;
 }
 
 /* icon */

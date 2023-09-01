@@ -9,9 +9,9 @@
       <button id="addMoreAccounts">
          +
       </button>
-      <button id="openSettings">
+      <button class='open__settings'>
          <i class="fa-solid fa-gear"></i>
-      </button>
+      </button> 
       <a href="{% url 'base:sign-out' %}">
          <i class="fa-solid fa-right-from-bracket"></i>
       </a>
@@ -21,7 +21,9 @@
          {% else %}
             src='https://images.pexels.com/photos/1086584/pexels-photo-1086584.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
          {% endif %}
-         alt='avatar' class='calendar__settings__avatar' />
+         alt='avatar' 
+         class='calendar__settings__avatar open__settings'
+         id="openSettings"  />
    </div>
 
    <!-- _________ CALENDAR __________ -->
@@ -94,6 +96,53 @@
       <h3>Settings</h3>
       <button class="close__settings"><i class="fa-solid fa-xmark"></i></button>
    </div>
+   <form class="accounts__body" method="POST" id="inboxSettingsForm">   
+      {% csrf_token %}
+      <div class="account__body__line">
+         <label>Show Gmail letters:</label>
+         <input 
+            type="checkbox"
+            name="show_calendar"
+            class="check__input"
+            checked />
+      </div>
+      <div class="account__body__line">
+         <label>Show Google Todos:</label>
+         <input 
+            type="checkbox"
+            name="show_calendar"
+            class="check__input"
+            checked />
+      </div>
+      <div class="account__body__line">
+         <label>Show Google Callendar events:</label>
+         <input 
+            type="checkbox"
+            name="show_calendar"
+            class="check__input"
+            checked />
+      </div>
+      <div class="account__body__line">
+         <label>Show Youtube notifications:</label>
+         <input 
+            type="checkbox"
+            name="show_calendar"
+            class="check__input"
+            checked />
+      </div>
+      
+      <div class="account__body__line">
+         <button class="btn">Save</button>
+      </div>
+   </form>
+</div>
+
+
+<div class="settings" style='display: none; opacity: 1'>
+   <div class="accounts__header">
+      <h3>Settings</h3>
+      <button class="close__settings"><i class="fa-solid fa-xmark"></i></button>
+   </div>
    <form class="accounts__body" method="POST" id="settingsForm">   
       {% csrf_token %}
       <div class="account__body__line">
@@ -117,7 +166,7 @@
          <input 
             type="checkbox"
             name="show_calendar"
-            class="check__calendar" />
+            class="check__calendar check__input" />
       </div>
       <div class="account__body__line">
          <label>Upload a new avatar: </label>

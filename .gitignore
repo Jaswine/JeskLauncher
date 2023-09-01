@@ -11,6 +11,8 @@ __pycache__
 .vscode
 .vscode/
 
+/media
+media
 # Distribution / packaging
 .Python
 build/

@@ -611,10 +611,12 @@
    font-weight: bold;
 }
 .calendar__settings__avatar {
-   width: 25px;
-   height: 25px;
+   width: 27px;
+   height: 27px;
    object-fit: cover;
    border-radius: 150px;
+   border: 3px solid var(--lightgray);
+   cursor: pointer;
 } 
 
 
@@ -1031,7 +1033,7 @@
    visibility: hidden;
 }
 
-.check__calendar {
+.check__input {
    appearance: none;
    background-color: var(--lightgray);
    border-radius: 5px;
@@ -1041,16 +1043,17 @@
    cursor: pointer;
    border-bottom: none !important;
 }
-.check__calendar:hover {
+.check__input:hover {
    background-color: var(--oblue);
 }
-.check__calendar:checked {
+.check__input:checked {
    background-color: var(--blue);
 }
 .close__settings {
    background-color: transparent;
    color: var(--olightgray);
    font-size: 20px;
+   cursor: pointer;
 }
 .close__settings:hover {
    color: var(--white);

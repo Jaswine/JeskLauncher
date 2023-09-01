@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setInterval(() => {
         showMessages()
-    }, 5000) // 60000 == 1 minute
+    }, 2000) // 60000 == 1 minute
 
     setInterval(() => {
         console.log('1sec')

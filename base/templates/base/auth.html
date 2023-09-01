@@ -3,74 +3,59 @@
 
 {% block title %}
 <link rel="stylesheet" href="{% static 'css/auth.css' %}">
-<title>Auth</title>
+   {% if page_type == 'sign-in' %}
+      <title>Log in Your account</title>
+   {% else %}
+      <title>Create a New account</title>
+   {% endif %}
 {% endblock title %}
 
 {% block content %}
 <div class="page">
-   <div class="page__left">
+   <img src="/static/media/backSignIn.png" alt="back-Sign-In">
+   <form 
+      class="page__form" 
+      method="POST"
       {% if page_type == 'sign-in' %}
-      <img src="https://images.pexels.com/photos/2724664/pexels-photo-2724664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="mount">
+         style="top: 22vh"
       {% else %}
-      <img src="https://images.pexels.com/photos/1643113/pexels-photo-1643113.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="mount">
+         style="top: 14vh"
+      {% endif %}
+   >
+    {% csrf_token %}
+    <div class="page__form__logo">
+      <img src="/static/media/logos/jesk.svg" alt="jesk" class="logo">
+    </div>
+    {% if page_type == 'sign-in' %}
+     <div class="page__form___comp">
+
+      <h2>Log in Your account</h2>
+
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="password" name="password" placeholder="Password" required />
+      
+     </div>
+   {% elif page_type == 'sign-up' %}
+     <div class="page__form___comp">
+         <h2>Create a New account</h2>
+
+         {% for field in form  %}
+            {{ field }}
+         {% endfor %}
+     </div>
+   {% endif %}
+    <input type="submit" style="display: none;" value="Continue" />
+    <div class="buttons">
+       <a href="{% provider_login_url 'google' %}">Continue with Google</a>
+       <a href="{% provider_login_url 'facebook' method='oauth2' %}">Continue with Facebook</a>
+    </div>
+   </form>
+   <div class="page__form__another" >
+      {% if page_type == 'sign-in' %}
+        <p>Don't have any account? <a href="{% url 'base:sign-up' %}" class="link">Create a New account</a></p>
+      {% elif page_type == 'sign-up' %}
+        <p>I have an account! <a href="{% url 'base:sign-in' %}" class="link">Log in Your account</a> </p>
       {% endif %}
    </div>
-   <form action="" method="POST" class="page__right">
-      {% csrf_token %}
-
-      <div class="form__title">
-         <h2>Welcome to JESK!</h2>
-         {% if page_type == 'sign-in' %}
-         <p>Log In your account</p>
-      </div>
-      {% csrf_token %}
-      <div class="form__inputs">
-         <label>Your Email</label>
-         <input type="name" name="email" placeholder="name...">
-         <label>Password</label>
-         <input type="password" name="password" placeholder="password..." >
-         <button class="btn">Login</button> 
-      </div>
-      {% elif page_type == 'sign-up' %}
-      <p>Create your account</p>
-      {% csrf_token %}
-      <div class="form__inputs">
-         {% for field in form  %}
-         <div class = "form__component">
-            {% if field.errors %}
-            <ul class="errorlist">
-               {% for error in field.errors %}
-               <li>{{ error }}</li>
-               {% endfor %}
-            </ul>
-            {% endif %}
-            <label>{{ field.label }}</label>
-            {{ field }}
-         </div>
-      {% endfor %}
-      <button class="btn">Registration</button> 
-      </div>
-      
-   {% endif %}
-
-      <div class="form__or">
-         <span></span>
-         or
-         <span></span>
-      </div>
-
-      <div class="form__buttons">
-         <a class="login" href="{% provider_login_url 'google' %}"><i class="fa-brands fa-google"></i> Continue with Google </a>
-         <a class="login" href="{% provider_login_url 'facebook' method='oauth2' %}"><i class="fa-brands fa-facebook"></i> Continue with Facebook</a>            
-      </div>
-      
-      <div class="form__or">
-         {% if page_type == 'sign-in' %}
-         <p>Don't have any account? <a href="{% url 'base:sign-up' %}" class="link">Sign Up</a></p>
-         {% elif page_type == 'sign-up' %}
-         <p>I have any account! <a href="{% url 'base:sign-in' %}" class="link">Sign In</a></p>
-         {% endif %}
-      </div>
-   </form>
-</div>
+ </div>
 {% endblock content %}

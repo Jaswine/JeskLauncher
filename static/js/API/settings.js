@@ -37,23 +37,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
 
-    const settings = document.querySelector('.settings')
+    const open_settings = document.querySelectorAll('.open__settings')
+    const close_settings = document.querySelectorAll('.close__settings')
+    const settings = document.querySelectorAll('.settings')
 
-    document.querySelector('#openSettings').addEventListener('click', () => {
-        settings.style.display = 'flex';
+    for (let i = 0; i < settings.length; i++) {
+        open_settings[i].addEventListener('click', () => {
+            settings[i].style.display = 'flex';
 
-        setTimeout(() => {
-            settings.style.opacity = '1';
-        }, 300)
-    })
+            setTimeout(() => {
+                settings[i].style.opacity = '1';
+            }, 300)
+        })
+        
+        close_settings[i].addEventListener('click', () => {
+            settings[i].style.opacity = '0'
 
-    document.querySelector('.close__settings').addEventListener('click', () => {
-        settings.style.opacity = '0'
-
-        setTimeout(() => {
-            settings.style.display = 'none'
-        }, 300)
-    })
+            setTimeout(() => {
+                settings[i].style.display = 'none'
+            }, 300)
+        })
+    }
 
     const getSettingsData = () => {
         fetch('/api/settings')
@@ -76,11 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(data => {
                 getSettingsData()
-
                 console.log(data)
-
                 // close settings module
-                document.querySelector('.settings').style.display = 'none'
+                document.querySelectorAll('.settings').forEach(settings => {
+                    settings.style.display = 'none'
+                })
             })  
             .catch(error => {
                 console.error('Error:', error);

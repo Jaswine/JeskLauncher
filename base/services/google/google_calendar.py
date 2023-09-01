@@ -14,27 +14,27 @@ def CallendarService(email_list, access_token, included_apps):
          'maxResults': 10,
          'orderBy': 'startTime',
          'singleEvents': True,
-         # 'timeMin': datetime.utcnow().isoformat()
       })
       if response.status_code == 200:
          events = response.json().get('items', [])
 
          for event in events:
-               created_time = event.get('created')
-               created_time = datetime.strptime(created_time, "%Y-%m-%dT%H:%M:%S.%fZ")
-               description = event.get('description', '')
-
-               messages.append({
-                  'id': event.get('id'),
-                  'type': 'Google_Event',
-                  'title': event.get('summary', ''),
-                  'sender': '',
-                  'link': f"https://calendar.google.com",
-                  'text': description,
-                  'calendar_id': calendar_id,
-                  'created_time': created_time
-               })
-
+            # print(f'\n\n{event}\n\n\n')
+            created = event.get('created', '')
+            created_time = datetime.strptime(created, "%Y-%m-%dT%H:%M:%S.%fZ")
+            description = event.get('description', '')
+            
+            messages.append({
+               'id': event.get('id'),
+               'type': 'Google_Event',
+               'title': event.get('summary', ''),
+               'sender': '',
+               'link': event.get('htmlLink', ''),
+               'text': description,
+               'calendar_id': calendar_id,
+               'created_time': created_time
+            })
+            
    async def fetch_all_calendars():
       start_time = time.time()
 

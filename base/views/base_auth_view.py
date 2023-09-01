@@ -6,8 +6,11 @@ from django.contrib import messages
 
 from django.http import HttpResponse, HttpResponseRedirect
 
+from django.contrib.auth.models import User
 from ..forms import CreateUserForm
 from ..models import Profile
+
+import requests
 
 
 def sign_in_view(request):
@@ -31,15 +34,7 @@ def sign_in_view(request):
       if user is not None:
          login(request, user)
          
-         refresh  = RefreshToken.for_user(user)
-         token = str(refresh.access_token)
-         
-         response = HttpResponseRedirect('/')
-         
-         response.set_cookie('access_token', token)
-      
-         #  redirect('base:index')
-         return response
+         return redirect('/')
       else:
          messages.error(request, 'Invalid password or username')
       
@@ -61,15 +56,7 @@ def sign_up_view(request):
          login(request, new_user,  backend='django.contrib.auth.backends.ModelBackend' )
          
          profile = Profile(user = request.user)
-         
-         refresh  = RefreshToken.for_user(user)
-         token = str(refresh.access_token)
-         
-         response = HttpResponseRedirect('/')
-         
-         response.set_cookie('access_token', token)
-         
-         return response
+         return redirect('/')
       
    context = {
       'page_type': page_type,
@@ -90,7 +77,7 @@ def sign_out_view(request):
 @login_required(login_url='base:sign-in')
 def sign_in_social_media_view(request):
    user = request.user
-   proifle = Profile.objects.get(user=user)
+   profile = Profile.objects.get(user=user)
       
    context = {
       'profile': profile
