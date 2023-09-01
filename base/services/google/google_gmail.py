@@ -6,21 +6,28 @@ from dateutil import parser
 from ...utils import format_time
 
 
-def GoogleGmailService(email_list, access_token, get_email_text, get_header_value, included_apps):
+def GoogleGmailService(
+      email_list, 
+      access_token, 
+      get_email_text, 
+      get_header_value, 
+      included_apps
+   ):
+   
    messages = []
    
    async def fetch_emails():
       start_time = time.time()
       
-      responseEmail = requests.get('https://www.googleapis.com/gmail/v1/users/me/messages', params={
+      response = requests.get('https://www.googleapis.com/gmail/v1/users/me/messages', params={
          'access_token': access_token,
          'maxResults': 20
       })
       
-      if responseEmail.status_code == 200:
+      if response.status_code == 200:
          included_apps.append('Gmail')
          
-         emails = responseEmail.json().get('messages', [])
+         emails = response.json().get('messages', [])
 
          for email in emails:
                email_id = email['id']
@@ -44,6 +51,10 @@ def GoogleGmailService(email_list, access_token, get_email_text, get_header_valu
                      'text': get_email_text(email_data['payload']),
                      'created_time': created_time,
                   })
+                  
+               elif email_response.status_code == 401 or email_response.status_code == 403:
+                  print(f"Error: {email_response.status_code}")
+                  raise Exception(f"Error {email_response.status_code}: Unauthorized or Forbidden")
            
          email_list.extend(messages)
                 
@@ -51,7 +62,15 @@ def GoogleGmailService(email_list, access_token, get_email_text, get_header_valu
          print(f'Google Email loaded successfully ✅ - {format_time(elapsed_time)}')
          time.sleep(1)
          
-                  
-   asyncio.run(fetch_emails())
+      elif response.status_code == 401 or response.status_code == 403:
+         print(f"Error: {response.status_code}")
+         raise Exception(f"Error {response.status_code}: Unauthorized or Forbidden")
+         
+   try:
+      asyncio.run(fetch_emails())
+   except Exception as e:
+      print(f"An error occurred: {str(e)}")
+      return messages
+   
    return messages         
    

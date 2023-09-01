@@ -14,11 +14,11 @@ def messages_list(request):
     socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
     if socialGoogleToken:
         access_token = socialGoogleToken.token
-        
-        # CALLENDAR GOOGLE
+                
+        # # CALLENDAR GOOGLE
         google_calendar_messages = google_calendar.CallendarService(email_list, access_token, included_apps)
         
-        #GOOGLE TASKS
+        # #GOOGLE TASKS
         google_todos_messages = google_todos.GoogleTodoService(email_list, access_token, included_apps)
 
         # GOOGLE GMAIL
@@ -65,6 +65,12 @@ def messages_list(request):
                 },
             }, safe=False)
             
+        return JsonResponse({
+            'status': 'error',
+            'message': 'token not valid, sign out and sign in again',
+        }, safe=False)
+        
+    else:
         return JsonResponse({
             'status': 'error',
             'message': 'token not valid, sign out and sign in again'

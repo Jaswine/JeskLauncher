@@ -11,14 +11,14 @@ def GoogleTodoService(email_list, access_token, included_apps):
    
    async def fetch_todos():
       start_time = time.time()
-      response_tasks = requests.get('https://www.googleapis.com/tasks/v1/users/@me/lists', params={
+      response = requests.get('https://www.googleapis.com/tasks/v1/users/@me/lists', params={
             'access_token': access_token,
       })     
       
-      if response_tasks.status_code == 200:
+      if response.status_code == 200:
          included_apps.append('Google_Todo')
          
-         for task_list in response_tasks.json().get('items', []):
+         for task_list in response.json().get('items', []):
             list_id = task_list['id']
             
             # Request tasks for the current list
@@ -54,7 +54,16 @@ def GoogleTodoService(email_list, access_token, included_apps):
          elapsed_time = time.time() - start_time                  
          print(f'Google Todos loaded successfully ✅ - {format_time(elapsed_time)}')
          time.sleep(1) 
-                           
-   asyncio.run(fetch_todos())
+         
+      elif response.status_code == 401 or response.status_code == 403:
+         print(f"Error: {response.status_code}")
+         raise Exception(f"Error {response.status_code}: Unauthorized or Forbidden")   
+      
+   try:                 
+      asyncio.run(fetch_todos())
+   except Exception as e:
+      print(f"An error occurred: {str(e)}")
+      return messages
+   
    return messages
    

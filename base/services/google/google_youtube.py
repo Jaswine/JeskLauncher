@@ -45,6 +45,15 @@ def GoogleYoutubeService(email_list, access_token, included_apps):
          time.sleep(1)
          
          email_list.extend(messages)
-                           
-   asyncio.run(fetch_todos())
+         
+      elif response.status_code == 401 or response.status_code == 403:
+         print(f"Error: {response.status_code}")
+         raise Exception(f"Error {response.status_code}: Unauthorized or Forbidden") 
+   
+   try:
+      asyncio.run(fetch_todos())
+   except Exception as e:
+      print(f"An error occurred: {str(e)}")
+      return messages
+   
    return messages
