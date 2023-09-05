@@ -1112,3 +1112,87 @@
 .without_calendar:last-child {
    bottom: 0;
 }
+.calendar__footer__line {
+   position: relative
+}
+/* ! _________ timer _________  */
+.callendar__window {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   width: 100%;
+   padding: 4px;
+
+   width: 100%;
+   position: absolute;
+   height: 150px;
+   top: -150px;
+   z-index: 1;
+
+   background-color: var(--violet);
+
+   border-radius: 5px 5px 5px 30px;
+}
+.callendar__window__timer {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+   gap: 2px;
+   margin-bottom: 6px;
+}
+.window__timer {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 4px;
+}
+.callendar__window__music {
+   width: 100%;
+}
+.callendar__window__music select {
+   width: 100%;
+   padding: 6px 10px;
+   border-radius: 6px;
+   font-size: 16px;
+
+   background-color: rgb(254,254,254,.1);
+   border-radius: 5px 5px 5px 30px;
+
+}
+.callendar__window__music select:focus option:checked {
+   background-color: var(--lightgray);
+   color: var(--black);
+}
+.callendar__window__music select option {
+   padding: 4px ;
+   font-size: 16px;
+   background-color: var(--violet);
+}
+.callendar__window__music audio {
+   width: 100%;
+}
+.callendar__window__timer {
+   gap: 4px;
+}
+.callendar__window__timer input {
+   max-width: 60px;
+   min-width: 50px;
+   width: 100%;
+   height: 100%;
+   padding: 10px 4px;
+   margin: 0 2px;
+   font-size: 16px;
+   border-radius: 6px;
+   transition: all .3s linear;
+   background-color: rgb(254,254,254,.1);
+}
+.callendar__window__timer input:hover, .callendar__window__timer input:focus {
+   background-color: rgb(254,254,254,.2);
+}
+.callendar__window__timer .btn {
+   padding: 8px 4px;
+   background-color: rgb(254,254,254,.1);
+   border-radius: 10px;
+}

@@ -48,7 +48,40 @@
    <!-- _________ FOOTER __________ -->
    <div class="calendar__footer">
       <div class="calendar__footer__line">
-         <button id="natureSounds">Nature Sounds</button>
+         <button id="NatureSounds">00 : 00</button>
+
+
+        <div class="callendar__window" style="
+         display:none; 
+         opacity: 0; 
+        ">
+            <div class="callendar__window__timer">
+               <div class="window__timer">
+                  <input 
+                     type="number" 
+                     id="getMinutes" 
+                     placeholder="00" 
+                     />
+                  <input 
+                     type="number" 
+                     id="getSeconds" 
+                     placeholder="00" 
+                     />
+               </div>
+               <button class="btn" id="runTimer" ><i class="fa-solid fa-play" ></i></button>
+               <button class="btn" id="restartTime" ><i class="fa-solid fa-arrow-rotate-left"></i></button>
+            </div>
+            <div class="callendar__window__music">
+               <audio src="{% static '/media/sounds/09-Meydan-Contemplate-the-stars.mp3' %}" id="NatureSoundsAudio" type="audio/mpeg" controls></audio>
+               <select name="" id="NatureSoundsSelect" >
+                  <option value="{% static '/media/sounds/09-Meydan-Contemplate-the-stars.mp3' %}">Sound 1</option>
+                  <option value="{% static '/media/sounds/Evening-Improvisation-with-Ethera.mp3' %}">Sound 2</option>
+                  <option value="{% static '/media/sounds/jackmichaelking__gentle-ocean-waves-birdsong-and-gull.mp3' %}">Sound 3</option>
+                  <option value="{% static '/media/sounds/Rain-Sound-and-Rainforest.mp3' %}">Sound 4</option>
+               </select>
+            </div>
+         </div> 
+
          <button id="focusMode">Focus Mode</button>
       </div>
       <div class="calendar__footer__line">
@@ -196,10 +229,10 @@
 {% comment %} 
 <script src="{% static 'js/components/settings.js' %}" ></script>
 <script src="{% static 'js/components/changeTheme.js' %}" ></script>
-<script src="{% static 'js/components/music.js' %}" ></script>
 <script src="{% static 'js/components/showForm.js' %}" ></script> {% endcomment %}
 
 <script src="{% static 'js/components/calendar.js' %}" ></script>
 <script src="{% static 'js/components/fullscreen.js' %}" ></script>
 <script src="{% static 'js/components/focusMode.js' %}" ></script>
 <script src="{% static 'js/components/chill_mode.js' %}" ></script>
+<script src="{% static 'js/components/music.js' %}" ></script>

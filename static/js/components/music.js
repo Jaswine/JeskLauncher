@@ -86,7 +86,6 @@ runTimer.addEventListener('click', (e) => {
 
             clearInterval(IntervalId)
 
-            console.log('Chill Mode!!!!!')
             openChillMode()
             
             NatureSoundsAudio.play()
