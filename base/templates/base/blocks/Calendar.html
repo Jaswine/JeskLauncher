@@ -103,9 +103,9 @@
       {% if user.socialaccount_set.all %}
          {% for account in user.socialaccount_set.all %}
          {% if account.provider == 'google' %}
-               <i class="fa-brands fa-google icon" ></i>
+               <i class="fa-brands fa-google" ></i>
             {% elif account.provider == 'github' %}
-            <i class="fa-brands fa-github icon"></i>
+            <i class="fa-brands fa-github"></i>
             {% elif account.provider == 'trello' %}
             <i class="fa-brands fa-trello"></i>
             {% elif account.provider == 'facebook' %}
