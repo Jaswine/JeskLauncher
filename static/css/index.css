@@ -1127,7 +1127,7 @@
    width: 100%;
    position: absolute;
    height: 150px;
-   top: -150px;
+   top: -153px;
    z-index: 1;
 
    background-color: var(--violet);
