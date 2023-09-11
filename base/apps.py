@@ -59,7 +59,10 @@ def pre_social_login_callback(sender, request, sociallogin, **kwargs):
             sociallogin.connect(request, user)
     
     # Delete existing social tokens
-    allauth.socialaccount.models.SocialToken.objects.filter(account__user=socialaccount.user, account__provider=socialaccount.provider).delete()
+    try:
+        allauth.socialaccount.models.SocialToken.objects.filter(account__user=socialaccount.user, account__provider=socialaccount.provider).delete()
+    except:
+        print('Token Error')
 
     # get social app
     socialApp = allauth.socialaccount.models.SocialApp.objects.get(provider=socialaccount.provider)

@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // ? show other social medias ?
         data.included_apps.forEach((app) => {
-          console.log(social_medias)
           if (social_medias.includes(app)) {
             inbox_icons.innerHTML += `
               <button class='icon' id='${app}'>
@@ -125,7 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // show initial messages
         let now_list = localStorage.getItem('now_list')
 
-        console.log(now_list)
         if (now_list) {
           if (now_list == 'show_all_messages') {
             document.querySelector('#show_all_messages').classList.add('inbox-show')
@@ -208,7 +206,6 @@ document.addEventListener('DOMContentLoaded', () => {
               }
 
               let ntf = inbox__messages.querySelector(`#id${notification.querySelector('.notification_id').value}`)
-              console.log(ntf)
               ntf.querySelector('.notification__text').innerHTML = formData.get('title')
             })
           }  
@@ -285,7 +282,6 @@ document.addEventListener('DOMContentLoaded', () => {
           })
             .then(response => response.json())
             .then(data => {
-              console.log('Event: ', data)
               notification.style.display = 'none'
             })  
             .catch(error => {

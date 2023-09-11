@@ -61,8 +61,6 @@ function createCalendar(elem, year, month) {
  let year = currentDate.getFullYear()
 
  left.onclick = () => {
-  //  console.log('left')
-
    month--
 
    if (month == 0 ) {
@@ -75,8 +73,6 @@ function createCalendar(elem, year, month) {
  }
 
  right.onclick = () => {
-  //  console.log('right')
-
    month++
 
    if (month == 12 ) {

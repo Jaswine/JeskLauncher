@@ -63,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch('/api/settings')
             .then(response => response.json())
             .then(data => {
-                console.log(data)
                 document.querySelector('.calendar__settings__avatar').src = `/static/${data.data.avatar}`
             })
     }
@@ -80,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(data => {
                 getSettingsData()
-                console.log(data)
                 // close settings module
                 document.querySelectorAll('.settings').forEach(settings => {
                     settings.style.display = 'none'

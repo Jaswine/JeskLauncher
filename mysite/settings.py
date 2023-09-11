@@ -216,8 +216,8 @@ SOCIALACCOUNT_PROVIDERS = {
             'notifications'
         ],
          'APP': {
-            'client_id': os.environ.get('GITHUB_CLIENT_ID'),
-            'secret': os.environ.get('GITHUB_CLIENT_SECRET'), 
+            'client_id': 'd50e3fc5cb5e121b5b7d',
+            'secret': '813322c154bfd1eec582facf36896319f082d1a1', 
         },
     },
     'telegram': {

@@ -1,154 +1,64 @@
-const place = document.querySelector('.callendar__place__content')
-const place2 = document.querySelector('.callendar__place__content2')
+document.addEventListener('DOMContentLoaded', () => {
+   const motivate_button = document.querySelector('#motivation_type')
+   const motivation__place = document.querySelector('.calendar__motivation__place')
 
-// let upload_motivate_image = document.querySelector('#upload_motivate_image')
+   const MotivationText = () => {
+      motivate_button.value = 'text'
 
-const text__type = document.querySelector('#text__type')
-const image__type = document.querySelector('#image__type')
+      motivation__place.innerHTML = `
+            <textarea name="" id="upload_text">${localStorage.getItem('motivation_type') == 'text' ? localStorage.getItem('motivation_type_text'): 'THIS CAN BE YOUR MOTIVATION OR USEFUL TEXT'}</textarea>
+         `
 
-// const getData = async () => {
-//    let request = await fetch('http://127.0.0.1:8000/api/update-profile', {
-//       method: 'GET',
-//    })
-//    let data = await request.json()
-//    console.log(data)
-// }
-
-// getData()
-
-const motivateType = localStorage.getItem('motivateType')
-//! LocalStorage Checking 
-if (motivateType) {
-   stayContent(motivateType)
-} else {
-   stayContent('text')
-}
-
-// motivate_type.addEventListener('change', (e) => {
-//    stayContent(e.target.value)
-// })
-
-// stayContent('text')
-
-image__type.addEventListener('change', (e) => {
-   if (image__type.checked) {
-      stayContent('image')
-   } else {
-      // place.innerHTML = ''
-      UploadMotivateImageHidden()
+         localStorage.setItem('motivation_type', 'text')
+         localStorage.setItem('motivation_type_text', motivation__place.querySelector('#upload_text').value)
    }
-})
 
-text__type.addEventListener('change', (e) => {
-   if (text__type.checked) {
-      stayContent('text')
-      document.querySelector('.motivateText').style.display = 'block'
-      // UploadMotivateImageHidden()
-   } else {
-      document.querySelector('.motivateText').style.display = 'none'
-   }
-})
-
-
-function stayContent(type) {
-   if (type == 'text') {
-      let getMotivateText = localStorage.getItem('motivateText')
-
-      if (getMotivateText == null || getMotivateText== '' || getMotivateText == ' ') {
-         getMotivateText = ''
-      }
-
-      // UploadMotivateImageHidden()
-
-      place2.innerHTML = `
-         <textarea class='motivateText' placeholder='Your Motivate Text...'>${getMotivateText}</textarea>
-      `
-      addToLocalStorage('motivateType', 'text')
-
-      let motivateText = document.querySelector('.motivateText') 
-
-      motivateText.addEventListener('change', (e) => {
-         localStorage.setItem('motivateText', e.target.value)
-      })
-   } else if (type == 'image') {
-      let getMotivateImage = localStorage.getItem('motivateImage')
-
-      // console.log(getMotivateImage)
-
-      try {
-         // console.log(getMotivateImage)
-         const binary = atob(getMotivateImage.split(',')[1]);
-
-         // Создание объекта Blob и URL
-         const blob = new Blob([binary], {type: 'image/jpeg'});
-         const url = URL.createObjectURL(blob);
-      } catch (e) {
-         console.error('Decode error: ' + e);
-         getMotivateImage = 'https://images.pexels.com/photos/6643000/pexels-photo-6643000.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
-      }
+   const MotivationImage = () => {
+      motivate_button.value = 'image'
       
-      place.innerHTML = `
-         <input type="file" id="upload_motivate_image" >
-         <img src="${getMotivateImage}" alt="" class='motivateImage' />
+      motivation__place.innerHTML = `
+         <div class='motivation__place__image'>
+            <input type="file" name="image" id="upload_image" />
+            <div class='motivation__place__uploaded__image'>
+               <i class="fa-regular fa-image"></i>
+
+            </div>
+         </div>
       `
-      UploadMotivateImageShow()
 
-      let motivateImage = document.querySelector('.motivateImage')
-      imageScale(motivateImage)
-      let upload_motivate_image = document.querySelector('#upload_motivate_image')
+      document.querySelector('#upload_image').addEventListener('change', (event) => {
+         const file = event.target.files[0];
+         
+         if (file) {
+            const reader = new FileReader();
+            const place = document.querySelector('.motivation__place__uploaded__image')
 
-      if (upload_motivate_image !== null) {
-         upload_motivate_image.addEventListener('change', (e)  => {
-            let file = e.target.files[0]
-   
-            let fileURL = URL.createObjectURL(file);
-            motivateImage.src = fileURL
-            
-            // console.log(motivateImage)
-            const canvas = document.createElement('canvas');
-            canvas.width = motivateImage.width;
-            canvas.height = motivateImage.height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(motivateImage, 0, 0);
-            const base64 = canvas.toDataURL('image/jpeg');
+            reader.onload = (e) => {
+            const img = document.createElement('img')
+            img.src = e.target.result; 
+            place.appendChild(img)
+            };
+         
+            reader.readAsDataURL(file);
+         }
+      });
 
-            localStorage.setItem('motivateImage',base64 )
-         })
-      }
-
-      addToLocalStorage('motivateType', 'image')
+      localStorage.setItem('motivation_type', 'image')
    }
-}
+   
+   if (localStorage.getItem('motivation_type') == 'image') {
+      MotivationImage()
+   } else {
+      MotivationText()
+   }
 
-// ! Add To Local Storage Function
-function addToLocalStorage(key, param) {
-   localStorage.setItem(key, param)
-}
-
-// //! Function for Scale Image
-function imageScale(motivateImage) {
-   motivateImage.addEventListener('click', () => {
-      if (motivateImage.style.width == '100%') {
-         motivateImage.style.width = 'auto';
-         motivateImage.style.cursor = 'zoom-in';
+   motivate_button.addEventListener('click', (e) => {
+      if (e.target.value == 'text') {
+         MotivationText()
       } else {
-         motivateImage.style.width = '100%'
-         motivateImage.style.cursor = 'zoom-out';
+         MotivationImage()
       }
    })
-}
 
-function UploadMotivateImageShow() {
-   document.querySelector('.motivateImage').style.display = 'block'
-   upload_motivate_image.style.display = 'block'
-   setTimeout(() => {
-      upload_motivate_image.style.opacity = 1
-   }, 100)
-}
-function UploadMotivateImageHidden() {
-   document.querySelector('.motivateImage').style.display = 'none'
-   upload_motivate_image.style.display = 'none'
-   setTimeout(() => {
-      upload_motivate_image.style.opacity = 0
-   }, 100)
-}
+
+})
