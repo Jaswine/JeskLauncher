@@ -1,23 +1,78 @@
+@import './variables.css';
+
 .equalizer {
-   margin-top: 10px;
-   border-top: 4px solid rgb(254,254,254,1);
    display: flex;
    justify-content: center;
-   align-items: start;
-   width: 100%;
-   max-width: 300px;
-   position: fixed;
-   bottom: 20vh;
-   border-radius: 10px;
+   align-items: center;
+   flex-direction: column;
 
-   /* display: none; */
+   position: relative;
+   height: 50vh;
+   width: 100%;
+   margin-top: 1vh;
 }
-.equalizer span {
+.equalizer__triangle {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 14px;
+   cursor: pointer;
+   z-index: 1;
+   position: absolute;
+}
+.equalizer__triangle .line {
    display: block;
    content: '';
-   width: 6px;
-   background-color: rgb(254,254,254,1);
-   transition: all .3s linear;
-   margin-top: -2px;
-   border-radius: 10px 10px  0 0;
+   width: 8px;
+   height: 40px;
+   background-color: var(--white);
 }
+.equalizer__triangle .triangle {
+   display: block;
+   content: '';
+   width: 0;
+   height: 0;
+   border-left: 20px solid transparent;
+   border-right: 20px solid transparent;
+   border-bottom: 34px solid #fff;
+   transform: rotate(90deg);
+}
+.equalizer__spans {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   position: relative;
+}
+.equalizer__spans span {
+   display: block;
+   content: '';
+   width: 2px;
+}  
+.equalizer__image {
+   position: absolute;
+   width: 100%;
+   height: 100%;
+}
+
+.equalizer__image__animation {
+   animation: combined-animation 40s infinite;
+}
+
+@keyframes combined-animation {
+   0% {
+     transform: scale(1) rotate(0deg);
+   }
+   25% {
+     transform: scale(1.1) rotate(90deg);
+   }
+   50% {
+     transform: scale(.9) rotate(180deg);
+   }
+   75% {
+     transform: scale(1.1) rotate(270deg);
+   }
+   100% {
+     transform: scale(1) rotate(360deg);
+   }
+ }
