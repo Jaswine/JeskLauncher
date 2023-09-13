@@ -1,14 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
+   // Функция для перезаписи токенов
    const rewrite_tokens = () => {
+      // Выполняем GET-запрос к серверу по адресу '/api/rewrite-tokens'
       fetch('/api/rewrite-tokens')
          .then(response => response.json())
          .then(data => {
-            console.log(data)
+            // Выводим полученные данные в консоль браузера
+            console.log(data);
          })
          .catch(error => {
-            console.error(error)
+            // В случае ошибки выводим её в консоль браузера
+            console.error(error);
          })
    }
 
-   rewrite_tokens()
-})
+   // Вызываем функцию для перезаписи токенов при загрузке страницы
+   rewrite_tokens();
+});

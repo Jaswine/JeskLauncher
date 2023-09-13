@@ -1,64 +1,68 @@
 document.addEventListener('DOMContentLoaded', () => {
-  let inboxSettingsForm = document.querySelector('#inboxSettingsForm')
+  // Получаем ссылку на форму настроек почтового ящика
+  let inboxSettingsForm = document.querySelector('#inboxSettingsForm');
+  // Получаем CSRF-токен из атрибута элемента
   let csrfToken = document.getElementById('csrf-token').getAttribute('data-csrf-token');
+  // Получаем список сообщений
   let messages_list = document.getElementById('messages-list'); 
+  // Получаем контейнер для иконок социальных сетей
   let inbox_icons = document.querySelector('#inbox-icons');
+  // Получаем контейнер для сегодняшних задач
   let today__work = document.querySelector('.today__work');
 
-  const social_medias = ['Gmail', 'Google_Todo', 'Google_Event', 'YouTube']
+  // Массив социальных сетей
+  const social_medias = ['Gmail', 'Google_Todo', 'Google_Event', 'YouTube'];
 
-  let inbox__messages = document.querySelector('.inbox__messages')
+  // Получаем контейнер для сообщений в почтовом ящике
+  let inbox__messages = document.querySelector('.inbox__messages');
 
-  // TODO: WITHOUT Async - 7s
-  // TODO: WITH Async  - 9s
-
+  // Функция для отображения сообщений
   const showMessages = async () => {
     try {
       const response = await fetch(`/api/messages`);
       const data = await response.json();
 
-      messages_list.innerHTML = ''
-      inbox_icons.innerHTML = ''
+      messages_list.innerHTML = '';
+      inbox_icons.innerHTML = '';
 
       if (data.status === 'success') {
-        // ! add  category buttons 
-        // ? show all messages button ?
-        
+        // Добавляем кнопку для отображения всех сообщений
         inbox_icons.innerHTML += `
           <button class='icon' id='show_all_messages'>
             <span class="material-symbols-outlined">
               mark_chat_unread
             </span>
           </button>
-        `
+        `;
 
-        // ? show other social medias ?
+        // Добавляем кнопки для отображения сообщений социальных сетей
         data.included_apps.forEach((app) => {
           if (social_medias.includes(app)) {
             inbox_icons.innerHTML += `
               <button class='icon' id='${app}'>
                 <img src="/static/media/icons/${app}.svg" alt="${app}">
               </button>
-            `
+            `;
           }
-        })
-        const icons = document.querySelectorAll('.icon')
+        });
 
-        // ? Remove .inbox-show from all categories ?
+        const icons = document.querySelectorAll('.icon');
+
+        // Функция для удаления класса "inbox-show" у всех кнопок категорий
         const RemoveInboxShow = () => {
           for (const icon of icons) {
-            icon.classList.remove('inbox-show')
+            icon.classList.remove('inbox-show');
           }
         }
 
-        // ? render message ?
+        // Функция для рендеринга сообщения
         const renderMessage = (message, messages_list) => {
-          const div = document.createElement('div')
-          div.classList.add('notification')
-          div.id = `id${message.id}`
+          const div = document.createElement('div');
+          div.classList.add('notification');
+          div.id = `id${message.id}`;
 
           if (message.status == 'completed') {
-            div.style.opacity = '.3'
+            div.style.opacity = '.3';
           }
 
           div.innerHTML = `
@@ -67,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             ${message.type == 'Gmail' ? `
             <form method='POST' class='notification__answer__on__gmail'>
-              <input type="hidden" name="csrfmiddlewaretoken" value="6I82Yjvf9MUCF2JpH3TWUOuU8BQQPReGPwLnE2Xqn7QZVo9KgViprwl5msfKlzo3">
+              <input type="hidden" name="csrfmiddlewaretoken" value="${csrfToken}">
               <input type="text" name='message' placeholder='Answer...' />
               <button class='notification__answer__on__gmail__button' type='submit'>
                 <i class="fa-regular fa-paper-plane"></i>
@@ -90,80 +94,78 @@ document.addEventListener('DOMContentLoaded', () => {
             ${message.calendar_id ? `<input type='hidden' class='calendar_id' value='${message.calendar_id}' />` : ''}
           `;
 
-          messages_list.appendChild(div)
+          messages_list.appendChild(div);
         }
 
-        // ? get messages from api ?
+        // Функция для получения сообщений и отображения их в списке
         const getMessages = (data) => {
-          messages_list.innerHTML = ''
+          messages_list.innerHTML = '';
 
           data.forEach(message => {
             if (social_medias.includes(message.type)) {
-              renderMessage(message, messages_list)
+              renderMessage(message, messages_list);
             } 
           });
         }
 
-        // * Add onclick event for category buttons *
+        // Добавляем обработчики событий для кнопок категорий
         for (const icon of icons) {
           icon.addEventListener('click', () => {
-            RemoveInboxShow()
-            icon.classList.add('inbox-show')
+            RemoveInboxShow();
+            icon.classList.add('inbox-show');
 
             if (icon.id == 'show_all_messages') {
-              getMessages(data.all_messages)
+              getMessages(data.all_messages);
             } else {  
-              getMessages(data.services[icon.id])
+              getMessages(data.services[icon.id]);
             }
 
-            localStorage.setItem('now_list', icon.id)
-
-          })
+            localStorage.setItem('now_list', icon.id);
+          });
         }
     
-        // show initial messages
-        let now_list = localStorage.getItem('now_list')
+        // Отображаем сообщения в соответствии с выбранной категорией
+        let now_list = localStorage.getItem('now_list');
 
         if (now_list) {
           if (now_list == 'show_all_messages') {
-            document.querySelector('#show_all_messages').classList.add('inbox-show')
-            getMessages(data.all_messages)
+            document.querySelector('#show_all_messages').classList.add('inbox-show');
+            getMessages(data.all_messages);
           } else if (now_list != null)  {
-            document.querySelector('#show_all_messages').classList.add('inbox-show')
-            getMessages(data.all_messages)
+            document.querySelector('#show_all_messages').classList.add('inbox-show');
+            getMessages(data.all_messages);
           }
           else {
-            document.querySelector(`#${now_list}`).classList.add('inbox-show')
-            getMessages(data.services[now_list])
+            document.querySelector(`#${now_list}`).classList.add('inbox-show');
+            getMessages(data.services[now_list]);
           }
         } else {
-          document.querySelector('#show_all_messages').classList.add('inbox-show')
-
-          getMessages(data.all_messages)
+          document.querySelector('#show_all_messages').classList.add('inbox-show');
+          getMessages(data.all_messages);
         }
 
       } else {
         messages_list.innerHTML = `<h3>${data.message}</h3>`;
       }
     } catch (error) {
-      console.error('Error: ', error);
+      console.error('Ошибка: ', error);
     }
   }
 
-  // TODO: Buttons 
+  // Добавляем обработчики событий для кнопок в списке сообщений
   messages_list.addEventListener('click', (e) => {
       if (e.target.classList.contains('notification__text')) {
-          let notification  = e.target.parentNode
+          let notification  = e.target.parentNode;
 
-          let type = notification.querySelector('.notification__type').value
-          let content = notification.querySelector('.notification__content').innerHTML
+          let type = notification.querySelector('.notification__type').value;
+          let content = notification.querySelector('.notification__content').innerHTML;
 
           today__work.innerHTML = `
             ${type  == 'Google_Todo' || type == 'Google_Event' ? 
             `<form class='change_message_title' method='POST'>
-              <input type="hidden" name="csrfmiddlewaretoken" value="6I82Yjvf9MUCF2JpH3TWUOuU8BQQPReGPwLnE2Xqn7QZVo9KgViprwl5msfKlzo3">
-              <input type='text' value='${notification.querySelector(".notification__text").innerHTML}' name='title' placeholder='Enter title' />
-              <button class='btn'>save</button>
+              <input type="hidden" name="csrfmiddlewaretoken" value="${csrfToken}">
+              <input type='text' value='${notification.querySelector(".notification__text").innerHTML}' name='title' placeholder='Введите заголовок' />
+              <button class='btn'>Сохранить</button>
             </form>` : 
             `<h2>${notification.querySelector(".notification__text").innerHTML}</h2>` }
             <p>${content != 'null' ? content : ''}</p>
@@ -171,15 +173,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 <b>${notification.querySelector('.notification__title').innerHTML}</b> 
                 <b>${notification.querySelector('.notification__time').innerHTML}</b>
             </div>
-          `
+          `;
 
           if (type == 'Google_Todo' || type == 'Google_Event' ) {
             document.querySelector('.change_message_title').addEventListener('submit', (e) => {
-              e.preventDefault()
+              e.preventDefault();
         
-              let formData = new FormData(document.querySelector('.change_message_title'))          
+              let formData = new FormData(document.querySelector('.change_message_title'));          
 
-              // TODO: update google todo
+              // Обновляем Google Todo
               if (type == 'Google_Todo') {
                 fetch(`/api/patch-title-todo/${notification.querySelector('.list_id').value}/${notification.querySelector('.notification_id').value}`, {
                   method: 'POST',
@@ -188,9 +190,9 @@ document.addEventListener('DOMContentLoaded', () => {
                   .then(response => response.json())
                   .then(data => {})
                   .catch(error => {
-                    console.log('Error: ', error)
-                  })
-              // TODO: update google event
+                    console.log('Ошибка: ', error);
+                  });
+              // Обновляем Google Event
               } else if (type == 'Google_Event') {
                 fetch(`/api/google-event/${notification.querySelector('.calendar_id').value}/${notification.querySelector('.notification_id').value}`, {
                   method: 'POST',
@@ -198,22 +200,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                   .then(response => response.json())
                   .then(data => {
-                    console.log(data)
+                    console.log(data);
                   })
                   .catch(error => {
-                    console.log('Error: ', error)
-                  })
+                    console.log('Ошибка: ', error);
+                  });
               }
 
-              let ntf = inbox__messages.querySelector(`#id${notification.querySelector('.notification_id').value}`)
-              ntf.querySelector('.notification__text').innerHTML = formData.get('title')
-            })
+              let ntf = inbox__messages.querySelector(`#id${notification.querySelector('.notification_id').value}`);
+              ntf.querySelector('.notification__text').innerHTML = formData.get('title');
+            });
           }  
       }
 
-      // TODO: accomplished
+      // Обработчик для завершения Google Todo
       if (e.target.classList.contains('google_todo_accomplished')) {
-        let notification = e.target.parentNode.parentNode
+        let notification = e.target.parentNode.parentNode;
         
         if (notification.style.opacity == '0.3') {
           fetch(`/api/сomplete-todo/${notification.querySelector('.list_id').value}/${notification.querySelector('.notification_id').value}`, {
@@ -222,11 +224,11 @@ document.addEventListener('DOMContentLoaded', () => {
           })
             .then(response => response.json())
             .then(data => {
-              notification.style.opacity = '1'
+              notification.style.opacity = '1';
             })
             .catch(error => {
-              console.log('Error: ', error)
-            })
+              console.log('Ошибка: ', error);
+            });
 
         } else {
           fetch(`/api/сomplete-todo/${notification.querySelector('.list_id').value}/${notification.querySelector('.notification_id').value}`, {
@@ -235,73 +237,74 @@ document.addEventListener('DOMContentLoaded', () => {
           })
             .then(response => response.json())
             .then(data => {
-              notification.style.opacity = '.3'
+              notification.style.opacity = '.3';
             })
             .catch(error => {
-              console.log('Error: ', error)
-            })
+              console.log('Ошибка: ', error);
+            });
         }
       }
 
-      // TODO: delete
+      // Обработчик для удаления сообщения
       if (e.target.classList.contains('google_todo_delete')) {
-        let notification = e.target.parentNode.parentNode
+        let notification = e.target.parentNode.parentNode;
 
-        let type = notification.querySelector('.notification__type').value
+        let type = notification.querySelector('.notification__type').value;
         
-        // ! ___________ DELETE GOOGLE TODO ___________
+        // Удаляем Google Todo
         if (type == 'Google_Todo') {
           fetch(`/api/delete-todo/${notification.querySelector('.list_id').value}/${notification.querySelector('.notification_id').value}`, {
             method: 'DELETE',
           })
             .then(response => response.json())
             .then(data => {
-              notification.style.display = 'none'
+              notification.style.display = 'none';
             })  
             .catch(error => {
-              console.log('Error: ', error)
-            })
+              console.log('Ошибка: ', error);
+            });
         } else if (type == 'Gmail') {
 
-        // ! ___________ DELETE GMAIL LETTERS ___________
+        // Удаляем письмо Gmail
           fetch(`/api/google-gmail/${notification.querySelector('.notification_id').value}`, {
             method: 'DELETE',
           })
             .then(response => response.json())
             .then(data => {
-              notification.style.display = 'none'
+              notification.style.display = 'none';
             })  
             .catch(error => {
-              console.log('Error: ', error)
-            })
+              console.log('Ошибка: ', error);
+            });
         } else if (type == 'Google_Event') {
 
-          // ! ___________ DELETE EVENT ___________
+          // Удаляем событие Google Event
           fetch(`/api/google-event/${notification.querySelector('.calendar_id').value}/${notification.querySelector('.notification_id').value}`, {
             method: 'DELETE',
           })
             .then(response => response.json())
             .then(data => {
-              notification.style.display = 'none'
+              notification.style.display = 'none';
             })  
             .catch(error => {
-              console.log('Error: ', error)
-            })
+              console.log('Ошибка: ', error);
+            });
         }
       }
 
-        // TODO: Answer on letters
-        document.querySelectorAll('.notification__answer__on__gmail').forEach(elem => {
+      // Обработчик для ответа на письма
+      document.querySelectorAll('.notification__answer__on__gmail').forEach(elem => {
         elem.addEventListener('submit', (e) => {
           e.preventDefault();
         
           let form = e.target;
           let formData = new FormData(form);
     
-          formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+          formData.append('csrfmiddlewaretoken', csrfToken);
         
-          let notification = form.parentNode; // Adjust this based on your HTML structure
-        
+          let notification = form.parentNode;
+
+          // Отправляем ответ на Gmail письмо
           fetch(`/api/google-gmail/${notification.querySelector('.notification_id').value}`, {
             method: 'POST',
             body: formData
@@ -311,13 +314,13 @@ document.addEventListener('DOMContentLoaded', () => {
               console.log(data);
             })  
             .catch(error => {
-              console.log('Error: ', error);
+              console.log('Ошибка: ', error);
             });
       })
     });
   }) 
 
-
+  // Добавляем обработчики событий для чекбоксов в настройках
   inboxSettingsForm.querySelectorAll('.check__input').forEach(input => {
     input.addEventListener('click', () => {
       if (input.checked) {
@@ -331,17 +334,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
   
-      showMessages()
+      showMessages();
     })
   })
 
-  showMessages()
+  // Инициализируем отображение сообщений при загрузке страницы
+  showMessages();
 
+  // Обновляем сообщения каждые 30 секунд
   setInterval(() => {
-      showMessages()
-  }, 30000) // 60000 == 1 minute
+      showMessages();
+  }, 30000); // 60000 == 1 минута
 
+  // Просто для отладки - выводим сообщение каждую секунду
   setInterval(() => {
-      console.log('1sec')
-  }, 1000)
-})
+      console.log('1 секунда');
+  }, 1000);
+});
