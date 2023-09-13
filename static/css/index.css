@@ -1246,3 +1246,12 @@
    font-size: calc((1vh + 1vw) * 3.8);
    color: var(--olightgray);
 }
+
+.account__body__checkbox .btn {
+   font-size: calc((1vh + 1vw) * .8);
+   padding:  calc((1vh + 1vw) * .8)  calc((1vh + 1vw) * 2.2);
+}
+.account__body__checkbox .btn:last-child {
+   background-color: var(--black);
+   color: var(--gray);
+}

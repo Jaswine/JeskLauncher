@@ -15,12 +15,12 @@
     align-items: center;
     flex-direction: column;
 
-    max-width: 500px;
+    max-width: 600px;
     width: 100%;    
-    padding: 5vh 5vw;
+    padding: 8vh 8vw;
 
-    border-radius: 10px;
-    border: 2px solid rgb(0,0,0,.2);
+    border: 2px solid rgb(254,254,254,.2);
+    border-radius: 10px 10px 10px 60px;
 }
 .page__delete .buttons {
     display: flex;
@@ -28,4 +28,12 @@
     align-items: center;
     width: 100%;
     margin-top: 5%;
+}
+.buttons .btn {
+    font-size: calc((1vh + 1vw) * .9);
+    padding:  calc((1vh + 1vw) * .8)  calc((1vh + 1vw) * 2.4);
+}
+.buttons .btn:last-child {
+    background-color: var(--black);
+    color: var(--gray);
 }
