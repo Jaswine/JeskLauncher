@@ -941,6 +941,8 @@
    justify-self: start;
    align-items: center;
    flex-wrap: wrap;
+   gap: 10px;
+   row-gap: 10px;
 }
 .accounts__body i {
    font-size: 38px;

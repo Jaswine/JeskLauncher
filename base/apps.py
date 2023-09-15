@@ -17,38 +17,18 @@ def pre_social_login_callback(sender, request, sociallogin, **kwargs):
     
     user = socialaccount.user if hasattr(socialaccount, "user") else None
     
-    print('login', sociallogin.email_addresses)
-    print('socialaccount.uid', socialaccount.uid)    
     # Первый вход пользователя через социальную сеть
     if request.user.is_authenticated:
-        # socialaccount = allauth.socialaccount.models.SocialAccount.objects.create(
-        #     user=request.user,
-        #     provider=socialaccount.provider,
-        #     uid=socialaccount.uid,
-        #     extra_data=socialaccount.extra_data,
-        # )        # request.user.socialaccount_set.add(socialaccount)
-        
-        existing_socialaccount = allauth.socialaccount.models.SocialAccount.objects.filter(
-            provider=socialaccount.provider,
-            uid=socialaccount.uid,
-        ).first()
-
-        if existing_socialaccount:
-            # Update the existing SocialAccount with the current user
-            existing_socialaccount.user = request.user
-            existing_socialaccount.save()
-
-            # Make sure the associated SocialToken and SocialApp are also updated
-            socialtoken = allauth.socialaccount.models.SocialAccount.objects.filter(
-                account=existing_socialaccount
-            ).first()
-
-            if socialtoken:
-                socialtoken.user = request.user
-                socialtoken.save()
-
-            socialapp = allauth.socialaccount.models.SocialAccount.objects.get(provider=socialaccount.provider)
-            socialapp.sites.add(request.site)  # You may need to adjust this part if needed
+        try:
+            socialaccount = allauth.socialaccount.models.SocialAccount.objects.create(
+                user=request.user,
+                provider=socialaccount.provider,
+                uid=socialaccount.uid,
+                extra_data=socialaccount.extra_data,
+            )       
+            request.user.socialaccount_set.add(socialaccount)
+        except:
+            print('Social account Error')
     else:
         if not user:
             email = socialaccount.extra_data.get("email", "")
@@ -59,10 +39,17 @@ def pre_social_login_callback(sender, request, sociallogin, **kwargs):
             sociallogin.connect(request, user)
     
     # Delete existing social tokens
-    try:
-        allauth.socialaccount.models.SocialToken.objects.filter(account__user=socialaccount.user, account__provider=socialaccount.provider).delete()
-    except:
-        print('Token Error')
+    tokens_to_delete = allauth.socialaccount.models.SocialToken.objects.filter(account__user=socialaccount.user, account__provider=socialaccount.provider)
+
+    for token in tokens_to_delete:
+        # Получаем extra_data из социального аккаунта связанного с этим токеном
+        print(token)
+        extra_data = token.account.extra_data
+        
+        # Сравниваем uid и email с желаемыми значениями
+        if extra_data.get('uid') == socialaccount.uid and extra_data.get('email') == socialaccount.extra_data.get('email'):
+            # Удаляем токен, если uid и email соответствуют
+            token.delete()
 
     # get social app
     socialApp = allauth.socialaccount.models.SocialApp.objects.get(provider=socialaccount.provider)
