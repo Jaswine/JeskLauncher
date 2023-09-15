@@ -161,6 +161,17 @@ document.addEventListener('DOMContentLoaded', () => {
           let content = notification.querySelector('.notification__content').innerHTML;
 
           today__work.innerHTML = `
+            ${type == 'Gmail' ? `
+              <div class='today__notification__panel'>
+                <button class='today__notification__panel__start'>Star</button>
+                <button class='today__notification__panel__archive'>Archive</button>
+                <button class='today__notification__panel__in_span'>In span</button>
+                <button class='today__notification__panel__delete'>Delete</button>
+                <span></span>
+                <button class='today__notification__panel__unread'>Unread</button>
+                <button class='today__notification__panel_add_to_tasks'>Add to tasks</button>
+              </div>
+            ` :  ''}
             ${type  == 'Google_Todo' || type == 'Google_Event' ? 
             `<form class='change_message_title' method='POST'>
               <input type="hidden" name="csrfmiddlewaretoken" value="${csrfToken}">
@@ -210,7 +221,83 @@ document.addEventListener('DOMContentLoaded', () => {
               let ntf = inbox__messages.querySelector(`#id${notification.querySelector('.notification_id').value}`);
               ntf.querySelector('.notification__text').innerHTML = formData.get('title');
             });
-          }  
+          } 
+
+          if (type == 'Gmail') {
+            document.querySelector('.today__notification__panel__archive').addEventListener('click', () => {
+              fetch(`/api/google-gmail/${notification.querySelector('.notification_id').value}/archive`, {
+                method: 'POST',
+              })
+                .then(response => response.json())
+                .then(data => {
+                  console.log(data);
+                })
+                .catch(error => {
+                  console.log('Ошибка: ', error);
+                });
+            })
+
+            document.querySelector('.today__notification__panel__in_span').addEventListener('click', () => {
+              fetch(`/api/google-gmail/${notification.querySelector('.notification_id').value}/spam`, {
+                method: 'POST',
+              })
+                .then(response => response.json())
+                .then(data => {
+                  console.log(data);
+                })
+                .catch(error => {
+                  console.log('Ошибка: ', error);
+                });
+            })
+
+            document.querySelector('.today__notification__panel__delete').addEventListener('click', () => {
+              fetch(`/api/google-gmail/${notification.querySelector('.notification_id').value}`, {
+                method: 'DELETE',
+              })
+                .then(response => response.json())
+                .then(data => {
+                  notification.style.display = 'none';
+                })  
+                .catch(error => {
+                  console.log('Ошибка: ', error);
+                });
+            })
+
+            document.querySelector('.today__notification__panel__unread').addEventListener('click', () => {
+              fetch(`/api/google-gmail/${notification.querySelector('.notification_id').value}/unread`, {
+                method: 'POST',
+              })
+                .then(response => response.json())
+                .then(data => {
+                  console.log(data);
+                })  
+                .catch(error => {
+                  console.log('Ошибка: ', error);
+                });
+            })
+
+            document.querySelector('.today__notification__panel_add_to_tasks').addEventListener('click', () => {
+              let note_checkbox = document.querySelector('.inbox__backlog__note__todo')
+              note_checkbox.checked = true
+              addStyles(note_checkbox, 1, '0 0 5px 1px RGBa(47, 0, 234, 0.46)', 'RGBa(47, 0, 234, 0.46)')
+
+              let notes__form = document.querySelector('.inbox__backlog__notes__form')
+              notes__form.querySelector('input').value  = notification.querySelector(".notification__text").innerHTML 
+            })
+
+            document.querySelector('.today__notification__panel__start').addEventListener('click', () => {
+              fetch(`/api/google-gmail/${notification.querySelector('.notification_id').value}/star`, {
+                method: 'POST',
+              })
+                .then(response => response.json())
+                .then(data => {
+                  console.log(data)
+                })  
+                .catch(error => {
+                  console.log('Ошибка: ', error);
+                });
+            })
+          }
       }
 
       // Обработчик для завершения Google Todo

@@ -1,3 +1,15 @@
+   // Функция для изменения стилей элементов и их родителя
+const addStyles = (elem, opacity, shadow, bgcolor) => {
+    // Изменяем стили для каждого элемента-потомка родительского элемента
+    for (let child of elem.parentElement.children ) {
+        child.style.opacity = opacity
+    }
+
+    // Изменяем тень (box-shadow) и цвет фона родительского элемента
+    elem.parentElement.style.boxShadow = shadow
+    elem.parentElement.style.backgroundColor = bgcolor
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // Получаем ссылку на форму для создания заметок
     let create_form = document.querySelector('#backlog-notes-form')
@@ -37,18 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Получаем все input элементы с классом '.inbox__backlog__note__input'
     let inputs = document.querySelectorAll('.inbox__backlog__note__input')
-
-    // Функция для изменения стилей элементов и их родителя
-    const addStyles = (elem, opacity, shadow, bgcolor) => {
-        // Изменяем стили для каждого элемента-потомка родительского элемента
-        for (let child of elem.parentElement.children ) {
-            child.style.opacity = opacity
-        }
-
-        // Изменяем тень (box-shadow) и цвет фона родительского элемента
-        elem.parentElement.style.boxShadow = shadow
-        elem.parentElement.style.backgroundColor = bgcolor
-    }
 
     // Добавляем обработчик события для каждого input элемента
     inputs.forEach(input => {

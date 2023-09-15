@@ -524,10 +524,11 @@
    overflow-x: hidden;
 
    transition: all .3s linear;
-   padding: 10px;
+   padding: 0 10px 10px;
+   position: relative;
 }
 .today__work h2 {
-   margin: 8px 0 14px;
+   margin: 0 0 14px;
    font-size: 24px;
    font-family: var(--bayerSans);
    letter-spacing: 2px;
@@ -1254,4 +1255,47 @@
 .account__body__checkbox .btn:last-child {
    background-color: var(--black);
    color: var(--gray);
+}
+.today__notification__panel {
+   display: flex;
+   justify-content: start !important;
+   align-items: center;
+
+   position: sticky;
+   top: 0;
+   width: 100%;
+   padding: 2px 4px 8px;
+   gap: 4px;
+   /* border-bottom: 1.5px solid var(--olightgray) ; */
+   border-radius: 6px;
+   height: 62px;
+   margin-top: 0 !important;
+}
+.today__notification__panel::after {
+   display: block;
+   content: '';
+   width: 100%;
+   height: 95%;
+   backdrop-filter: blur(5px);
+   position: absolute;
+   z-index: -1;
+}
+.today__notification__panel span {
+   display: block;
+   content: '';
+   width: 1px;
+   height: calc((1vh + 1vw) * .8);
+   background-color: rgb(254,254,254,.2);
+}
+
+.today__notification__panel button {
+   font-size: calc((1vh + 1vw) * .8);
+   border-radius: 4px;
+   padding: 4px 6px;
+   color: rgb(254,254,254,.8);
+   cursor: pointer;
+}
+.today__notification__panel button:hover {
+   background-color: rgb(254,254,254, .1);
+   color: var(--white);
 }

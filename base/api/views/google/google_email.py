@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from allauth.socialaccount.models import SocialToken, SocialApp
 from django.views.decorators.csrf import csrf_exempt
 
+# TODO: Функция для ответа на письмо
 @csrf_exempt
 def GoogleGmail(request, email_id):
    socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
@@ -60,24 +61,171 @@ def GoogleGmail(request, email_id):
             'status': 'error',
             'message': f'Failed to delete email with ID {email_id}, status code: {response.status_code}'
             }, safe=False)
-            
+           
+# TODO: Функция для добавления письма в корзину 
 @csrf_exempt
 def GoogleGmailAddToTrash(request, email_id):
+   #  Взятие токена доступа апи
    socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
    
    if socialGoogleToken:
       access_token = socialGoogleToken.token
    
       if request.method == 'POST':  
-         reply_response = requests.post(
+         # Оправка запроса на добавление письма в корзину
+         response = requests.post(
                f'https://www.googleapis.com/gmail/v1/users/me/messages/{email_id}/trash',
                params={'access_token': access_token},
             )
                
-         if reply_response.status_code == 200:
+         # Проверка статуса пришедшего ответа
+         if response.status_code == 200:
             return JsonResponse({
                'status': 'success',
-               'message': f'Email with ID {email_id} moved successfully'
+               'message': f'Email with ID {email_id} deleted successfully'
+            }, safe=False)
+         else:
+            return JsonResponse({
+               'status': 'error',
+               'message': f'Failed to delete email with ID {email_id}, status code: {response.status_code}'
+            }, safe=False)
+  
+# TODO: Функция для архивирования письма            
+@csrf_exempt
+def GoogleGmailAddToArchive(request, email_id):
+   #  Взятие токена доступа апи
+   socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
+   
+   if socialGoogleToken:
+      access_token = socialGoogleToken.token
+   
+      if request.method == 'POST':  
+         labels_to_add = ["INBOX"]
+         
+         # Создания тела запроса
+         modify_request_body = {
+               "addLabelIds": labels_to_add
+         }
+          
+         # Оправка запроса на архивирование письма   
+         response = requests.post(
+               f'https://www.googleapis.com/gmail/v1/users/me/messages/{email_id}/modify',
+               params={'access_token': access_token},
+               json=modify_request_body
+            )
+         
+         # Проверка статуса пришедшего ответа
+         if response.status_code == 200:
+            return JsonResponse({
+               'status': 'success',
+               'message': f'Email with ID {email_id} archived successfully'
+            }, safe=False)
+         else:
+            return JsonResponse({
+               'status': 'error',
+               'message': f'Failed to delete email with ID {email_id}, status code: {response.status_code}'
+            }, safe=False)
+
+# TODO: Функция для добавления письма в СПАМ           
+@csrf_exempt
+def GoogleGmailAddToSpam(request, email_id):
+   #  Взятие токена доступа апи
+   socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
+   
+   if socialGoogleToken:
+      access_token = socialGoogleToken.token
+   
+      if request.method == 'POST': 
+         labels_to_add = ["SPAM"]
+          
+         # Создания тела запроса
+         modify_request_body = {
+               "addLabelIds": labels_to_add
+         }
+            
+         # Оправка запроса для добавления письма в СПАМ   
+         response = requests.post(
+               f'https://www.googleapis.com/gmail/v1/users/me/messages/{email_id}/modify',
+               params={'access_token': access_token},
+               json=modify_request_body
+            )
+             
+         # Проверка статуса пришедшего ответа
+         if response.status_code == 200:
+            return JsonResponse({
+               'status': 'success',
+               'message': f'Email with ID {email_id} moved to SPAM successfully'
+            }, safe=False)
+         else:
+            return JsonResponse({
+               'status': 'error',
+               'message': f'Failed to delete email with ID {email_id}, status code: {response.status_code}'
+            }, safe=False)
+            
+# TODO: Функция для помечения письма, что оно не прочитано        
+@csrf_exempt
+def GoogleGmailAddUnreadStatus(request, email_id):
+   #  Взятие токена доступа апи
+   socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
+   
+   if socialGoogleToken:
+      access_token = socialGoogleToken.token
+   
+      if request.method == 'POST':  
+         labels_to_add = ["INBOX"]
+         
+         # Создания тела запроса
+         modify_request_body = {
+               "addLabelIds": labels_to_add,
+               "removeLabelIds": []
+         }
+          
+         # Оправка запроса для помечения письма, что оно не прочитано   
+         response = requests.post(
+               f'https://www.googleapis.com/gmail/v1/users/me/messages/{email_id}/modify',
+               params={'access_token': access_token},
+               json=modify_request_body
+            )
+         
+         # Проверка статуса пришедшего ответа
+         if response.status_code == 200:
+            return JsonResponse({
+               'status': 'success',
+               'message': f'Email with ID {email_id} moved to unread successfully'
+            }, safe=False)
+         else:
+            return JsonResponse({
+               'status': 'error',
+               'message': f'Failed to delete email with ID {email_id}, status code: {response.status_code}'
+            }, safe=False)
+            
+# TODO: Функция для помечения письма, проставка звездочки      
+@csrf_exempt
+def GoogleGmailAddStar(request, email_id):
+   #  Взятие токена доступа апи
+   socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
+   
+   if socialGoogleToken:
+      access_token = socialGoogleToken.token
+   
+      if request.method == 'POST':  
+         # Создания тела запроса
+         modify_request_body = {
+            "addLabelIds": ["STARRED"] 
+         }
+          
+         # Оправка запроса для помечения письма, проставка звездочки 
+         response = requests.post(
+               f'https://www.googleapis.com/gmail/v1/users/me/messages/{email_id}/modify',
+               params={'access_token': access_token},
+               json=modify_request_body
+            )
+         
+         # Проверка статуса пришедшего ответа
+         if response.status_code == 200:
+            return JsonResponse({
+               'status': 'success',
+               'message': f'Email with ID {email_id} moved to unread successfully'
             }, safe=False)
          else:
             return JsonResponse({

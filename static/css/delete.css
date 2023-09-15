@@ -22,16 +22,19 @@
     border: 2px solid rgb(254,254,254,.2);
     border-radius: 10px 10px 10px 60px;
 }
-.page__delete .buttons {
+
+
+.buttons {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    gap: 5%;
     margin-top: 5%;
 }
 .buttons .btn {
-    font-size: calc((1vh + 1vw) * .9);
-    padding:  calc((1vh + 1vw) * .8)  calc((1vh + 1vw) * 2.4);
+    font-size: calc((1vh + 1vw) * .8);
+    padding:  calc((1vh + 1vw) * .7)  calc((1vh + 1vw) * 2);
 }
 .buttons .btn:last-child {
     background-color: var(--black);
