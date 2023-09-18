@@ -40,16 +40,21 @@ def pre_social_login_callback(sender, request, sociallogin, **kwargs):
     
     # Delete existing social tokens
     tokens_to_delete = allauth.socialaccount.models.SocialToken.objects.filter(account__user=socialaccount.user, account__provider=socialaccount.provider)
+    print('tokens_to_delete', tokens_to_delete)
 
     for token in tokens_to_delete:
         # Получаем extra_data из социального аккаунта связанного с этим токеном
-        print(token)
         extra_data = token.account.extra_data
         
+        print('token account and socialaccount.id',token.account, socialaccount.uid)
+        print('extradata email and socialaccount email',extra_data.get('email'), socialaccount.extra_data.get('email'))
+        print(str(token.account.uid) == str(socialaccount.uid), extra_data.get('email') == socialaccount.extra_data.get('email'))
+        
         # Сравниваем uid и email с желаемыми значениями
-        if extra_data.get('uid') == socialaccount.uid and extra_data.get('email') == socialaccount.extra_data.get('email'):
-            # Удаляем токен, если uid и email соответствуют
-            token.delete()
+        if socialaccount.provider == 'google':
+            if str(token.account.uid) == str(socialaccount.uid) and extra_data.get('email') == socialaccount.extra_data.get('email'):
+                # Удаляем токен, если uid и email соответствуют
+                token.delete()
 
     # get social app
     socialApp = allauth.socialaccount.models.SocialApp.objects.get(provider=socialaccount.provider)
