@@ -31,7 +31,7 @@ def pre_social_login_callback(sender, request, sociallogin, **kwargs):
             request.user.socialaccount_set.add(socialaccount)
         except:
             # Обработка ошибки, если что-то пошло не так
-            print('Sjocial account Error:', str(e))
+            print('Error')
     else:
         if not user:
             email = socialaccount.extra_data.get("email", "")
