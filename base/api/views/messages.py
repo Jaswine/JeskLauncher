@@ -44,7 +44,8 @@ def messages_list(request):
                     'link': message['link'],
                     'text': message['text'],
                     'created_time': str(message['created_time']),
-    
+                    
+                    'is_liked': message.get('is_liked', ''),
                     'list_id': message.get('list_id', ''),
                     'calendar_id': message.get('calendar_id', ''),
                     

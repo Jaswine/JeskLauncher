@@ -1266,21 +1266,24 @@
    position: sticky;
    top: 0;
    width: 100%;
-   padding: 2px 4px 8px;
+   padding: 4px 8px 8px;
    gap: 4px;
    /* border-bottom: 1.5px solid var(--olightgray) ; */
    border-radius: 6px;
    height: 62px;
    margin-top: 0 !important;
 }
-.today__notification__panel::after {
+.today__notification__panel::before {
    display: block;
    content: '';
-   width: 100%;
+   width: 90%;
    height: 95%;
    backdrop-filter: blur(5px);
+   background-color: rgb(47, 44, 171, .2);
    position: absolute;
    z-index: -1;
+   border-radius: 0 0 10px 10px;
+   max-height: 80px;
 }
 .today__notification__panel span {
    display: block;

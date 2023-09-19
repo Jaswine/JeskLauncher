@@ -29,7 +29,7 @@ urlpatterns = [
     path('google-gmail/<str:email_id>/archive', google_email.GoogleGmailAddToArchive, name='google_gmail_archive'),
     path('google-gmail/<str:email_id>/spam', google_email.GoogleGmailAddToSpam, name='google_gmail_spam'),
     path('google-gmail/<str:email_id>/unread', google_email.GoogleGmailAddUnreadStatus, name='google_gmail_unread_status'),
-    path('google-gmail/<str:email_id>/star', google_email.GoogleGmailAddStar, name='google_gmail_star'),
+    path('google-gmail/<str:email_id>/star/<str:star>', google_email.GoogleGmailAddStar, name='google_gmail_star'),
     
     
     # TODO: ____ google event _____

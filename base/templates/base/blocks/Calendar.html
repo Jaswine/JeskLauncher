@@ -120,6 +120,11 @@
          <p>{{access_token}}</p>
       </div> 
       <h2>Add other accounts</h2>
+      <div class="accounts__body">
+         <a href="{% provider_login_url "google" %}">
+            <i class="fa-brands fa-google" ></i> 
+         </a>
+      </div>
       <a href="{% url 'socialaccount_connections' %}">Connect Social Account</a>
    </div>
 </div>

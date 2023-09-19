@@ -201,18 +201,22 @@ def GoogleGmailAddUnreadStatus(request, email_id):
             
 # TODO: Функция для помечения письма, проставка звездочки      
 @csrf_exempt
-def GoogleGmailAddStar(request, email_id):
+def GoogleGmailAddStar(request, email_id, star):
    #  Взятие токена доступа апи
    socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
    
    if socialGoogleToken:
       access_token = socialGoogleToken.token
-   
+
       if request.method == 'POST':  
-         # Создания тела запроса
-         modify_request_body = {
-            "addLabelIds": ["STARRED"] 
-         }
+         if star == 'true':
+            modify_request_body = {
+               "removeLabelIds": ["STARRED"]
+            }
+         else:
+            modify_request_body = {
+               "addLabelIds": ["STARRED"] 
+            }
           
          # Оправка запроса для помечения письма, проставка звездочки 
          response = requests.post(
@@ -225,7 +229,7 @@ def GoogleGmailAddStar(request, email_id):
          if response.status_code == 200:
             return JsonResponse({
                'status': 'success',
-               'message': f'Email with ID {email_id} moved to unread successfully'
+               'message': f'Email with ID {email_id} moved successfully'
             }, safe=False)
          else:
             return JsonResponse({

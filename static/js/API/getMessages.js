@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
 
+
         // Функция для рендеринга сообщения
         const renderMessage = (message, messages_list) => {
           const div = document.createElement('div');
@@ -80,11 +81,11 @@ document.addEventListener('DOMContentLoaded', () => {
             ` : ''}
           
             <div class="notification__buttons">
-            <a href="${message.link}" target='_blank'>show</a>
-            ${message.type == 'Gmail' || message.type == 'Google_Todo' || message.type == 'Google_Event' ? "<a class='google_todo_delete'>del</a>" : ''}
-            ${message.type == 'Google_Todo' ? "<a class='google_todo_accomplished'>comp</a>" : ''}
-
+              <a href="${message.link}" target='_blank'>show</a>
+              ${message.type == 'Gmail' || message.type == 'Google_Todo' || message.type == 'Google_Event' ? "<a class='google_todo_delete'>del</a>" : ''}
+              ${message.type == 'Google_Todo' ? "<a class='google_todo_accomplished'>comp</a>" : ''}
             </div>
+
             <span class='notification__time'>${message.created_time}</span>
 
             <div class="notification__content">${message.text}</div>
@@ -92,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <input type='hidden' class='notification__type' value='${message.type}' />
             ${message.list_id ? `<input type='hidden' class='list_id' value='${message.list_id}' />` : ''}
             ${message.calendar_id ? `<input type='hidden' class='calendar_id' value='${message.calendar_id}' />` : ''}
+            ${message.type == 'Gmail' ? `<input type='hidden' class='gmail_is_liked' value='${message.is_liked}' />`: ''}
           `;
 
           messages_list.appendChild(div);
@@ -160,10 +162,13 @@ document.addEventListener('DOMContentLoaded', () => {
           let type = notification.querySelector('.notification__type').value;
           let content = notification.querySelector('.notification__content').innerHTML;
 
+          console.log(notification.querySelector('.gmail_is_liked').value)
           today__work.innerHTML = `
             ${type == 'Gmail' ? `
               <div class='today__notification__panel'>
-                <button class='today__notification__panel__start'>Star</button>
+                <button class='today__notification__panel__start'>
+                  ${notification.querySelector('.gmail_is_liked').value == 'true' ? 'Unstar' : 'Star'}
+                </button>
                 <button class='today__notification__panel__archive'>Archive</button>
                 <button class='today__notification__panel__in_span'>In span</button>
                 <button class='today__notification__panel__delete'>Delete</button>
@@ -243,7 +248,10 @@ document.addEventListener('DOMContentLoaded', () => {
               })
                 .then(response => response.json())
                 .then(data => {
-                  console.log(data);
+                  console.log(data)
+                  today__work.innerHTML = ''
+                  notification.mstyle.display = 'none'
+                  showMessages()
                 })
                 .catch(error => {
                   console.log('Ошибка: ', error);
@@ -256,7 +264,9 @@ document.addEventListener('DOMContentLoaded', () => {
               })
                 .then(response => response.json())
                 .then(data => {
-                  notification.style.display = 'none';
+                  today__work.innerHTML = ''
+                  notification.style.display = 'none'
+                  showMessages()
                 })  
                 .catch(error => {
                   console.log('Ошибка: ', error);
@@ -286,12 +296,27 @@ document.addEventListener('DOMContentLoaded', () => {
             })
 
             document.querySelector('.today__notification__panel__start').addEventListener('click', () => {
-              fetch(`/api/google-gmail/${notification.querySelector('.notification_id').value}/star`, {
+              let data = {
+                status: notification.querySelector('.gmail_is_liked').value
+              }
+              fetch(`/api/google-gmail/${notification.querySelector('.notification_id').value}/star/${notification.querySelector('.gmail_is_liked').value}`, {
                 method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json', 
+                },
+                body: JSON.stringify(data)
               })
                 .then(response => response.json())
                 .then(data => {
                   console.log(data)
+                  let star__button = document.querySelector('.today__notification__panel__start')
+                  console.log(star__button)
+
+                  if (star__button.innerHTML == 'Unstar') {
+                    star__button.innerHTML = 'Star'
+                  } else {
+                    star__button.innerHTML = 'Unstar'
+                  }
                 })  
                 .catch(error => {
                   console.log('Ошибка: ', error);
