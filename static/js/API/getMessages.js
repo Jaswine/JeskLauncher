@@ -162,7 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
           let type = notification.querySelector('.notification__type').value;
           let content = notification.querySelector('.notification__content').innerHTML;
 
-          console.log(notification.querySelector('.gmail_is_liked').value)
           today__work.innerHTML = `
             ${type == 'Gmail' ? `
               <div class='today__notification__panel'>
