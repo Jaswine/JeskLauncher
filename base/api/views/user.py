@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth import update_session_auth_hash
 
 from django.contrib.auth.models import User
-from ...models import Profile
+from ...models import Profile, TestUser
 
 import requests
 
@@ -112,3 +112,28 @@ def rewrite_tokens(request):
         'status': 'error',
         'message': 'Tokens could not be rewritten because you don\'t have a valid refresh token'
     }, status=200)
+    
+    
+def create_new_user(request):
+    if request.method == 'POST':
+        name = request.POST.get('name', '')
+        email = request.POST.get('email')
+        
+        if len(email) > 5:
+            user = TestUser.objects.create(
+                name = name, 
+                email = email
+            )
+            
+            user.save()
+            
+            return JsonResponse({
+                'status': 'success',
+                'message': 'User has been created successfully'
+            })
+            
+        return JsonResponse({
+            'status': 'error',
+            'message': 'Email length is so small'
+        })
+    

@@ -1,18 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from ..models import Todo, TodaysNotes
+from ..models import Todo, TodaysNotes, TestUser
 
 
-@login_required(login_url='base:sign-in')
-def index_view(request):
-   # bot_token = '6263736045:AAHXJM8S4NLQKEiH7O1f88pKOa6x9Y0pqLc'
-   # bot = Bot(token=bot_token)
-   # print('___________bot_______________', bot)
-      
-   context = {
-      #  'emails': email_list,
-   }
-   return render(request, 'base/index.html', context)
+def index_view(request):  
+   if request.user.is_authenticated: 
+      return render(request, 'base/index.html')
+   else: 
+      return render(request, 'base/lending.html')
    
 @login_required(login_url='base:sign-in')
 def delete_comment_view(request, task_id):

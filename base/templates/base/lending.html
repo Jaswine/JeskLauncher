@@ -1,0 +1,183 @@
+{% include 'main.html' %}
+{% load static %}
+
+{% block title %}
+<link rel="stylesheet" href="{% static 'css/lending.css' %}">
+
+<title>Jesk</title>
+{% endblock title %}
+
+{% block content %}
+<div class="page">
+
+    <!-- Header -->
+    <header>
+        <a class="header__logo" href="" >
+            <img src="/static/media/logos/jesk.svg" alt="jesk">
+            <span>Jesk</span>
+        </a>
+        <div class="header__menu">
+            <a class="header__link">Home</a>
+            <a class="header__link">About</a>
+            <a class="header__link">Features</a>
+            <a class="header__link">Contacts</a>
+        </div>
+    </header>
+
+
+    <!-- intro -->
+    <div class="intro part" id="home">
+        <div class="intro__desc">
+            <h1>+ 500% to your productivity</h1>
+            <p>The productivity tool everyone will be talking about.SUBSCRIBE so you don't miss out!</p>
+            <div class="buttons">
+                <a class="to_about">Learn more</a>
+                <button class="btn try_demo">Try Demo</ф>
+            </div>
+        </div>
+        <img src="/static/media/lending/main.png" alt="main">
+    </div>
+
+    <!-- about -->
+    <div class="about part" id="about">
+        <div class="">
+
+        </div>
+    </div>
+
+    <!-- features -->
+    <div class="features part" id="features">
+        <div class="features__item">
+            <img src="/static/media/lending/inbox_about.png" alt="inbox">
+            <div class="features__desc">
+                <h2>General Inbox</h2>
+                <p>Messages, emails, comments from social networks, invites and events in your calendar - all in one window as they come in.</p>
+                <p>Also create a new task or note in the service you want.</p>
+            </div>
+        </div>
+        <div class="features__item">
+            <img src="/static/media/lending/Actual_tasks.png" alt="actual">
+            <div class="features__desc">
+                <h2>Actual tasks</h2>
+                <p>Only tasks assigned to you, where you are an observer or checker.
+                    In one place, with files downloaded in advance.</p>
+                <p>Also creating notes for the day.</p>
+            </div>
+        </div>
+        <div class="features__item">
+            <img src="/static/media/lending/callendar.png" alt="calendaer">
+            <div class="features__desc">
+                <h2>Widgets</h2>
+                <p>A set of various widgets: music control, calendar, traffic jams on the map, stock quotes and more.</p>
+                <p>Jesk control buttons: nature sounds, focus mode, expand to full screen, switch to rest mode</p>
+            </div>
+        </div>
+        
+        <div class="features__info">
+            <h2>Why is it necessary?</h2>
+            <div class="features__info__line">
+
+                <div class="features__card">
+                    <div class="features__card__desc">
+                        <span class="material-symbols-outlined">
+                            check
+                        </span>
+                        <h3>One place to work</h3>
+                    </div>
+                    <p>If colleagues, partners and superiors use different services and programs.</p>
+                </div>
+
+                <div class="features__card">
+                    <div class="features__card__desc">
+                        <span class="material-symbols-outlined">
+                            check
+                        </span>
+                        <h3>Personal Life</h3>
+                    </div>
+                    <p>In addition to work, there is a personal life that you can't fall out of.</p>
+                </div>
+
+                <div class="features__card">
+                    <div class="features__card__desc">
+                        <span class="material-symbols-outlined">
+                            check
+                        </span>
+                        <h3>The whole world is yours</h3>
+                    </div>
+                    <p>Now you don't have to work from the office or from home, but you should always have access to work resources</p>
+                </div>
+
+            </div>
+            <div class="features__info__line">
+
+                <div class="features__card">
+                    <div class="features__card__desc">
+                        <span class="material-symbols-outlined">
+                            check
+                        </span>
+                        <h3>By the book</h3>
+                    </div>
+                    <p>Information flows from everywhere, information needs to be structured.Otherwise, it's chaos.</p>
+                </div>
+
+                <div class="features__card">
+                    <div class="features__card__desc">
+                        <span class="material-symbols-outlined">
+                            check
+                        </span>
+                        <h3>Charging</h3>
+                    </div>
+                    <p>Automatic switchover to chill mode by timer</p>
+                </div>
+
+                <div class="features__card">
+                    <div class="features__card__desc">
+                        <span class="material-symbols-outlined">
+                            check
+                        </span>
+                        <h3>Optimization</h3>
+                    </div>
+                    <p>Wasting less energy, getting more results</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- contacts -->
+    <div class="contacts part" id="contacts">
+        <form action="" method="POST" id="contactsForm">
+            {% csrf_token %}
+            <h2>Try Demo</h2>
+
+            <input 
+                type="text" 
+                name="name" 
+                placeholder="Enter your name..." />
+            <input 
+                type="email" 
+                name="email" 
+                placeholder="Enter your email..." 
+                required />
+
+            <button class="btn">Send</button>
+        </form>
+        <div class="contacts__message">
+            <h2>Your application has been successfully sent!</h2>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer__left">
+            jesk.launcher@gmail.com
+        </div>
+        <div class="footer__right">
+            <a href="{% url 'privacy' %}">Privacy Police</a>
+            <a  href="{% url 'terms' %}">Terms of use</a>
+           <a href="{% url 'delete-instructions' %}" >Delete instructions</a>
+        </div>
+    </footer>
+</div>
+
+<script src="/static/js/lending/sendData.js"></script>
+{% endblock content %}

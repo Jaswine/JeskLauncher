@@ -36,4 +36,6 @@ urlpatterns = [
     path('google-event/<str:calendarId>/<str:eventId>', google_calendar.GoogleCalendarPatchTitle, name='google_event'),
     
     path('rewrite-tokens', user.rewrite_tokens, name='rewrite_tokens'), 
+    
+    path('create-new-user', user.create_new_user, name='create_new_new'),
 ]

@@ -37,3 +37,10 @@ class TodaysNotes(models.Model):
    
    def __str__(self):
       return f'{self.user.username} - {self.message} - {self.created_at}'
+   
+class TestUser(models.Model):
+   name = models.CharField(max_length=220)
+   email = models.EmailField(max_length=220)
+   
+   def __str__(self):
+      return self.name
