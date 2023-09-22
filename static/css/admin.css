@@ -1,0 +1,63 @@
+@import './variables.css';
+
+.page {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    width: 100%;
+    padding: 2vh 4vw;
+    gap: 4vw;
+}
+*, a, select, input {
+    color: var(--primary);
+}
+a {
+    border: 1px solid rgb(20,20,20,.4);
+    border-radius: 10px;
+    padding: 4px 8px;
+    color: rgb(20,20,20,.4);
+    font-size: 16px;
+}
+a:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    cursor: pointer;
+}
+
+select {
+    border: 2px solid rgb(20,20,20,.1);
+    border-radius: 10px;
+    padding: 1vh 2vw;
+}
+.page__left, .page__right {
+    width: 44vw;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    flex-direction: column;
+}
+.page__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    border-bottom: 2px solid rgb(20,20,20,.1);
+    padding: 1vh  0;
+    margin-bottom: 1vh;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 5px 10px;
+    text-align: left;
+    font-size: 16px;
+}
+
+::selection {
+    background-color: var(--primary);
+}

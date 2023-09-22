@@ -1,0 +1,65 @@
+{% include 'main.html' %}
+{% load static %}
+
+{% block title %}
+<link rel="stylesheet" href="{% static 'css/admin.css' %}">
+
+<title>Admin</title>
+{% endblock title %}
+
+{% block content %}
+<div class="page">
+
+    <!-- ! Test users  -->
+    <div class="page__left">
+
+        <div class="page__header">
+            <h2>Test users</h2>
+            <div class="page__header__buttons">
+                <a href="{% url 'base:download_test_users_excel' %}">.xlsx, xls</a>
+                <a href="{% url 'base:download_test_users_text' %}">.txt</a>
+            </div>
+        </div>
+
+        <table>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+            </tr>
+           {% for user in testUsers %}
+            <tr>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+            </tr>
+           {% endfor %}
+        </table>
+
+    </div>
+
+    <!-- ! Current users  -->
+    <div class="page__right">
+        <div class="page__header">
+            <h2>Current users</h2>
+            <div class="page__header__buttons">
+                <a href="{% url 'base:download_users_excel' %}">.xlsx, xls</a>
+                <a href="{% url 'base:download_users_text' %}">.txt</a>
+            </div>
+        </div>
+
+        <table>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+            </tr>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                </tr>
+           {% endfor %}
+        </table>
+
+    </div>
+
+</div>
+{% endblock content %}

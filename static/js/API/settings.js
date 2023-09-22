@@ -33,9 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
             today.style.width = '50%'
             today.style.maxWidth = '50%'
 
-            inbox.style.width = '25%'
-            inbox.style.maxWidth = '25%'
-
             // Удаляем классы для скрытия календарных элементов
             calendar__settings.classList.remove('without_calendar')
             calendar__footer.classList.remove('without_calendar')
@@ -44,11 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Если чекбокс не отмечен, изменяем ширину элементов обратно
             calendar.style.width = '0%'
 
-            today.style.width = '65%'
-            today.style.maxWidth = '65%'
-
-            inbox.style.width = '35%'
-            inbox.style.maxWidth = '35%'
+            today.style.width = '75%'
+            today.style.maxWidth = '75%'
 
             // Добавляем классы для скрытия календарных элементов
             calendar__settings.classList.add('without_calendar')

@@ -44,6 +44,7 @@
          {% endfor %}
      </div>
    {% endif %}
+   <p class="page__form__info"><span style="color: red;">*</span> When you create an account, you automatically agree to the <a href='{% url "privacy" %}'>privacy policy</a> and <a href='{% url "terms" %}'>terms of use</a>.</p>
     <input type="submit" style="display: none;" value="Continue" />
     <div class="buttons">
        <a href="{% provider_login_url 'google' %}">Continue with Google</a>

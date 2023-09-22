@@ -900,7 +900,7 @@
    padding: calc((1vh + 1vw) * 1.2) calc((1vh + 1vw) * 1.2) calc((1vh + 1vw) * 3.4);
    border-radius: 0 0 0 calc((1vh + 1vw) * 2.8);
 
-   gap: 20px;
+   gap: 3vh;
 }
 .settings__content h2 {
    font-family: var(--bayerSans);
@@ -925,6 +925,7 @@
    justify-content: space-between;
    align-items: center;
    width: 100%;
+   gap: 5vh;
 }
 .accounts__header h2 {
    font-size: calc((1vh + 1vw) * 1.6);
@@ -956,6 +957,14 @@
    align-items: center;
    width: 100%;
    margin-bottom: 6px;
+}
+.account__body__checkbox .btn {
+   background-color: var(--white);
+}
+.account__body__checkbox .btn:hover {
+   color: var(--white);
+   background-color: var(--blue);
+   box-shadow:  0 0 10px 1px rgb(254,254,254,.1);
 }
 .settings .account__body__line {
    width: 100%;

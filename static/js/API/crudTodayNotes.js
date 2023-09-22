@@ -69,10 +69,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // Отображаем форму подтверждения удаления заметки
             note__form.style.display = 'flex';
             note__form.innerHTML = `
-                <h2>Вы уверены, что хотите удалить эту заметку?</h2>
+                <h2>Are you sure you want to delete this note?</h2>
                 <div>
-                    <a class='note__form__close'>Нет, закрыть</a>
-                    <span class='btn note__form__confirm'>Да</span>
+                    <a class='note__form__close'>No, close</a>
+                    <span class='btn note__form__confirm'>Yes</span>
                 </div>
             `;
             setTimeout(() => {

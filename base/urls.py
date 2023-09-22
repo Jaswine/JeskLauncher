@@ -9,6 +9,11 @@ from .views.index_view import (index_view,
                                delete_comment_view, 
                                delete_today_note_view)
 from .views.user import delete_account
+from .views.admin import (admin, 
+                          download_test_users_excel, 
+                          download_test_users_text,
+                          download_users_excel,
+                          download_users_text)
 
 app_name ='base'
 
@@ -25,4 +30,11 @@ urlpatterns = [
    path('sign-in-social-media-view', sign_in_social_media_view, name='sign-in-social-media'),
    
    path('delete-account/', delete_account, name='delete_account'),
+   
+   path('admin-panel', admin, name='admin-panel'),
+   path('admin-panel-download-test-users-excel', download_test_users_excel, name='download_test_users_excel'),
+   path('admin-panel-download-test-users-text', download_test_users_text, name='download_test_users_text'),
+   path('admin-panel-download-users-excel', download_users_excel, name='download_users_excel'),
+   path('admin-panel-download-users-text', download_users_text, name='download_users_text'),
+   
 ]

@@ -197,36 +197,43 @@
       <h2>Settings</h2>
       <form class="accounts__body" method="POST" id="settingsForm">   
          {% csrf_token %}
-         <div class="account__body__line">
-            <label>Email:</label>
-            <input 
-               type="email" 
-               name="email"
-               placeholder="Enter your email..."
-               value="{{ request.user.email }}" />
+
+         <div class="accounts__header">
+            <div class="account__body__line">
+               <label>Email:</label>
+               <input 
+                  type="email" 
+                  name="email"
+                  placeholder="Enter your email..."
+                  value="{{ request.user.email }}" />
+            </div>
+            
+            <div class="account__body__line">
+               <label>Password: </label>
+               <input 
+                  type="password" 
+                  name="password"
+                  placeholder="Enter a new password..." />
+            </div>
          </div>
-         
-         <div class="account__body__line">
-            <label>Password: </label>
-            <input 
-               type="password" 
-               name="password"
-               placeholder="Enter a new password..." />
+
+         <div class="accounts__header">
+            <div class="account__body__line">
+               <label>Upload a new avatar: </label>
+               <input 
+                  type="file"
+                  name="avatar"
+                  class="upload__avatar" />
+            </div>
+            <div class="account__body__line">
+               <label>Show Widgets: </label>
+               <input 
+                  type="checkbox"
+                  name="show_calendar"
+                  class="check__calendar check__input" />
+            </div>
          </div>
-         <div class="account__body__line">
-            <label>Show Widgets: </label>
-            <input 
-               type="checkbox"
-               name="show_calendar"
-               class="check__calendar check__input" />
-         </div>
-         <div class="account__body__line">
-            <label>Upload a new avatar: </label>
-            <input 
-               type="file"
-               name="avatar"
-               class="upload__avatar" />
-         </div>
+
          <div class="account__body__checkbox">
             <button class="btn">Save</button>
             <a class="btn btn--del" href="/delete-account">Delete Account</a>
