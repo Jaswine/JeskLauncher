@@ -6,13 +6,7 @@ from dateutil import parser
 from ...utils import format_time
 
 
-def GoogleGmailService(
-      email_list, 
-      access_token, 
-      get_email_text, 
-      get_header_value, 
-      included_apps
-   ):
+def GoogleGmailService(access_token, get_email_text, get_header_value):
    
    messages = []
    
@@ -24,9 +18,7 @@ def GoogleGmailService(
          'maxResults': 20
       })
       
-      if response.status_code == 200:
-         included_apps.append('Gmail')
-         
+      if response.status_code == 200:         
          emails = response.json().get('messages', [])
 
          for email in emails:
@@ -43,10 +35,9 @@ def GoogleGmailService(
                   labels = email_data.get('labelIds', [])
                   if 'STARRED' in labels:
                      is_liked = True
-                  
+
                   dt = parser.parse(created_time)
                   created_time = dt.strftime("%Y-%m-%d %H:%M:%S")
-                  print(f'\n\n { email_data } \n\n')
                   
                   messages.append({
                      'id': email_data.get('id'),
@@ -56,28 +47,24 @@ def GoogleGmailService(
                      'link': 'https://mail.google.com/mail/u/0/#inbox/{}'.format(email_data['id']),
                      'text': get_email_text(email_data['payload']),
                      'is_liked': is_liked,
-                     'created_time': created_time,
+                     'created_time': str(created_time),
                   })
                   
                elif email_response.status_code == 401 or email_response.status_code == 403:
-                  print(f"Error: {email_response.status_code}")
                   raise Exception(f"Error {email_response.status_code}: Unauthorized or Forbidden")
-           
-         email_list.extend(messages)
-                
+                           
          elapsed_time = time.time() - start_time                  
          print(f'Google Email loaded successfully ✅ - {format_time(elapsed_time)}')
          time.sleep(1)
          
       elif response.status_code == 401 or response.status_code == 403:
-         print(f"Error: {response.status_code}")
          raise Exception(f"Error {response.status_code}: Unauthorized or Forbidden")
          
    try:
       asyncio.run(fetch_emails())
    except Exception as e:
       print(f"An error occurred: {str(e)}")
-      return messages
+      return ['error']
    
-   return messages         
+   return ['success', messages]       
    

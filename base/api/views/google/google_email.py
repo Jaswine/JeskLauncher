@@ -32,8 +32,6 @@ def GoogleGmail(request, email_id):
             }
          )
 
-         print('Response:', response)
-
          if response.status_code == 200:
             return JsonResponse({
                'status': 'success',

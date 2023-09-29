@@ -5,7 +5,7 @@ import time
 from ...utils import format_time
 from datetime import datetime
 
-def CallendarService(email_list, access_token, included_apps):
+def CallendarService(access_token):
    messages = []
 
    async def fetch_last_event(calendar_id):
@@ -31,11 +31,10 @@ def CallendarService(email_list, access_token, included_apps):
                'link': event.get('htmlLink', ''),
                'text': description,
                'calendar_id': calendar_id,
-               'created_time': created_time
+               'created_time': str(created_time)
             })
             
       elif response.status_code == 401 or response.status_code == 403:
-         print(f"Error: {response.status_code}")
          raise Exception(f"Error {response.status_code}: Unauthorized or Forbidden")
       
    async def fetch_all_calendars():
@@ -46,8 +45,6 @@ def CallendarService(email_list, access_token, included_apps):
       })
       
       if response.status_code == 200:
-         included_apps.append('Google_Event')
-
          calendar_list = response.json().get('items', [])
 
          tasks = [fetch_last_event(calendar.get('id')) for calendar in calendar_list]
@@ -64,7 +61,6 @@ def CallendarService(email_list, access_token, included_apps):
       asyncio.run(fetch_all_calendars())
    except Exception as e:
       print(f"An error occurred: {str(e)}")
-      return messages
-
-   email_list.extend(messages)
-   return messages
+      return ['error', messages]
+   
+   return ['success', messages]

@@ -6,7 +6,7 @@ from ...utils import format_time
 from datetime import datetime
 
 
-def GoogleTodoService(email_list, access_token, included_apps):
+def GoogleTodoService(access_token):
    messages = []
    
    async def fetch_todos():
@@ -15,9 +15,7 @@ def GoogleTodoService(email_list, access_token, included_apps):
             'access_token': access_token,
       })     
       
-      if response.status_code == 200:
-         included_apps.append('Google_Todo')
-         
+      if response.status_code == 200:         
          for task_list in response.json().get('items', []):
             list_id = task_list['id']
             
@@ -43,13 +41,12 @@ def GoogleTodoService(email_list, access_token, included_apps):
                      'sender' : '',
                      'link': f"https://mail.google.com/tasks/canvas?pli=1&vid=default&task={task['id']}",   
                      'text': task.get('notes', ''),
-                     'created_time': created_time,
+                     'created_time': str(created_time),
                      
                      'list_id': list_id,
                      'status': task.get('status', ''),
                   })
                
-         email_list.extend(messages)
          
          elapsed_time = time.time() - start_time                  
          print(f'Google Todos loaded successfully ✅ - {format_time(elapsed_time)}')
@@ -63,7 +60,7 @@ def GoogleTodoService(email_list, access_token, included_apps):
       asyncio.run(fetch_todos())
    except Exception as e:
       print(f"An error occurred: {str(e)}")
-      return messages
+      return ['error', '']
    
-   return messages
+   return ['success', messages]
    
