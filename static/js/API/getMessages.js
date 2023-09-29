@@ -586,6 +586,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Show Messages
   const ShowMessages = async () => {
     var all_messages = []
+    let errors = []
     
     const [calendarData, todoData, gmailData, youtubeData] = await Promise.all([
       fetchGoogleCalendarData(),
@@ -594,8 +595,7 @@ document.addEventListener('DOMContentLoaded', () => {
       fetchYouTubeData()
     ]);  
 
-    messages_list.innerHTML = ''
-    inbox_icons.innerHTML = ''
+    messages_list.innerHTML = inbox_icons.innerHTML = ''
 
     inbox_icons.innerHTML += `
       <button class='icon' id='show_all_messages'>
@@ -607,48 +607,83 @@ document.addEventListener('DOMContentLoaded', () => {
     if (gmailData.status == 'success') {
       renderButton(gmailData.type,  inbox_icons)
       all_messages = all_messages.concat(gmailData.data)
+    } else {
+      errors = errors.concat(gmailData.status)
     }
 
     if (calendarData.status == 'success') {
       renderButton(calendarData.type,  inbox_icons)
       all_messages = all_messages.concat(calendarData.data)
+    } else {
+      errors = errors.concat(calendarData.status)
     }
 
     if (todoData.status == 'success') {
       renderButton(todoData.type,  inbox_icons)
       all_messages = all_messages.concat(todoData.data)
+    } else {
+      errors = errors.concat(todoData.status)
     }
 
     if (youtubeData.status == 'success') {
       renderButton(youtubeData.type,  inbox_icons)
       all_messages = all_messages.concat(youtubeData.data)
+    } else {
+      errors = errors.concat(youtubeData.status)
     }
-
     const icons = document.querySelectorAll('.icon');
 
-    // Добавляем обработчики событий для кнопок категорий
-    for (const icon of icons) {
-      icon.addEventListener('click', () => {
-        RemoveInboxShow(icons);
-        icon.classList.add('inbox-show');
 
-        if (icon.id == 'show_all_messages') {
-          renderData(all_messages, messages_list)
-        } else if (icon.id == 'Gmail') {  
-          renderData(gmailData.data, messages_list)
-        } else if (icon.id == 'Google_Event') {
-          renderData(calendarData.data, messages_list)
-        } else if (icon.id == 'Google_Todo') {
-          renderData(todoData.data, messages_list)
-        } else if (icon.id == 'YouTube') {
-          renderData(youtubeData.data, messages_list)
-        }
+    const MessagesColumnChecking = (type, icon) => {
+      icon.classList.add('inbox-show');
 
-        localStorage.setItem('now_list', icon.id);
-      });
+      if (type == 'show_all_messages') {
+        renderData(all_messages, messages_list)
+        localStorage.setItem('inbox-show', type)
+      } else if (type == 'Gmail') {  
+        renderData(gmailData.data, messages_list)
+        localStorage.setItem('inbox-show', type)
+      } else if (type == 'Google_Event') {
+        renderData(calendarData.data, messages_list)
+        localStorage.setItem('inbox-show', type)
+      } else if (type == 'Google_Todo') {
+        renderData(todoData.data, messages_list)
+        localStorage.setItem('inbox-show', 'Google_Todo')
+      } else if (type == 'YouTube') {
+        renderData(youtubeData.data, messages_list)
+        localStorage.setItem('inbox-show', 'YouTube')
+      } else {
+        renderData(all_messages, messages_list)
+        localStorage.setItem('inbox-show', type)
+      }
     }
 
-    renderData(all_messages, messages_list);
+    if (errors.length < 4) {
+
+      let type_from_localStorage = localStorage.getItem('inbox-show');
+
+      if (type_from_localStorage) {
+        MessagesColumnChecking(
+          type_from_localStorage, 
+          document.getElementById(type_from_localStorage)
+        );
+      } else {
+        renderData(all_messages, messages_list);
+      }
+
+       // Добавляем обработчики событий для кнопок категорий
+      for (const icon of icons) {
+        icon.addEventListener('click', () => {
+          RemoveInboxShow(icons);
+          MessagesColumnChecking(icon.id, icon)
+        });
+      }
+
+    } else {
+      messages_list.innerHTML = `<div class='inbox__messages__error'>
+        Loading error, please re-login or when requesting access to social networks, mark what you would like to show.
+      </div>`
+    }
   }
 
   // Добавляем обработчики событий для кнопок в списке сообщений
@@ -942,14 +977,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
   
-      showMessages();
+      ShowMessages();
     })
   })
 
 
   ShowMessages()
 
-  
+  // setInterval(() => {
+  //   ShowMessages();
+  // }, 10000); // 60000 == 1 минута
 
   // выводим  1 секунду
   setInterval(() => {

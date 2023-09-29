@@ -200,6 +200,12 @@
    padding: 4px;
    margin-top: 4px;
 }
+.inbox__messages__error {
+   text-align: center;
+   width: 100%;
+   color: var(--olightgray);
+   font-size: 18px;
+}
 
 /* notification */
 .notification {

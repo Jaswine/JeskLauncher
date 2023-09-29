@@ -101,13 +101,14 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 4%;
+    gap: 3%;
     width: 100%;
 }
 .intro__top h2 {
     font-size: calc((1vw + 1vh) * 2.6);
     font-weight: 400;
     font-family: var(--bayerSans);
+    text-align: center;
 }
 .intro__top p {
     font-family: var(--inter);

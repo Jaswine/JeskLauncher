@@ -130,11 +130,11 @@ def google_todo_messages_list(request):
                 return JsonResponse({
                     'status':'success',
                     'type': 'Google_Todo',
-                    'data': sorted_events
+                    'data': sorted_events[::-1],
                 },  status=200)
             else:
                 return JsonResponse({
-                    'status':'error'[::-1],
+                    'status':'error'
                 })
                 
 
