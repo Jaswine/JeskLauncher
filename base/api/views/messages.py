@@ -92,6 +92,7 @@ from ...services.google import google_calendar, google_todos , google_gmail, goo
 """
 def gmail_messages_list(request): 
     socialGoogleTokens = SocialToken.objects.filter(account__user=request.user, account__provider='google')
+    data = []
     
     if socialGoogleTokens:
         for socialGoogleToken in socialGoogleTokens:
@@ -100,23 +101,29 @@ def gmail_messages_list(request):
             response = google_gmail.GoogleGmailService(access_token, get_email_text, get_header_value)
             
             if response[0] == 'success':
-                sorted_events = sorted(response[1], key=lambda event: event['created_time'])
+                data.extend(response[1])
                 
-                return JsonResponse({
+        if data != []:
+            sorted_events = sorted(data, key=lambda event: event['created_time'])
+            
+            return JsonResponse({
                     'status':'success',
                     'type': 'Gmail',
                     'data': sorted_events[::-1],
                 },  status=200)
-            else:
-                return JsonResponse({
+        else:
+            return JsonResponse({
                     'status':'error',
                 })
+                     
+                
 
 """
    TODO: Google Todo
 """
 def google_todo_messages_list(request): 
     socialGoogleTokens = SocialToken.objects.filter(account__user=request.user, account__provider='google')
+    data = []
     
     if socialGoogleTokens:
         for socialGoogleToken in socialGoogleTokens:
@@ -125,24 +132,27 @@ def google_todo_messages_list(request):
             response = google_todos.GoogleTodoService(access_token)
             
             if response[0] == 'success':
-                sorted_events = sorted(response[1], key=lambda event: event['created_time'])
-                
-                return JsonResponse({
+                data.extend(response[1])
+            
+        if data != []:
+            sorted_events = sorted(data, key=lambda event: event['created_time'])
+            
+            return JsonResponse({
                     'status':'success',
                     'type': 'Google_Todo',
                     'data': sorted_events[::-1],
                 },  status=200)
-            else:
-                return JsonResponse({
-                    'status':'error'
+        else:
+            return JsonResponse({
+                    'status':'error',
                 })
-                
-
+                    
 """
    TODO: Google Event
 """
 def google_calendar_messages_list(request): 
     socialGoogleTokens = SocialToken.objects.filter(account__user=request.user, account__provider='google')
+    data = []
     
     if socialGoogleTokens:
         for socialGoogleToken in socialGoogleTokens:
@@ -151,15 +161,18 @@ def google_calendar_messages_list(request):
             response = google_calendar.CallendarService(access_token)
             
             if response[0] == 'success':
-                sorted_events = sorted(response[1], key=lambda event: event['created_time'])
+                data.extend(response[1])
                 
-                return JsonResponse({
+        if data != []:
+            sorted_events = sorted(data, key=lambda event: event['created_time'])
+            
+            return JsonResponse({
                     'status':'success',
                     'type': 'Google_Event',
                     'data': sorted_events[::-1],
                 },  status=200)
-            else:
-                return JsonResponse({
+        else:
+            return JsonResponse({
                     'status':'error',
                 })
 
@@ -168,22 +181,26 @@ def google_calendar_messages_list(request):
 """
 def google_youtube_messages_list(request): 
     socialGoogleTokens = SocialToken.objects.filter(account__user=request.user, account__provider='google')
+    data = []
     
     if socialGoogleTokens:
         for socialGoogleToken in socialGoogleTokens:
             access_token = socialGoogleToken.token
             
             response = google_youtube.GoogleYoutubeService(access_token)
-            
+        
             if response[0] == 'success':
-                sorted_events = sorted(response[1], key=lambda event: event['created_time'])
+                data.extend(response[1])
                 
-                return JsonResponse({
+        if data != []:
+            sorted_events = sorted(data, key=lambda event: event['created_time'])
+            
+            return JsonResponse({
                     'status':'success',
                     'type': 'YouTube',
                     'data': sorted_events[::-1],
                 },  status=200)
-            else:
-                return JsonResponse({
+        else:
+            return JsonResponse({
                     'status':'error',
                 })
