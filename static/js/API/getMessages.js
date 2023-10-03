@@ -637,10 +637,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const MessagesColumnChecking = (type, icon) => {
       icon.classList.add('inbox-show');
 
-      if (type == 'show_all_messages') {
-        renderData(all_messages, messages_list)
-        localStorage.setItem('inbox-show', type)
-      } else if (type == 'Gmail') {  
+      if (type == 'Gmail') {  
         renderData(gmailData.data, messages_list)
         localStorage.setItem('inbox-show', type)
       } else if (type == 'Google_Event') {
@@ -653,9 +650,24 @@ document.addEventListener('DOMContentLoaded', () => {
         renderData(youtubeData.data, messages_list)
         localStorage.setItem('inbox-show', 'YouTube')
       } else {
+        all_messages.sort(compareByCreated) 
         renderData(all_messages, messages_list)
         localStorage.setItem('inbox-show', type)
       }
+    }
+
+    // Функция для сравнения объектов по полю created
+    function compareByCreated(a, b) {
+      const dateA = new Date(a.created_time);
+      const dateB = new Date(b.created_time);
+      
+      if (dateA > dateB) {
+        return -1;
+      }
+      if (dateA < dateB) {
+        return 1;
+      }
+      return 0;
     }
 
     if (errors.length < 4) {
@@ -984,9 +996,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   ShowMessages()
 
-  // setInterval(() => {
-  //   ShowMessages();
-  // }, 10000); // 60000 == 1 минута
+  setInterval(() => {
+    ShowMessages();
+  }, 10000); // 60000 == 1 минута
 
   // выводим  1 секунду
   setInterval(() => {

@@ -19,19 +19,16 @@ def pre_social_login_callback(sender, request, sociallogin, **kwargs):
     
     # Первый вход пользователя через социальную сеть
     if request.user.is_authenticated:
-        try:
-            socialaccount = allauth.socialaccount.models.SocialAccount.objects.create(
-                user=request.user,
-                provider=socialaccount.provider,
-                uid=socialaccount.uid,
-                extra_data=socialaccount.extra_data,
-            )
-            socialaccount.save()
-        
-            request.user.socialaccount_set.add(socialaccount)
-        except:
-            # Обработка ошибки, если что-то пошло не так
-            print('Error')
+        print('___________socialaccount uid_________', socialaccount.uid, '______________now uid___________', allauth.socialaccount.models.SocialAccount.objects.get(user=request.user))
+        socialaccount = allauth.socialaccount.models.SocialAccount.objects.create(
+            user=request.user,
+            provider=socialaccount.provider,
+            uid=socialaccount.uid,
+            extra_data=socialaccount.extra_data,
+        )
+        socialaccount.save()
+    
+        request.user.socialaccount_set.add(socialaccount)
     else:
         if not user:
             email = socialaccount.extra_data.get("email", "")
@@ -45,7 +42,6 @@ def pre_social_login_callback(sender, request, sociallogin, **kwargs):
     try:
         tokens_to_delete = allauth.socialaccount.models.SocialToken.objects.filter(account__user=socialaccount.user, account__provider=socialaccount.provider)
         print('tokens_to_delete', tokens_to_delete)
-        
 
         for token in tokens_to_delete:
             # Получаем extra_data из социального аккаунта связанного с этим токеном
