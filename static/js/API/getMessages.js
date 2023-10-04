@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `<form class='change_message_title' method='POST'>
               <input type="hidden" name="csrfmiddlewaretoken" value="${csrfToken}">
               <input type='text' value='${notification.querySelector(".notification__text").innerHTML}' name='title' placeholder='Введите заголовок' />
-              <button class='btn'>Сохранить</button>
+              <button class='btn'>Save</button>
             </form>` : 
             `<h2>${notification.querySelector(".notification__text").innerHTML}</h2>` }
             <p>${content != 'null' ? content : ''}</p>
