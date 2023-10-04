@@ -93,12 +93,12 @@ from ...services.google import google_calendar, google_todos , google_gmail, goo
 def gmail_messages_list(request): 
     socialGoogleTokens = SocialToken.objects.filter(account__user=request.user, account__provider='google')
     data = []
-    
+        
     if socialGoogleTokens:
         for socialGoogleToken in socialGoogleTokens:
             access_token = socialGoogleToken.token
             
-            response = google_gmail.GoogleGmailService(access_token, get_email_text, get_header_value)
+            response = google_gmail.GoogleGmailService(access_token,  socialGoogleToken.id, get_email_text, get_header_value)
             
             if response[0] == 'success':
                 data.extend(response[1])

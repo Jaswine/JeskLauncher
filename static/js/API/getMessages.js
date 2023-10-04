@@ -525,6 +525,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       <div class="notification__content">${message.text}</div>
       <input type='hidden' class='notification_id' value='${message.id}' />
+      <input type='hidden' class='socialGoogleTokenID' value='${message.social_google_token_id}' />
+      
       <input type='hidden' class='notification__type' value='${message.type}' />
       ${message.list_id ? `<input type='hidden' class='list_id' value='${message.list_id}' />` : ''}
       ${message.calendar_id ? `<input type='hidden' class='calendar_id' value='${message.calendar_id}' />` : ''}
@@ -551,7 +553,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
 
-  // Fetch Google Todo 
+  // Fetch Gmail Data
   const fetchGmailData = async () => {
     console.log('Fetching Gmail data')
     const response = await fetch('/api/messages/gmail')
@@ -567,7 +569,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return data
   };
 
-  // Fetch Google Calendar
+  // Fetch Google Todo
   const fetchGoogleTodoData = async () => {
     console.log('Fetching Google Todo data')
     const response = await fetch('/api/messages/google-todo')
@@ -706,6 +708,7 @@ document.addEventListener('DOMContentLoaded', () => {
           let type = notification.querySelector('.notification__type').value;
           let content = notification.querySelector('.notification__content').innerHTML;
 
+          console.log(notification)
           today__work.innerHTML = `
             ${type == 'Gmail' ? `
               <div class='today__notification__panel'>
@@ -771,9 +774,10 @@ document.addEventListener('DOMContentLoaded', () => {
             });
           } 
 
+          // Работа с Gmail письмом
           if (type == 'Gmail') {
             document.querySelector('.today__notification__panel__archive').addEventListener('click', () => {
-              fetch(`/api/google-gmail/${notification.querySelector('.notification_id').value}/archive`, {
+              fetch(`/api/google-gmail/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.notification_id').value}/archive`, {
                 method: 'POST',
               })
                 .then(response => response.json())
@@ -786,7 +790,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
 
             document.querySelector('.today__notification__panel__in_span').addEventListener('click', () => {
-              fetch(`/api/google-gmail/${notification.querySelector('.notification_id').value}/spam`, {
+              fetch(`/api/google-gmail/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.notification_id').value}/spam`, {
                 method: 'POST',
               })
                 .then(response => response.json())
@@ -802,7 +806,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
 
             document.querySelector('.today__notification__panel__delete').addEventListener('click', () => {
-              fetch(`/api/google-gmail/${notification.querySelector('.notification_id').value}`, {
+              fetch(`/api/google-gmail/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.notification_id').value}`, {
                 method: 'DELETE',
               })
                 .then(response => response.json())
@@ -817,7 +821,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
 
             document.querySelector('.today__notification__panel__unread').addEventListener('click', () => {
-              fetch(`/api/google-gmail/${notification.querySelector('.notification_id').value}/unread`, {
+              fetch(`/api/google-gmail/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.notification_id').value}/unread`, {
                 method: 'POST',
               })
                 .then(response => response.json())
@@ -842,7 +846,7 @@ document.addEventListener('DOMContentLoaded', () => {
               let data = {
                 status: notification.querySelector('.gmail_is_liked').value
               }
-              fetch(`/api/google-gmail/${notification.querySelector('.notification_id').value}/star/${notification.querySelector('.gmail_is_liked').value}`, {
+              fetch(`/api/google-gmail/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.notification_id').value}/star/${notification.querySelector('.gmail_is_liked').value}`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json', 

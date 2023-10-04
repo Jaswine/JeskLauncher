@@ -6,8 +6,7 @@ from dateutil import parser
 from ...utils import format_time
 
 
-def GoogleGmailService(access_token, get_email_text, get_header_value):
-   
+def GoogleGmailService(access_token, social_google_token, get_email_text, get_header_value):
    messages = []
    
    async def fetch_emails():
@@ -41,6 +40,7 @@ def GoogleGmailService(access_token, get_email_text, get_header_value):
                   
                   messages.append({
                      'id': email_data.get('id'),
+                     'social_google_token_id': social_google_token,
                      'type': 'Gmail',
                      'title': get_header_value(email_data['payload']['headers'], 'Subject'), 
                      'sender': get_header_value(email_data['payload']['headers'], 'From'), 

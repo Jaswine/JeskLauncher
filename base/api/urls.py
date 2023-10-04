@@ -28,12 +28,12 @@ urlpatterns = [
     path('patch-title-todo/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoPatchTitle, name='patch_title_google_todo'),
     
     # TODO: ____ google email _____
-    path('google-gmail/<str:email_id>', google_email.GoogleGmail, name='google_gmail'),
-    path('google-gmail/<str:email_id>/trash', google_email.GoogleGmailAddToTrash, name='google_gmail_trash'),
-    path('google-gmail/<str:email_id>/archive', google_email.GoogleGmailAddToArchive, name='google_gmail_archive'),
-    path('google-gmail/<str:email_id>/spam', google_email.GoogleGmailAddToSpam, name='google_gmail_spam'),
-    path('google-gmail/<str:email_id>/unread', google_email.GoogleGmailAddUnreadStatus, name='google_gmail_unread_status'),
-    path('google-gmail/<str:email_id>/star/<str:star>', google_email.GoogleGmailAddStar, name='google_gmail_star'),
+    path('google-gmail/<int:socialGoogleTokenId>/<str:email_id>', google_email.GoogleGmail, name='google_gmail'),
+    path('google-gmail/<int:socialGoogleTokenId>/<str:email_id>/trash', google_email.GoogleGmailAddToTrash, name='google_gmail_trash'),
+    path('google-gmail/<int:socialGoogleTokenId>/<str:email_id>/archive', google_email.GoogleGmailAddToArchive, name='google_gmail_archive'),
+    path('google-gmail/<int:socialGoogleTokenId>/<str:email_id>/spam', google_email.GoogleGmailAddToSpam, name='google_gmail_spam'),
+    path('google-gmail/<int:socialGoogleTokenId>/<str:email_id>/unread', google_email.GoogleGmailAddUnreadStatus, name='google_gmail_unread_status'),
+    path('google-gmail/<int:socialGoogleTokenId>/<str:email_id>/star/<str:star>', google_email.GoogleGmailAddStar, name='google_gmail_star'),
     
     
     # TODO: ____ google event _____

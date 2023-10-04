@@ -62,10 +62,11 @@ def GoogleGmail(request, email_id):
            
 # TODO: Функция для добавления письма в корзину 
 @csrf_exempt
-def GoogleGmailAddToTrash(request, email_id):
+def GoogleGmailAddToTrash(request, socialGoogleTokenId,email_id):
    #  Взятие токена доступа апи
-   socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
-   
+   # socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
+   socialGoogleToken = SocialToken.objects.get(id=socialGoogleTokenId)
+
    if socialGoogleToken:
       access_token = socialGoogleToken.token
    
@@ -90,9 +91,10 @@ def GoogleGmailAddToTrash(request, email_id):
   
 # TODO: Функция для архивирования письма            
 @csrf_exempt
-def GoogleGmailAddToArchive(request, email_id):
+def GoogleGmailAddToArchive(request, socialGoogleTokenId, email_id):
    #  Взятие токена доступа апи
-   socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
+   # socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
+   socialGoogleToken = SocialToken.objects.get(id=socialGoogleTokenId)
    
    if socialGoogleToken:
       access_token = socialGoogleToken.token
@@ -126,9 +128,10 @@ def GoogleGmailAddToArchive(request, email_id):
 
 # TODO: Функция для добавления письма в СПАМ           
 @csrf_exempt
-def GoogleGmailAddToSpam(request, email_id):
+def GoogleGmailAddToSpam(request, socialGoogleTokenId, email_id):
    #  Взятие токена доступа апи
-   socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
+   # socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
+   socialGoogleToken = SocialToken.objects.get(id=socialGoogleTokenId)
    
    if socialGoogleToken:
       access_token = socialGoogleToken.token
@@ -162,9 +165,10 @@ def GoogleGmailAddToSpam(request, email_id):
             
 # TODO: Функция для помечения письма, что оно не прочитано        
 @csrf_exempt
-def GoogleGmailAddUnreadStatus(request, email_id):
+def GoogleGmailAddUnreadStatus(request, socialGoogleTokenId, email_id):
    #  Взятие токена доступа апи
-   socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
+   # socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
+   socialGoogleToken = SocialToken.objects.get(id=socialGoogleTokenId)
    
    if socialGoogleToken:
       access_token = socialGoogleToken.token
@@ -199,9 +203,10 @@ def GoogleGmailAddUnreadStatus(request, email_id):
             
 # TODO: Функция для помечения письма, проставка звездочки      
 @csrf_exempt
-def GoogleGmailAddStar(request, email_id, star):
+def GoogleGmailAddStar(request,socialGoogleTokenId, email_id, star):
    #  Взятие токена доступа апи
    socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
+   socialGoogleToken = SocialToken.objects.get(id=socialGoogleTokenId)
    
    if socialGoogleToken:
       access_token = socialGoogleToken.token
