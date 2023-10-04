@@ -7,9 +7,10 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 @csrf_exempt
-def GoogleTodoDelete(request, todo_list, todo_id):
+def GoogleTodoDelete(request, socialGoogleTokenId, todo_list, todo_id):
    if request.method == 'DELETE':
-      socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
+      # socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
+      socialGoogleToken = SocialToken.objects.get(id=socialGoogleTokenId)
    
       if socialGoogleToken:
          access_token = socialGoogleToken.token
@@ -30,9 +31,10 @@ def GoogleTodoDelete(request, todo_list, todo_id):
             }, safe=False)
       
 @csrf_exempt
-def GoogleTodoComplete(request, todo_list, todo_id):
+def GoogleTodoComplete(request, socialGoogleTokenId, todo_list, todo_id):
    if request.method == 'POST':
-      socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
+      # socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
+      socialGoogleToken = SocialToken.objects.get(id=socialGoogleTokenId)
    
       if socialGoogleToken:
          access_token = socialGoogleToken.token
@@ -51,9 +53,10 @@ def GoogleTodoComplete(request, todo_list, todo_id):
             }, safe=False)
    
 @csrf_exempt   
-def GoogleTodoPatchTitle(request, todo_list, todo_id):
+def GoogleTodoPatchTitle(request, socialGoogleTokenId, todo_list, todo_id):
    if request.method == 'POST':
-      socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
+      # socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
+      socialGoogleToken = SocialToken.objects.get(id=socialGoogleTokenId)
       
       if socialGoogleToken:
          access_token = socialGoogleToken.token

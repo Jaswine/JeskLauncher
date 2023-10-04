@@ -23,9 +23,9 @@ urlpatterns = [
     # TODO: ____ google todo _____
     path('create-todo', google_todos.GoogleTodoCreate, name='create_google_todo'),
     
-    path('delete-todo/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoDelete, name='delete_google_todo'),
-    path('сomplete-todo/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoComplete, name='complete_google_todo'),
-    path('patch-title-todo/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoPatchTitle, name='patch_title_google_todo'),
+    path('delete-todo/<int:socialGoogleTokenId>/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoDelete, name='delete_google_todo'),
+    path('сomplete-todo/<int:socialGoogleTokenId>/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoComplete, name='complete_google_todo'),
+    path('patch-title-todo/<int:socialGoogleTokenId>/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoPatchTitle, name='patch_title_google_todo'),
     
     # TODO: ____ google email _____
     path('google-gmail/<int:socialGoogleTokenId>/<str:email_id>', google_email.GoogleGmail, name='google_gmail'),
@@ -37,7 +37,7 @@ urlpatterns = [
     
     
     # TODO: ____ google event _____
-    path('google-event/<str:calendarId>/<str:eventId>', google_calendar.GoogleCalendarPatchTitle, name='google_event'),
+    path('google-event/<int:socialGoogleTokenId>/<str:calendarId>/<str:eventId>', google_calendar.GoogleCalendarPatchTitle, name='google_event'),
     
     path('rewrite-tokens', user.rewrite_tokens, name='rewrite_tokens'), 
     

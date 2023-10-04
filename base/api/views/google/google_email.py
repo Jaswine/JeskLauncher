@@ -7,8 +7,9 @@ from django.views.decorators.csrf import csrf_exempt
 
 # TODO: Функция для ответа на письмо
 @csrf_exempt
-def GoogleGmail(request, email_id):
-   socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
+def GoogleGmail(request, socialGoogleTokenId, email_id):
+   # socialGoogleToken = SocialToken.objects.filter(account__user=request.user, account__provider='google').last()
+   socialGoogleToken = SocialToken.objects.get(id=socialGoogleTokenId)
    
    if socialGoogleToken:
       access_token = socialGoogleToken.token

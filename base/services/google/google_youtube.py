@@ -5,7 +5,7 @@ import time
 from ...utils import format_time
 
 
-def GoogleYoutubeService(access_token):
+def GoogleYoutubeService(access_token, social_google_token):
    messages = []
    
    async def fetch_todos():
@@ -34,6 +34,7 @@ def GoogleYoutubeService(access_token):
                'sender' : activity.get('channelTitle', ''),
                'thumbnail': activity.get('thumbnails', '').get('default', '').get('url', ''),
                'link': "",   
+               'social_google_token_id': social_google_token,
                'text': activity.get('description', ''),
                'created_time': str(created_time),
             })
