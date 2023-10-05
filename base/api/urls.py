@@ -39,7 +39,8 @@ urlpatterns = [
     # TODO: ____ google event _____
     path('google-event/<int:socialGoogleTokenId>/<str:calendarId>/<str:eventId>', google_calendar.GoogleCalendarPatchTitle, name='google_event'),
     
+    # TODO: ____ account ____
     path('rewrite-tokens', user.rewrite_tokens, name='rewrite_tokens'), 
-    
     path('create-new-user', user.create_new_user, name='create_new_new'),
+    path('delete-account/<int:id>', user.deleteAccount, name='delete_account'),
 ]

@@ -62,13 +62,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 settings[i].style.opacity = '1';
             }, 300)
         })
-        
-        close_settings[i].addEventListener('click', () => {
+
+        const closeSettingFunction = () => {
             settings[i].style.opacity = '0'
 
             setTimeout(() => {
                 settings[i].style.display = 'none'
             }, 300)
+        }
+        
+        close_settings[i].addEventListener('click', () => {
+            closeSettingFunction()
+        })
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code == 'Escape') {
+                closeSettingFunction()
+            }
         })
     }
 

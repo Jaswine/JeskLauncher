@@ -123,10 +123,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // Отображаем форму подтверждения удаления заметки
             note__form.style.display = 'flex'
             note__form.innerHTML = `
-                <h2>Do you want to delete this note?</h2>
-                <div>
-                    <a class = 'note__form__close'>No, close</a>
-                    <span class = 'btn note__form__confirm' >Yes</span>
+                <div class='page__window__item'>
+                    <h2>Do you want to delete this note?</h2>
+                    <div>
+                        <a class = 'note__form__close'>No, close</a>
+                        <span class = 'btn note__form__confirm' >Yes</span>
+                    </div>
                 </div>
             `
 

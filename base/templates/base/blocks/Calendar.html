@@ -92,7 +92,8 @@
 
 </div>
 
-<div class="settings" style='display: none; opacity: 0'>
+
+<div class="settings" style='display: none; opacity: 0' id="addMoreAccounts">
    <div class="settings__content">
       <div class="accounts__header">
          <img src="/static/media/logos/jesk.svg" alt="jesk" class="logo">
@@ -102,16 +103,17 @@
       <div class="accounts__body">
       {% if user.socialaccount_set.all %}
          {% for account in user.socialaccount_set.all %}
-         {% if account.provider == 'google' %}
-               <i class="fa-brands fa-google" ></i>
-            {% elif account.provider == 'github' %}
-            <i class="fa-brands fa-github"></i>
-            {% elif account.provider == 'trello' %}
-            <i class="fa-brands fa-trello"></i>
-            {% elif account.provider == 'facebook' %}
-            <i class="fa-brands fa-square-facebook"></i>
-            {% elif account.provider == 'github' %}
-            <i class="fa-brands fa-github"></i>
+            {% if account.provider == 'google' %}
+               <form class="included__account" method="POST">
+                  <i class="fa-brands fa-google"></i>
+                  <input type="hidden" class="account__id" value="{{ account.id  }}" />
+                  <!-- <input type="hidden" class="account__provider" value="{{ account.provider  }}" /> -->
+                  <!-- <input type="hidden" class="account__email" value="{{ account.email }}" /> -->
+                  <a class="included__account__delete">
+                     <span></span>
+                     <span></span>
+                  </a>
+               </form>
             {% endif %} 
          {% endfor %}
       {% else %}
@@ -128,6 +130,7 @@
       <a href="{% url 'socialaccount_connections' %}">Connect Social Account</a>
    </div>
 </div>
+
 
 <div class="settings" style='display: none; opacity: 1'>
    <div class="settings__content">
@@ -184,6 +187,7 @@
       </form>
    </div>
 </div>
+
 
 
 <div class="settings" 
@@ -257,3 +261,4 @@
 <script src="{% static 'js/components/chill_mode.js' %}" ></script>
 <script src="{% static 'js/components/music.js' %}" ></script>
 <script src="{% static 'js/components/showForm.js' %}" ></script>
+<script src="{% static 'js/accounts.js' %}" ></script>

@@ -75,33 +75,6 @@ def rewrite_tokens(request):
     social_token = SocialToken.objects.get(account__user=request.user, account__provider='google')  
     
     if social_token.token_secret:
-        client_id = SocialAccount.objects.get(user=request.user, provider='google').uid
-        client_secret = social_token.token,
-        token_endpoint = 'https://accounts.google.com/o/oauth2/token'
-            
-        # response = requests.get('https://accounts.google.com/o/oauth2/token', params={
-        #     'access_token': social_token.token,
-        # }) 
-        
-        client = WebApplicationClient(client_id)
-
-        token_url, headers, body = client.prepare_refresh_token_request(
-            token_endpoint,
-            refresh_token=social_token.token_secret,
-        )
-        
-
-        token_response = requests.post(token_url, headers=headers, data=body, auth=(client_id, client_secret))
-
-        if token_response.status_code == 200:
-            new_token = token_response.json()
-            social_token.token = new_token['access_token']
-            social_token.save()
-        else:
-            print("Error refreshing token:", token_response.text)
-    
-        # social_token.token = refreshed_token
-        # social_token.save()
         
         return JsonResponse({
             'status': 'success',
@@ -136,4 +109,31 @@ def create_new_user(request):
             'status': 'error',
             'message': 'Email length is so small'
         })
-    
+
+@csrf_exempt
+def deleteAccount(request, id):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            try:
+                account = SocialAccount.objects.get(id=id)
+                account.delete()
+                
+                return JsonResponse({
+                    'status': 'success',
+                    'message': 'User deleted successfully'
+                }, status=200)
+            except:
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'User not found'
+                }, status=404)
+                
+        return JsonResponse({
+            'status': 'error',
+            'message': 'Method not allowed'
+        }, status=405)
+        
+    return JsonResponse({
+            'status': 'error',
+            'message': 'You do not have any permissions'
+        }, status=401)        

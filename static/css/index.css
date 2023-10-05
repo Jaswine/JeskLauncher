@@ -483,26 +483,52 @@
    align-items: center;
    flex-direction: column;
 
-   top: 15vh;
-   left: 30vw;
-   right: 30vw;
-
    position: fixed;
 
-   width: 40vw;
-   height: 40vh;
-   background-color: rgba(10, 0, 50, 0.46);
+   z-index: 101;
+   transition: all .3s linear;
 
-   box-shadow: 0 0 100vw 50vw rgb(0,0,0,.3), 0 0 1000px 10px rgba(10, 0, 50, 0.46);
-   row-gap: 40px;
-   padding: 10px;
-   border-radius: 40px;
-   padding: 4vh 5vw;
+   width: 100%;
+   max-width: 60vw;
 
+   top: 20vh;
+   left: 20vw;
+   right: 20vw;
    display: none;
+}
+.page__window::after {
+   /* display: block; */
+   content: '';
+   /* position: fixed; */
+   top: 0;
+   left: 0;
+   width: 100vw;
+   height: 100vh;
+   backdrop-filter: blur(5px);
+   position: fixed;
+   z-index: -1;
+}
+.page__window__item {
+   width: 100%;
+   height: 100%;
+
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+
+   background-color: #2F2CAB;
+   padding: calc((1vh + 1vw) * 2.4) calc((1vh + 1vw) * 2) calc((1vh + 1vw) * 2.8);
+   border-radius: 0 0 0 calc((1vh + 1vw) * 2.8);
+
+   gap: 3vh;
+   max-width: 600px;
+   box-shadow: 0 0 50px 1px rgb(20,20,20,.2);
 }
 .page__window h2 {
    font-family: var(--bayerSans);
+   font-size: calc((1vw + 1vh) * 2);
+   letter-spacing: 2px;
 }
 .page__window div {
    display: flex;
@@ -913,6 +939,47 @@
    font-size: calc((1vh + 1vw) * 1.6);
    font-weight: 400    ;
    padding: calc((1vh + 1vw) * .2) 0 calc((1vh + 1vw) * .8);
+}
+.included__account {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   position: relative;
+   margin: 0 1vw;
+}
+.included__account__delete {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   border-radius: 100%;
+   padding: 8px 4px;
+   top: -16px;
+   right: -16px;
+   position: absolute;
+   border: 2px solid rgb(254,254,254);
+   opacity: .3;
+   z-index: 1;
+}
+.included__account__delete:hover {
+   opacity: 1;
+}
+.included__account__delete span {
+   display: block;
+   content: '';
+   width: 10px;
+   height: 2px;
+   background-color: #fff;
+   border-radius: 10px;
+}
+
+.included__account__delete span:first-child {
+   rotate: 45deg;
+   margin: -2px;
+}
+.included__account__delete span:last-child {
+   rotate: -45deg;
 }
 .settings::after {
    /* display: block; */
