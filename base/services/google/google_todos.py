@@ -61,7 +61,7 @@ def GoogleTodoService(access_token, social_google_token):
       asyncio.run(fetch_todos())
    except Exception as e:
       print(f"An error occurred: {str(e)}")
-      return ['error', '']
+      return ['error',  str(e)]
    
    return ['success', messages]
    

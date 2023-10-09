@@ -114,6 +114,7 @@ def gmail_messages_list(request):
         else:
             return JsonResponse({
                     'status':'error',
+                    'message': response[1]
                 })
                      
                 
@@ -145,6 +146,7 @@ def google_todo_messages_list(request):
         else:
             return JsonResponse({
                     'status':'error',
+                    'message': response[1]
                 })
                     
 """
@@ -174,6 +176,7 @@ def google_calendar_messages_list(request):
         else:
             return JsonResponse({
                     'status':'error',
+                    'message': response[1]
                 })
 
 """
@@ -203,4 +206,5 @@ def google_youtube_messages_list(request):
         else:
             return JsonResponse({
                     'status':'error',
+                    'message': response[1]
                 })

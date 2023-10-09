@@ -180,22 +180,22 @@ SOCIALACCOUNT_PROVIDERS = {
             'email',
             'https://www.googleapis.com/auth/gmail.readonly',
             'https://www.googleapis.com/auth/gmail.modify',
-            'https://www.googleapis.com/auth/gmail.compose',
-            'https://www.googleapis.com/auth/gmail.send',
-            'https://www.googleapis.com/auth/gmail.insert',
-            # 'https://www.googleapis.com/auth/gmail.metadata',
+                # 'https://www.googleapis.com/auth/gmail.compose',
+                # 'https://www.googleapis.com/auth/gmail.send',
+                # 'https://www.googleapis.com/auth/gmail.insert',
+                # 'https://www.googleapis.com/auth/gmail.metadata',
             'https://mail.google.com/',
             
             'https://www.googleapis.com/auth/tasks.readonly',
             'https://www.googleapis.com/auth/tasks',
             
             'https://www.googleapis.com/auth/calendar.readonly',
-            'https://www.googleapis.com/auth/calendar',
+            # 'https://www.googleapis.com/auth/calendar',
             'https://www.googleapis.com/auth/calendar.events',
             
-            'https://www.googleapis.com/auth/youtube',
+            # 'https://www.googleapis.com/auth/youtube',
             'https://www.googleapis.com/auth/youtube.readonly',
-            'https://www.googleapis.com/auth/youtube.force-ssl',
+            # 'https://www.googleapis.com/auth/youtube.force-ssl',
             
         ],
         'AUTH_PARAMS': {

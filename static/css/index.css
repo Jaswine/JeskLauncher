@@ -1348,8 +1348,8 @@
    position: sticky;
    top: 0;
    width: 100%;
-   padding: 4px 8px 8px;
-   gap: 4px;
+   padding: 4px 12px 8px;
+   gap: calc((1vw + 1vh) * .6);
    /* border-bottom: 1.5px solid var(--olightgray) ; */
    border-radius: 6px;
    height: 62px;
@@ -1367,7 +1367,7 @@
    border-radius: 0 0 10px 10px;
    max-height: 80px;
 }
-.today__notification__panel span {
+.today__notification__panel__line {
    display: block;
    content: '';
    width: 1px;
@@ -1377,12 +1377,49 @@
 
 .today__notification__panel button {
    font-size: calc((1vh + 1vw) * .8);
-   border-radius: 4px;
-   padding: 4px 6px;
+   border-radius: 100%;
+   padding: 6px;
    color: rgb(254,254,254,.8);
    cursor: pointer;
+   position: relative;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
 }
+.today__notification__panel button img {
+   width: calc((1vw + 1vw) * .65);
+   height: calc((1vw + 1vw) * .65);
+   opacity: .7;
+
+}
+.today__notification__panel button span {
+   position: absolute;
+   width: 100%;
+   background-color: #4A3AFF;
+   border-radius: 4px;
+   padding: 4px 2px;
+   font-size: 12px;
+   z-index: 1;
+   top: 100%;
+   left: 0;
+   opacity: 0;
+   display: none;
+   min-width: 52px;
+}
+.today__notification__panel button:hover span {
+   display: block;
+   opacity: 1;
+}
+
 .today__notification__panel button:hover {
    background-color: rgb(254,254,254, .1);
    color: var(--white);
+   opacity: 1;
+}
+.today__notification__panel__start {
+   opacity: .7;
+}
+.today__notification__panel__start:hover {
+   opacity: 1;
 }

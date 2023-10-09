@@ -7,3 +7,4 @@ function closeNoteForm(form) {
     // Устанавливаем непрозрачность элемента в 0, что делает его полностью прозрачным
     form.style.opacity = 0;
 }
+

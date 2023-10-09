@@ -64,7 +64,7 @@ def GoogleGmailService(access_token, social_google_token, get_email_text, get_he
       asyncio.run(fetch_emails())
    except Exception as e:
       print(f"An error occurred: {str(e)}")
-      return ['error']
+      return ['error', str(e)]
    
    return ['success', messages]       
    

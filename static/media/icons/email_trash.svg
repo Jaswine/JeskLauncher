@@ -1,0 +1,10 @@
+<svg width="44" height="48" viewBox="0 0 44 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="path-1-inside-1_44_31" fill="white">
+<path d="M5 7H39V44C39 46.2091 37.2091 48 35 48H9C6.79086 48 5 46.2091 5 44V7Z"/>
+</mask>
+<path d="M5 7H39V44C39 46.2091 37.2091 48 35 48H9C6.79086 48 5 46.2091 5 44V7Z" stroke="white" stroke-width="10" mask="url(#path-1-inside-1_44_31)"/>
+<path d="M3 6H41" stroke="white" stroke-width="5" stroke-linecap="round"/>
+<path d="M17 35V17" stroke="white" stroke-width="5" stroke-linecap="round"/>
+<path d="M27 35V17" stroke="white" stroke-width="5" stroke-linecap="round"/>
+<path d="M17 4H27" stroke="white" stroke-width="8" stroke-linecap="round"/>
+</svg>
