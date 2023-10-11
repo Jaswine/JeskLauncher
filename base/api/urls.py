@@ -17,7 +17,8 @@ urlpatterns = [
     path('messages/google-todo', messages.google_todo_messages_list, name='google_todo_messages_list'),
     path('messages/google-calendar', messages.google_calendar_messages_list, name='google_calendar_messages_list'),
     path('messages/youtube', messages.google_youtube_messages_list, name='google_youtube_messages_list'),
-
+    path('messages/github', messages.github_messages_list, name='github_messages_list'),
+    
     path('settings', user.update_settings, name='update_settings'),
     
     # TODO: ____ google todo _____

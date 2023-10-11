@@ -157,8 +157,8 @@
    flex-direction: column;
 }
 .inbox__icons .icon img {
-   width: 28px;
-   height: 28px;
+   width: 26px;
+   height: 26px;
    filter: grayscale(100);
    
    transition: all .3s linear;
@@ -560,7 +560,7 @@
    position: relative;
 }
 .today__work h2 {
-   margin: 0 0 14px;
+   margin: 10px 0 14px;
    font-size: 24px;
    font-family: var(--bayerSans);
    letter-spacing: 2px;
@@ -1348,11 +1348,11 @@
    position: sticky;
    top: 0;
    width: 100%;
-   padding: 4px 12px 8px;
+   padding: 4px 12px 4px;
    gap: calc((1vw + 1vh) * .6);
    /* border-bottom: 1.5px solid var(--olightgray) ; */
    border-radius: 6px;
-   height: 62px;
+   height: 54px;
    margin-top: 0 !important;
 }
 .today__notification__panel::before {
@@ -1402,16 +1402,25 @@
    font-size: 12px;
    z-index: 1;
    top: 100%;
-   left: 0;
+   /* left: 0; */
    opacity: 0;
    display: none;
    min-width: 52px;
+   transition: all .3s linear;
 }
 .today__notification__panel button:hover span {
    display: block;
    opacity: 1;
+   animation: plavn-show .3s linear;
 }
-
+@keyframes plavn-show {
+   0% {
+      opacity: 0;
+   }
+   100% {
+      opacity: 1
+   }
+}
 .today__notification__panel button:hover {
    background-color: rgb(254,254,254, .1);
    color: var(--white);

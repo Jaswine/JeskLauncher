@@ -44,9 +44,10 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     
     'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
+    
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.instagram',
-    'allauth.socialaccount.providers.github',
 ]
 
 #  python3 manage.py runserver_plus --cert-file /tmp/cert
@@ -213,47 +214,13 @@ SOCIALACCOUNT_PROVIDERS = {
             'user',
             'repo',
             'read:org',
-            'notifications'
+            'notifications',
         ],
-         'APP': {
-            'client_id': 'd50e3fc5cb5e121b5b7d',
-            'secret': '813322c154bfd1eec582facf36896319f082d1a1', 
-        },
-    },
-    'telegram': {
+        'AUTH_PARAMS': {'access_type': 'online'},
         'APP': {
-            'client_id': os.environ.get('TELEGRAM_TOKEN'),
-            'secret': '',
-            'key': ''
+            'client_id': '23fb9b076a04eb9cd6a5',
+            'secret': '085dfa213bda5ef164a0ea24056bba6fe93f8441', 
         },
-        'TOKEN': os.environ.get('TELEGRAM_TOKEN')
-    }, 
-     'facebook': {
-         'APP': {
-            'client_id': os.environ.get('FACEBOOK_CLIENT_ID'),
-            'secret': os.environ.get('FACEBOOK_SECRET'),
-            'key': os.environ.get('FACEBOOK_KEY'),
-        },
-        'METHOD': 'oauth2',
-        # 'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
-        'SCOPE': ['email', 'public_profile'],
-        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-        'INIT_PARAMS': {'cookie': True},
-        'FIELDS': [
-            'id',
-            'first_name',
-            'last_name',
-            'middle_name',
-            'name',
-            'name_format',
-            'picture',
-            'short_name'
-        ],
-        'EXCHANGE_TOKEN': True,
-        # 'LOCALE_FUNC': 'path.to.callable',
-        'VERIFIED_EMAIL': False,
-        'VERSION': 'v13.0',
-        'GRAPH_API_URL': 'https://graph.facebook.com/v13.0',
     },
 }
 

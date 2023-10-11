@@ -115,6 +115,18 @@
                   </a>
                </form>
             {% endif %} 
+            {% if account.provider == 'github' %}
+               <form class="included__account" method="POST">
+                  <i class="fa-brands fa-github"></i>
+                  <input type="hidden" class="account__id" value="{{ account.id  }}" />
+                  <!-- <input type="hidden" class="account__provider" value="{{ account.provider  }}" /> -->
+                  <!-- <input type="hidden" class="account__email" value="{{ account.email }}" /> -->
+                  <a class="included__account__delete">
+                     <span></span>
+                     <span></span>
+                  </a>
+               </form>
+            {% endif %} 
          {% endfor %}
       {% else %}
          <p>No connected accounts.</p>
@@ -122,11 +134,11 @@
          <p>{{access_token}}</p>
       </div> 
       <h2>Add other accounts</h2>
-      <div class="accounts__body">
+      {% comment %} <div class="accounts__body">
          <a href="{% provider_login_url "google" %}">
             <i class="fa-brands fa-google" ></i> 
          </a>
-      </div>
+      </div> {% endcomment %}
       <a href="{% url 'socialaccount_connections' %}">Connect Social Account</a>
    </div>
 </div>

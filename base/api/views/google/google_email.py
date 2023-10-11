@@ -231,6 +231,7 @@ def GoogleGmailAddStar(request,socialGoogleTokenId, email_id, star):
          
          # Проверка статуса пришедшего ответа
          if response.status_code == 200:
+            print('StarResponse', response.content)
             return JsonResponse({
                'status': 'success',
                'message': f'Email with ID {email_id} moved successfully'

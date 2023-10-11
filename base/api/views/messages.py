@@ -4,6 +4,7 @@ import requests
 
 from ...utils import  get_email_text, get_header_value
 from ...services.google import google_calendar, google_todos , google_gmail, google_youtube
+from ...services.github import github_notifications
 
 
 # def messages_list(request):
@@ -208,3 +209,37 @@ def google_youtube_messages_list(request):
                     'status':'error',
                     'message': response[1]
                 })
+            
+"""
+   TODO: GitHub Notifications
+"""
+def github_messages_list(request): 
+    socialGitHubTokens = SocialToken.objects.filter(account__user=request.user, account__provider='github')
+    data = []
+    
+    if socialGitHubTokens:
+        for socialGoogleToken in socialGitHubTokens:
+            access_token = socialGoogleToken.token
+            
+            response = github_notifications.GitHubService(access_token, socialGoogleToken.id)
+        
+            if response[0] == 'success':
+                data.extend(response[1])
+                
+        if data != []:
+            sorted_events = sorted(data, key=lambda event: event['created_time'])
+            
+            return JsonResponse({
+                    'status':'success',
+                    'type': 'GitHub',
+                    'data': sorted_events[::-1],
+                },  status=200)
+        else:
+            return JsonResponse({
+                    'status':'error',
+                    'message': response[1]
+                })
+    return JsonResponse({
+        'status':'error',
+        'message': 'Tokens not found'
+    })

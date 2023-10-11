@@ -130,16 +130,25 @@ document.addEventListener('DOMContentLoaded', () => {
     return data
   };
 
+  // Fetch GitHub
+  const fetchGitHubNotifications = async () => {
+    console.log('Fetching GitHub notifications')
+    const response = await fetch('/api/messages/github')
+    const data = await response.json()
+    return data
+  };
+  
   // Show Messages
   const ShowMessages = async () => {
     var all_messages = []
     let errors = []
     
-    const [calendarData, todoData, gmailData, youtubeData] = await Promise.all([
+    const [calendarData, todoData, gmailData, youtubeData, githubData] = await Promise.all([
       fetchGoogleCalendarData(),
       fetchGoogleTodoData(),
       fetchGmailData(),
-      fetchYouTubeData()
+      fetchYouTubeData(),
+      fetchGitHubNotifications(),
     ]);  
 
     messages_list.innerHTML = inbox_icons.innerHTML = ''
@@ -153,6 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
    
     const displayMessages = (data) => {
+      console.log(data)
       if (data.status == 'success') {
         renderButton(data.type,  inbox_icons)
         all_messages = all_messages.concat(data.data)
@@ -165,6 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
     displayMessages(calendarData)
     displayMessages(todoData)
     displayMessages(youtubeData)
+    displayMessages(githubData)
     console.log(errors)
 
     const icons = document.querySelectorAll('.icon');
@@ -185,6 +196,9 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (type == 'YouTube') {
         renderData(youtubeData.data, messages_list)
         localStorage.setItem('inbox-show', 'YouTube')
+      } else if (type == 'GitHub') {
+        renderData(githubData.data, messages_list)
+        localStorage.setItem('inbox-show', 'GitHub')
       } else {
         all_messages.sort(compareByCreated) 
         renderData(all_messages, messages_list)
@@ -320,6 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           // Работа с Gmail письмом
           if (type == 'Gmail') {
+            // Архивирование
             document.querySelector('.today__notification__panel__archive').addEventListener('click', () => {
               fetch(`/api/google-gmail/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.notification_id').value}/archive`, {
                 method: 'POST',
@@ -334,6 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             })
 
+            // Добавление в Спам
             document.querySelector('.today__notification__panel__in_span').addEventListener('click', () => {
               fetch(`/api/google-gmail/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.notification_id').value}/spam`, {
                 method: 'POST',
@@ -350,6 +366,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             })
 
+            // Удаление ( перемещение в корзину )
             document.querySelector('.today__notification__panel__delete').addEventListener('click', () => {
               fetch(`/api/google-gmail/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.notification_id').value}`, {
                 method: 'DELETE',
@@ -365,6 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             })
 
+            // Изменение письму статус на не прочитаное
             document.querySelector('.today__notification__panel__unread').addEventListener('click', () => {
               fetch(`/api/google-gmail/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.notification_id').value}/unread`, {
                 method: 'POST',
@@ -387,16 +405,10 @@ document.addEventListener('DOMContentLoaded', () => {
               notes__form.querySelector('input').value  = notification.querySelector(".notification__text").innerHTML 
             })
 
+            // Отметка письма ( звездочка )
             document.querySelector('.today__notification__panel__start').addEventListener('click', () => {
-              let data = {
-                status: notification.querySelector('.gmail_is_liked').value
-              }
               fetch(`/api/google-gmail/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.notification_id').value}/star/${notification.querySelector('.gmail_is_liked').value}`, {
                 method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json', 
-                },
-                body: JSON.stringify(data)
               })
                 .then(response => response.json())
                 .then(data => {
@@ -406,12 +418,14 @@ document.addEventListener('DOMContentLoaded', () => {
                   console.log(star__button)
 
                   if (star__button.id == 'Unstar') {
+                    star__button.id = 'Star'
                     star__button.innerHTML = `
                       <svg width="calc((1vw + 1vw) * .65)" height="calc((1vw + 1vw) * .65)" viewBox="0 0 64 62" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M32 3.7082L37.4538 20.4934C38.2571 22.9656 40.5608 24.6393 43.1602 24.6393H60.8092L46.5308 35.0132C44.4279 36.541 43.548 39.2492 44.3512 41.7214L49.8051 58.5066L35.5267 48.1327C33.4238 46.6049 30.5762 46.6049 28.4733 48.1327L14.1949 58.5066L19.6488 41.7214C20.452 39.2492 19.5721 36.541 17.4691 35.0132L3.19079 24.6393L20.8398 24.6393C23.4392 24.6393 25.7429 22.9656 26.5462 20.4934L32 3.7082Z" stroke="#fff" stroke-width="6"/>
                       </svg>
                     `
                   } else {
+                    star__button.id = 'Unstar'
                     star__button.innerHTML = `
                       <svg width="calc((1vw + 1vw) * .65)" height="calc((1vw + 1vw) * .65)" viewBox="0 0 64 62" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M32 3.7082L37.4538 20.4934C38.2571 22.9656 40.5608 24.6393 43.1602 24.6393H60.8092L46.5308 35.0132C44.4279 36.541 43.548 39.2492 44.3512 41.7214L49.8051 58.5066L35.5267 48.1327C33.4238 46.6049 30.5762 46.6049 28.4733 48.1327L14.1949 58.5066L19.6488 41.7214C20.452 39.2492 19.5721 36.541 17.4691 35.0132L3.19079 24.6393L20.8398 24.6393C23.4392 24.6393 25.7429 22.9656 26.5462 20.4934L32 3.7082Z" stroke="#4A3AFF" stroke-width="6"/>
