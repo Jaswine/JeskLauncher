@@ -36,6 +36,7 @@
    border-right: 20px solid transparent;
    border-bottom: 34px solid #fff;
    transform: rotate(90deg);
+   margin-left: 20px;
 }
 .equalizer__spans {
    display: flex;
