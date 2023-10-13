@@ -171,11 +171,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    displayMessages(gmailData)
-    displayMessages(calendarData)
-    displayMessages(todoData)
-    displayMessages(youtubeData)
-    displayMessages(githubData)
+    displayMessages(gmailData),
+    displayMessages(calendarData),
+    displayMessages(todoData),
+    displayMessages(youtubeData),
+    displayMessages(githubData),
+    
     console.log(errors)
 
     const icons = document.querySelectorAll('.icon');
