@@ -103,30 +103,26 @@
       <div class="accounts__body">
       {% if user.socialaccount_set.all %}
          {% for account in user.socialaccount_set.all %}
-            {% if account.provider == 'google' %}
-               <form class="included__account" method="POST">
+            <form class="included__account" method="POST">
+
+               {% if account.provider == 'google' %}
                   <i class="fa-brands fa-google"></i>
-                  <input type="hidden" class="account__id" value="{{ account.id  }}" />
-                  <!-- <input type="hidden" class="account__provider" value="{{ account.provider  }}" /> -->
-                  <!-- <input type="hidden" class="account__email" value="{{ account.email }}" /> -->
-                  <a class="included__account__delete">
-                     <span></span>
-                     <span></span>
-                  </a>
-               </form>
-            {% endif %} 
-            {% if account.provider == 'github' %}
-               <form class="included__account" method="POST">
+               {% elif account.provider == 'github' %}
                   <i class="fa-brands fa-github"></i>
-                  <input type="hidden" class="account__id" value="{{ account.id  }}" />
-                  <!-- <input type="hidden" class="account__provider" value="{{ account.provider  }}" /> -->
-                  <!-- <input type="hidden" class="account__email" value="{{ account.email }}" /> -->
-                  <a class="included__account__delete">
-                     <span></span>
-                     <span></span>
-                  </a>
-               </form>
-            {% endif %} 
+               {% elif account.provider == 'microsoft' %}
+                  <i class="fa-brands fa-microsoft"></i>
+               {% elif account.provider == 'facebook' %}
+                  <i class="fa-brands fa-facebook"></i>
+               {% elif account.provider == 'trello' %}
+                  <i class="fa-brands fa-trello"></i>
+               {% endif %} 
+
+               <input type="hidden" class="account__id" value="{{ account.id  }}" />
+               <a class="included__account__delete">
+                  <span></span>
+                  <span></span>
+               </a>
+            </form>
          {% endfor %}
       {% else %}
          <p>No connected accounts.</p>

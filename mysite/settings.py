@@ -48,6 +48,11 @@ INSTALLED_APPS = [
     
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.instagram',
+    
+    'allauth.socialaccount.providers.trello',
+    'allauth.socialaccount.providers.microsoft',
+    
+    'django_extensions',
 ]
 
 #  python3 manage.py runserver_plus --cert-file /tmp/cert
@@ -104,12 +109,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
         
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'railway',
-        # 'HOST': 'containers-us-west-11.railway.app',
-        # 'PORT': '6121',
-        # 'PASSWORD': 'Ob07Ocsi2UIgTnVaVIXd',
-        # 'USER': 'postgres',
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': 'Blog',
+        # 'HOST': '127.0.0.1',
+        # 'PORT': '3306',
+        # 'PASSWORD': '',
+        # 'USER': 'root',
         
         # 'ENGINE': 'djongo',
         # # 'NAME': 'MongoDB',
@@ -218,17 +223,22 @@ SOCIALACCOUNT_PROVIDERS = {
         ],
         'AUTH_PARAMS': {'access_type': 'online'},
         'APP': {
-            'client_id': '23fb9b076a04eb9cd6a5',
-            'secret': '085dfa213bda5ef164a0ea24056bba6fe93f8441', 
+            'client_id': os.environ.get('GITHUB_CLIENT_ID'),
+            'secret': os.environ.get('GITHUB_SECRET'), 
         },
     },
     'facebook': {
         'METHOD': 'oauth2',  # Set to 'js_sdk' to use the Facebook connect SDK
         # 'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
-        'SCOPE': ['email', 'public_profile'],
+        'SCOPE': [
+            'email', 
+            'public_profile',
+            'manage_notifications',
+        ],
         'APP': {
-            'client_id': '1262356361832021',
-            'secret': '60d932a89088ccceb36e1d0edf954d29', 
+            'client_id': os.environ.get('FACEBOOK_CLIENT_ID'),
+            'secret': os.environ.get('FACEBOOK_SECRET'), 
+            'key': os.environ.get('FACEBOOK_API_KEY'),
         },
         'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
         'INIT_PARAMS': {'cookie': True},
@@ -248,6 +258,48 @@ SOCIALACCOUNT_PROVIDERS = {
         'VERSION': 'v13.0',
         'GRAPH_API_URL': 'https://graph.facebook.com/v13.0',
     },
+    'trello': {
+         'SCOPE': [
+            # 'email', 
+            'read', 'write', 'account'
+            # 'public_profile',
+            # 'manage_notifications',
+            # 'read', 'notifications'
+        ],
+        'APP': {
+            'client_id': os.environ.get('TRELLO_CLIENT_ID'),
+            'secret': os.environ.get('TRELLO_SECRET'), 
+        },
+        # 'AUTH_PARAMS': {
+        #     'scope': 'read,write',
+        # },
+    },
+    "microsoft": {
+        'SCOPE': [
+            'openid', 
+            'User.ReadBasic.All', 
+            'Mail.Read', 
+            'Mail.ReadWrite', 
+            # 'Mail.Send',
+            'Tasks.Read',
+            'Tasks.ReadWrite',
+            'Calendars.Read',
+            'Calendars.ReadWrite', 
+            'User.Read',
+        ],
+        'METHOD': 'oauth2',
+        'VERIFIED_EMAIL': False,  
+        # 'VERSION': 'v2.0',  # Версия Microsoft Graph API
+        'AUTH_PARAMS': {'access_type': 'online'},
+        'APP': {
+            'client_id': os.environ.get('MICROSOFT_CLIENT_ID'),
+            'secret': os.environ.get('MICROSOFT_SECRET'),
+            "settings": {
+                "tenant": "organizations",
+            } 
+        },
+        # https://127.0.0.1:8000/accounts/microsoft/login/callback
+    }
 }
 
 # TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_TOKEN')

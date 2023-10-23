@@ -5,6 +5,7 @@ import requests
 from ...utils import  get_email_text, get_header_value
 from ...services.google import google_calendar, google_todos , google_gmail, google_youtube
 from ...services.github import github_notifications
+from ...services.facebook import notifications as facebook_notifications
 
 
 # def messages_list(request):
@@ -239,6 +240,42 @@ def github_messages_list(request):
                     'status':'error',
                     'message': response[1]
                 })
+    return JsonResponse({
+        'status':'error',
+        'message': 'Tokens not found'
+    })
+    
+"""
+   TODO: Facebook Notifications
+"""
+def facebook_messages_list(request): 
+    socialFacebookTokens = SocialToken.objects.filter(account__user=request.user, account__provider='facebook')
+    data = []
+    
+    print(socialFacebookTokens)
+    if socialFacebookTokens:
+        for socialFacebookToken in socialFacebookTokens:
+            access_token = socialFacebookToken.token
+            
+            response = facebook_notifications.FacebookService(access_token, socialFacebookToken.id)
+        
+            if response[0] == 'success':
+                data.extend(response[1])
+                
+        if data != []:
+            sorted_events = sorted(data, key=lambda event: event['created_time'])
+            
+            return JsonResponse({
+                    'status':'success',
+                    'type': 'Facebook',
+                    'data': sorted_events[::-1],
+                },  status=200)
+        else:
+            return JsonResponse({
+                    'status':'error',
+                    'message': response[1]
+                })
+            
     return JsonResponse({
         'status':'error',
         'message': 'Tokens not found'

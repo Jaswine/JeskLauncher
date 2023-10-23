@@ -137,17 +137,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = await response.json()
     return data
   };
+
+  // Fetch Facebook
+  const fetchFacebookNotifications = async () => {
+    console.log('Fetching Facebook notifications')
+    const response = await fetch('/api/messages/facebook')
+    const data = await response.json()
+    return data
+  };
   
   // Show Messages
   const ShowMessages = async () => {
     var all_messages = []
     let errors = []
     
-    const [calendarData, todoData, gmailData, youtubeData, githubData] = await Promise.all([
+    const [calendarData, todoData, gmailData, youtubeData, githubData, facebookData] = await Promise.all([
       fetchGoogleCalendarData(),
       fetchGoogleTodoData(),
       fetchGmailData(),
       fetchYouTubeData(),
+      fetchFacebookNotifications(),
       fetchGitHubNotifications(),
     ]);  
 
