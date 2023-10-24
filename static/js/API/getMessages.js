@@ -146,18 +146,45 @@ document.addEventListener('DOMContentLoaded', () => {
     return data
   };
   
+  // Fetch Microsoft Todos
+  const fetchMicrosoftTodosData= async () => {
+    console.log('Fetching Microsoft Todos')
+    const response = await fetch('/api/messages/microsoft-todo')
+    const data = await response.json()
+    console.log('\n\n\n Microsoft Data fetched successfully \n\n\n', data)
+    return data
+  };
+
+  // Fetch Microsoft Mails
+  const fetchMicrosoftMailsData= async () => {
+    console.log('Fetching Microsoft Todos')
+    const response = await fetch('/api/messages/microsoft-mails')
+    const data = await response.json()
+    console.log('\n\n\n Microsoft Data fetched successfully \n\n\n', data)
+    return data
+  };
+  
   // Show Messages
   const ShowMessages = async () => {
     var all_messages = []
     let errors = []
     
-    const [calendarData, todoData, gmailData, youtubeData, githubData, facebookData] = await Promise.all([
+    const [
+            calendarData, 
+            todoData, 
+            gmailData, 
+            youtubeData,
+            githubData,
+            microsoftTodosData,
+            microsoftMailsData,
+      ] = await Promise.all([
       fetchGoogleCalendarData(),
       fetchGoogleTodoData(),
       fetchGmailData(),
       fetchYouTubeData(),
-      fetchFacebookNotifications(),
       fetchGitHubNotifications(),
+      fetchMicrosoftTodosData(),
+      fetchMicrosoftMailsData(),
     ]);  
 
     messages_list.innerHTML = inbox_icons.innerHTML = ''
@@ -185,6 +212,8 @@ document.addEventListener('DOMContentLoaded', () => {
     displayMessages(todoData),
     displayMessages(youtubeData),
     displayMessages(githubData),
+    displayMessages(microsoftTodosData)
+    displayMessages(microsoftMailsData)
     
     console.log(errors)
 

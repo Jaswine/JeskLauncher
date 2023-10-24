@@ -7,6 +7,9 @@ from ...services.google import google_calendar, google_todos , google_gmail, goo
 from ...services.github import github_notifications
 from ...services.facebook import notifications as facebook_notifications
 
+from ...services.microsoft import todo as microsoft_todos
+from ...services.microsoft import mail as microsoft_mails
+
 
 # def messages_list(request):
 #     email_list = []
@@ -268,6 +271,76 @@ def facebook_messages_list(request):
             return JsonResponse({
                     'status':'success',
                     'type': 'Facebook',
+                    'data': sorted_events[::-1],
+                },  status=200)
+        else:
+            return JsonResponse({
+                    'status':'error',
+                    'message': response[1]
+                })
+            
+    return JsonResponse({
+        'status':'error',
+        'message': 'Tokens not found'
+    })
+    
+"""
+   TODO: Microsoft TODO
+"""
+def microsoft_todos_list(request): 
+    socialMicrosoftTokens = SocialToken.objects.filter(account__user=request.user, account__provider='microsoft')
+    data = []
+    
+    if socialMicrosoftTokens:
+        for socialMicrosoftToken in socialMicrosoftTokens:
+            access_token = socialMicrosoftToken.token
+            
+            response = microsoft_todos.MicrosoftTodoService(access_token, socialMicrosoftToken.id)
+        
+            if response[0] == 'success':
+                data.extend(response[1])
+                
+        if data != []:
+            sorted_events = sorted(data, key=lambda event: event['created_time'])
+            
+            return JsonResponse({
+                    'status':'success',
+                    'type': 'MicrosoftTodo',
+                    'data': sorted_events[::-1],
+                },  status=200)
+        else:
+            return JsonResponse({
+                    'status':'error',
+                    'message': response[1]
+                })
+            
+    return JsonResponse({
+        'status':'error',
+        'message': 'Tokens not found'
+    })
+    
+"""
+   TODO: Microsoft Mails
+"""
+def microsoft_mails_list(request): 
+    socialMicrosoftTokens = SocialToken.objects.filter(account__user=request.user, account__provider='microsoft')
+    data = []
+    
+    if socialMicrosoftTokens:
+        for socialMicrosoftToken in socialMicrosoftTokens:
+            access_token = socialMicrosoftToken.token
+            
+            response = microsoft_mails.MicrosoftMailsService(access_token, socialMicrosoftToken.id)
+        
+            if response[0] == 'success':
+                data.extend(response[1])
+                
+        if data != []:
+            sorted_events = sorted(data, key=lambda event: event['created_time'])
+            
+            return JsonResponse({
+                    'status':'success',
+                    'type': 'MicrosoftMails',
                     'data': sorted_events[::-1],
                 },  status=200)
         else:

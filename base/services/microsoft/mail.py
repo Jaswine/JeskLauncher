@@ -6,14 +6,18 @@ from dateutil import parser
 from ...utils import format_time
 
 
-def MicrosoftTodoService(access_token, social_google_token):
+def MicrosoftMailsService(access_token, social_google_token):
    messages = []
    
-   async def fetch_microsoft_todos():
+   async def fetch_microsoft_mails():
       start_time = time.time()
       
-      response = requests.get('https://outlook.office.com/api/v2.0/me/tasks/myday', headers = {
+      response = requests.get('https://graph.microsoft.com/v1.0/me/messages', headers = {
           'Authorization': 'Bearer ' + access_token
+        }, 
+        params = {
+            '$filter': 'parentFolderId eq \'inbox\'', 
+            '$top': 20  
         })
             
       if response.status_code == 200:  
@@ -31,7 +35,7 @@ def MicrosoftTodoService(access_token, social_google_token):
          raise Exception(f"Error {response.status_code}: Unauthorized or Forbidden")
          
    try:
-      asyncio.run(fetch_microsoft_todos())
+      asyncio.run(fetch_microsoft_mails())
    except Exception as e:
       print(f"An error occurred: {str(e)}")
       return ['error', str(e)]

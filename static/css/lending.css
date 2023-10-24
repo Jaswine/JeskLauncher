@@ -337,8 +337,7 @@ li {
     background: linear-gradient(106deg, #132156 0%, #15235A 47.41%, #3953BB 100%);
     padding: 2% 0;
     position: relative;
-}
-.chill_mode__title {
+    padding-bottom: 10vh;
 }
 .chill_mode__content {
     grid-template-columns: 35% 65%;

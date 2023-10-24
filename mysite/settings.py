@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.trello',
     'allauth.socialaccount.providers.microsoft',
     
-    'django_extensions',
+    # 'django_extensions',
 ]
 
 #  python3 manage.py runserver_plus --cert-file /tmp/cert
@@ -268,7 +268,7 @@ SOCIALACCOUNT_PROVIDERS = {
         ],
         'APP': {
             'client_id': os.environ.get('TRELLO_CLIENT_ID'),
-            'secret': os.environ.get('TRELLO_SECRET'), 
+            'secret': os.environ.get('TRELLO_SECRET'),
         },
         # 'AUTH_PARAMS': {
         #     'scope': 'read,write',

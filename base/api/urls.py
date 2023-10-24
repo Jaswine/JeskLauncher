@@ -19,6 +19,8 @@ urlpatterns = [
     path('messages/youtube', messages.google_youtube_messages_list, name='google_youtube_messages_list'),
     path('messages/github', messages.github_messages_list, name='github_messages_list'),
     path('messages/facebook', messages.facebook_messages_list, name='facebook_messages_list'),
+    path('messages/microsoft-todo', messages.microsoft_todos_list, name='microsoft_todos_list'),
+    path('messages/microsoft-mails', messages.microsoft_mails_list, name='microsoft_mails_list'),
     
     path('settings', user.update_settings, name='update_settings'),
     
