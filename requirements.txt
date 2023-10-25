@@ -5,9 +5,11 @@ charset-normalizer==3.2.0
 cryptography==41.0.3
 defusedxml==0.7.1
 Django==4.2.4
-django-allauth==0.54
+django-allauth==0.54.0
+et-xmlfile==1.1.0
 idna==3.4
 oauthlib==3.2.2
+openpyxl==3.1.2
 Pillow==10.0.0
 pycparser==2.21
 PyJWT==2.8.0
