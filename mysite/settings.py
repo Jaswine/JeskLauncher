@@ -204,32 +204,32 @@ SOCIALACCOUNT_PROVIDERS = {
             'secret': os.environ.get('GITHUB_SECRET'), 
         },
     },
-    # "microsoft": {
-    #     'SCOPE': [
-    #         'openid', 
-    #         'User.ReadBasic.All', 
-    #         'Mail.Read', 
-    #         'Mail.ReadWrite', 
-    #         # 'Mail.Send',
-    #         'Tasks.Read',
-    #         'Tasks.ReadWrite',
-    #         'Calendars.Read',
-    #         'Calendars.ReadWrite', 
-    #         'User.Read',
-    #     ],
-    #     'METHOD': 'oauth2',
-    #     'VERIFIED_EMAIL': False,  
-    #     # 'VERSION': 'v2.0',  # Версия Microsoft Graph API
-    #     'AUTH_PARAMS': {'access_type': 'online'},
-    #     'APP': {
-    #         'client_id': os.environ.get('MICROSOFT_CLIENT_ID'),
-    #         'secret': os.environ.get('MICROSOFT_SECRET'),
-    #         "settings": {
-    #             "tenant": "organizations",
-    #         } 
-    #     },
-    #     # https://127.0.0.1:8000/accounts/microsoft/login/callback
-    # }
+    "microsoft": {
+        'SCOPE': [
+            'openid', 
+            'User.ReadBasic.All', 
+            'Mail.Read', 
+            'Mail.ReadWrite', 
+            # 'Mail.Send',
+            'Tasks.Read',
+            'Tasks.ReadWrite',
+            'Calendars.Read',
+            'Calendars.ReadWrite', 
+            'User.Read',
+        ],
+        'METHOD': 'oauth2',
+        'VERIFIED_EMAIL': False,  
+        # 'VERSION': 'v2.0',  # Версия Microsoft Graph API
+        'AUTH_PARAMS': {'access_type': 'online'},
+        'APP': {
+            'client_id': os.environ.get('MICROSOFT_CLIENT_ID'),
+            'secret': os.environ.get('MICROSOFT_SECRET'),
+            "settings": {
+                "tenant": "organizations",
+            } 
+        },
+        # https://127.0.0.1:8000/accounts/microsoft/login/callback
+    }
 }
 
 # TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_TOKEN')
