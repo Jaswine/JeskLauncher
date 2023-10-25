@@ -1,9 +1,9 @@
 from pathlib import Path
 import os
 
-import dotenv
+# import dotenv
 
-dotenv.load_dotenv()
+# dotenv.load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -108,22 +108,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-        
-        # 'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': 'Blog',
-        # 'HOST': '127.0.0.1',
-        # 'PORT': '3306',
-        # 'PASSWORD': '',
-        # 'USER': 'root',
-        
-        # 'ENGINE': 'djongo',
-        # # 'NAME': 'MongoDB',
-        # 'CLIENT': {
-        #     'host': f'mongodb://mongo:uBxAFQooIasyhEOFiChy@containers-us-west-115.railway.app:7916',
-        # },
-        # 'OPTIONS': {
-        #     'connect': False,    
-        # },
     }
 }
     
@@ -186,22 +170,15 @@ SOCIALACCOUNT_PROVIDERS = {
             'email',
             'https://www.googleapis.com/auth/gmail.readonly',
             'https://www.googleapis.com/auth/gmail.modify',
-                # 'https://www.googleapis.com/auth/gmail.compose',
-                # 'https://www.googleapis.com/auth/gmail.send',
-                # 'https://www.googleapis.com/auth/gmail.insert',
-                # 'https://www.googleapis.com/auth/gmail.metadata',
+            
             'https://mail.google.com/',
             
             'https://www.googleapis.com/auth/tasks.readonly',
             'https://www.googleapis.com/auth/tasks',
             
             'https://www.googleapis.com/auth/calendar.readonly',
-            # 'https://www.googleapis.com/auth/calendar',
             'https://www.googleapis.com/auth/calendar.events',
-            
-            # 'https://www.googleapis.com/auth/youtube',
             'https://www.googleapis.com/auth/youtube.readonly',
-            # 'https://www.googleapis.com/auth/youtube.force-ssl',
             
         ],
         'AUTH_PARAMS': {
@@ -227,79 +204,32 @@ SOCIALACCOUNT_PROVIDERS = {
             'secret': os.environ.get('GITHUB_SECRET'), 
         },
     },
-    'facebook': {
-        'METHOD': 'oauth2',  # Set to 'js_sdk' to use the Facebook connect SDK
-        # 'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
-        'SCOPE': [
-            'email', 
-            'public_profile',
-            'manage_notifications',
-        ],
-        'APP': {
-            'client_id': os.environ.get('FACEBOOK_CLIENT_ID'),
-            'secret': os.environ.get('FACEBOOK_SECRET'), 
-            'key': os.environ.get('FACEBOOK_API_KEY'),
-        },
-        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-        'INIT_PARAMS': {'cookie': True},
-        'FIELDS': [
-            'id',
-            'first_name',
-            'last_name',
-            'middle_name',
-            'name',
-            'name_format',
-            'picture',
-            'short_name'
-        ],
-        'EXCHANGE_TOKEN': True,
-        # 'LOCALE_FUNC': 'path.to.callable',
-        'VERIFIED_EMAIL': False,
-        'VERSION': 'v13.0',
-        'GRAPH_API_URL': 'https://graph.facebook.com/v13.0',
-    },
-    'trello': {
-         'SCOPE': [
-            # 'email', 
-            'read', 'write', 'account'
-            # 'public_profile',
-            # 'manage_notifications',
-            # 'read', 'notifications'
-        ],
-        'APP': {
-            'client_id': os.environ.get('TRELLO_CLIENT_ID'),
-            'secret': os.environ.get('TRELLO_SECRET'),
-        },
-        # 'AUTH_PARAMS': {
-        #     'scope': 'read,write',
-        # },
-    },
-    "microsoft": {
-        'SCOPE': [
-            'openid', 
-            'User.ReadBasic.All', 
-            'Mail.Read', 
-            'Mail.ReadWrite', 
-            # 'Mail.Send',
-            'Tasks.Read',
-            'Tasks.ReadWrite',
-            'Calendars.Read',
-            'Calendars.ReadWrite', 
-            'User.Read',
-        ],
-        'METHOD': 'oauth2',
-        'VERIFIED_EMAIL': False,  
-        # 'VERSION': 'v2.0',  # Версия Microsoft Graph API
-        'AUTH_PARAMS': {'access_type': 'online'},
-        'APP': {
-            'client_id': os.environ.get('MICROSOFT_CLIENT_ID'),
-            'secret': os.environ.get('MICROSOFT_SECRET'),
-            "settings": {
-                "tenant": "organizations",
-            } 
-        },
-        # https://127.0.0.1:8000/accounts/microsoft/login/callback
-    }
+    # "microsoft": {
+    #     'SCOPE': [
+    #         'openid', 
+    #         'User.ReadBasic.All', 
+    #         'Mail.Read', 
+    #         'Mail.ReadWrite', 
+    #         # 'Mail.Send',
+    #         'Tasks.Read',
+    #         'Tasks.ReadWrite',
+    #         'Calendars.Read',
+    #         'Calendars.ReadWrite', 
+    #         'User.Read',
+    #     ],
+    #     'METHOD': 'oauth2',
+    #     'VERIFIED_EMAIL': False,  
+    #     # 'VERSION': 'v2.0',  # Версия Microsoft Graph API
+    #     'AUTH_PARAMS': {'access_type': 'online'},
+    #     'APP': {
+    #         'client_id': os.environ.get('MICROSOFT_CLIENT_ID'),
+    #         'secret': os.environ.get('MICROSOFT_SECRET'),
+    #         "settings": {
+    #             "tenant": "organizations",
+    #         } 
+    #     },
+    #     # https://127.0.0.1:8000/accounts/microsoft/login/callback
+    # }
 }
 
 # TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_TOKEN')

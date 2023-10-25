@@ -5,7 +5,7 @@ from django.http import Http404, HttpResponse
 from ..models import TestUser
 from django.contrib.auth.models import User
 
-from openpyxl import Workbook
+# from openpyxl import Workbook
 
 """ Admin Panel """
 @login_required(login_url='base:sign-in')
