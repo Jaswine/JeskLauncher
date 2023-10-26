@@ -219,7 +219,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const icons = document.querySelectorAll('.icon');
 
-
     const MessagesColumnChecking = (type, icon) => {
       icon.classList.add('inbox-show');
 
@@ -245,8 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    if (errors.length < 4) {
-
+    if (errors.length < 6) {
       let type_from_localStorage = localStorage.getItem('inbox-show');
 
       if (type_from_localStorage) {
@@ -347,7 +345,9 @@ document.addEventListener('DOMContentLoaded', () => {
                   body: formData,
                 })
                   .then(response => response.json())
-                  .then(data => {})
+                  .then(data => {
+                    console.log(data);
+                  })
                   .catch(error => {
                     console.log('Ошибка: ', error);
                   });
@@ -381,7 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(response => response.json())
                 .then(data => {
                   ShowMessages()
-                  console.log(data);
+                  console.log('Архивирование', data);
                 })
                 .catch(error => {
                   console.log('Ошибка: ', error);
@@ -398,7 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   ShowMessages()
                   today__work.innerHTML = ''
                   notification.style.display = 'none'
-                  console.log(data)
+                  console.log('Добавление в Спам', data);
                 })
                 .catch(error => {
                   console.log('Ошибка: ', error);
@@ -415,6 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   ShowMessages()
                   today__work.innerHTML = ''
                   notification.style.display = 'none'
+                  console.log('Удаление ( перемещение в корзину )', data);
                 })  
                 .catch(error => {
                   console.log('Ошибка: ', error);
@@ -428,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
               })
                 .then(response => response.json())
                 .then(data => {
-                  console.log(data);
+                  console.log("Изменение письму статус на не прочитаное", data);
                 })  
                 .catch(error => {
                   console.log('Ошибка: ', error);
@@ -452,7 +453,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(response => response.json())
                 .then(data => {
                   ShowMessages()
-                  console.log(data)
+                  console.log('Отметка письма ( звездочка )', data)
                   let star__button = document.querySelector('.today__notification__panel__start')
                   console.log(star__button)
 
@@ -492,6 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
               ShowMessages()
               notification.style.opacity = '1';
+              console.log("Обработчик для завершения Google Todo", data)
             })
             .catch(error => {
               console.log('Ошибка: ', error);
@@ -506,6 +508,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
               ShowMessages()
               notification.style.opacity = '.3';
+              console.log("Обработчик для отмены завершения Google Todo", data)
             })
             .catch(error => {
               console.log('Ошибка: ', error);
@@ -528,6 +531,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
               ShowMessages()
               notification.style.display = 'none';
+              console.log("Обработчик для удаления сообщения Google Todo", data)
             })  
             .catch(error => {
               console.log('Ошибка: ', error);
@@ -543,6 +547,7 @@ document.addEventListener('DOMContentLoaded', () => {
               ShowMessages()
               console.log(data)
               notification.style.display = 'none';
+              console.log("Удаляем письмо Gmail", data)
             })  
             .catch(error => {
               console.log('Ошибка: ', error);
@@ -557,6 +562,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
               ShowMessages()
               notification.style.display = 'none';
+              console.log("Удаляем событие Google Event", data)
             })  
             .catch(error => {
               console.log('Ошибка: ', error);
@@ -584,6 +590,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(data => {
               console.log(data);
+              console.log("Отправляем ответ на Gmail письмо", data)
             })  
             .catch(error => {
               console.log('Ошибка: ', error);
