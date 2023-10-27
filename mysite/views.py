@@ -15,3 +15,9 @@ def delete_instructions(request):
     return render(request, 'special/delete_instructions.html', {
         'title': 'Delete Instructions'
     })
+
+# Error pages
+def error_404(request):
+    return render(request, 'errors/404Page.html', {
+        'title': 'Delete Instructions'
+    })

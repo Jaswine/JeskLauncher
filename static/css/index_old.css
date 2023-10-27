@@ -523,6 +523,7 @@ td:hover {
    flex-direction: column;
    width: 100%;
    padding: 4px;
+   z-index: 15;
 }
 .callender__panel__top .callendar__window {
    width: 100%;

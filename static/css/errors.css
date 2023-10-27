@@ -1,0 +1,22 @@
+@import './variables.css';
+
+.page {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.page h1 {
+    font-size: calc((1vw + 1vh) * 5);
+    font-family: var(--bayerSans);
+    letter-spacing: 4px ;
+}

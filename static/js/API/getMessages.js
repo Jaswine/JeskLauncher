@@ -237,6 +237,9 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (type == 'GitHub') {
         renderData(githubData.data, messages_list)
         localStorage.setItem('inbox-show', 'GitHub')
+      } else if (type == 'Microsoft_Todo') {
+        renderData(microsoftTodosData.data, messages_list)
+        localStorage.setItem('inbox-show', 'Microsoft_Todo')
       } else {
         all_messages.sort(compareByCreated) 
         renderData(all_messages, messages_list)

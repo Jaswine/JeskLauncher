@@ -16,12 +16,13 @@ def MicrosoftMailsService(access_token, social_google_token):
           'Authorization': 'Bearer ' + access_token
         }, 
         params = {
-            '$filter': 'parentFolderId eq \'inbox\'', 
-            '$top': 20  
+            '$top': 20,
+            '$orderby': 'receivedDateTime desc'
         })
             
       if response.status_code == 200:  
-        print(response.content)       
+        mails  =  response.json().get('value', [])    
+        print('mails', mails) 
         # emails = response.json().get('messages', [])
 
         # for email in emails:

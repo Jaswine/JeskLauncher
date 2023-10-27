@@ -1,9 +1,9 @@
 from pathlib import Path
 import os
 
-# import dotenv
+import dotenv
 
-# dotenv.load_dotenv()
+dotenv.load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.trello',
     'allauth.socialaccount.providers.microsoft',
     
-    # 'django_extensions',
+    'django_extensions',
 ]
 
 #  python3 manage.py runserver_plus --cert-file /tmp/cert
@@ -229,7 +229,30 @@ SOCIALACCOUNT_PROVIDERS = {
             } 
         },
         # https://127.0.0.1:8000/accounts/microsoft/login/callback
-    }
+    }, 
+    'facebook': {
+        'METHOD': 'oauth2',  # Set to 'js_sdk' to use the Facebook connect SDK
+        # 'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
+        'SCOPE': ['email', 'public_profile'],
+         'APP': {
+            'client_id': os.environ.get('FACEBOOK_CLIENT_ID'),
+            'secret': os.environ.get('FACEBOOK_SECRET'),
+            "settings": {
+                "tenant": "organizations",
+            } 
+        },
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'INIT_PARAMS': {'cookie': True},
+        'FIELDS': [
+            'id',
+            'name',
+        ],
+        'EXCHANGE_TOKEN': True,
+        # 'LOCALE_FUNC': 'path.to.callable',
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v13.0',
+        'GRAPH_API_URL': 'https://graph.facebook.com/v13.0',
+    },
 }
 
 # TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_TOKEN')

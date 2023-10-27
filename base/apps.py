@@ -19,9 +19,11 @@ def pre_social_login_callback(sender, request, sociallogin, **kwargs):
     
     # Первый вход пользователя через социальную сеть
     if request.user.is_authenticated:
-        is_socialaccount = allauth.socialaccount.models.SocialAccount.objects.filter(uid=socialaccount.uid).count()
+        existing_social_account = allauth.socialaccount.models.SocialAccount.objects.filter(provider=socialaccount.provider, uid=socialaccount.uid).first()
         
-        if is_socialaccount == 0:
+        if existing_social_account:
+            print('\n\n\n',existing_social_account, existing_social_account.user.username, '\n\n\n')
+        else:
             socialaccount = allauth.socialaccount.models.SocialAccount.objects.create(
                 user=request.user,
                 provider=socialaccount.provider,

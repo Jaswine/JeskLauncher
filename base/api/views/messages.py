@@ -305,7 +305,7 @@ def microsoft_todos_list(request):
             
             return JsonResponse({
                     'status':'success',
-                    'type': 'MicrosoftTodo',
+                    'type': 'Microsoft_Todo',
                     'data': sorted_events[::-1],
                 },  status=200)
         else:

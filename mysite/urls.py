@@ -11,6 +11,7 @@ urlpatterns = [
     path('privacy-police', views.privacy_policy, name='privacy'),
     path('terms-of-use', views.terms_of_use, name='terms'),
     path('delete-instructions', views.delete_instructions, name='delete-instructions'),
+    path('404', views.error_404, name='404'),
     
     path('accounts/', include('allauth.urls')),
 ]
