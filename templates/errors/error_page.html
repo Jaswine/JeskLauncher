@@ -4,15 +4,21 @@
 {% block title %}
 <link rel="stylesheet" href="{% static 'css/errors.css' %}">
 
-<title>404 Error - Page not found</title>
+<title>{{ title }}</title>
 {% endblock title %}
 
 {% block content %}
 <div class="page" style="background-image: url('/static/media/Rectangle.png');">
    <div class="error">
-        <h1>404 Error</h1>
-        <h2>Page not found</h2>
+        <h1>{{ title }}</h1>
+        <h2>{{ text }}</h2>
    </div>
  </div> 
+
+{% if title == 'Error 500' %}
+<script>
+     window.location.href = '/';
+</script>
+{% endif %}
 
 {% endblock content %}
