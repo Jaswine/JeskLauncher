@@ -22,11 +22,19 @@ def MicrosoftMailsService(access_token, social_google_token):
             
       if response.status_code == 200:  
         mails  =  response.json().get('value', [])    
-        print('mails', mails) 
-        # emails = response.json().get('messages', [])
 
-        # for email in emails:
-            
+        for mail in mails:
+            messages.append({
+               'id':  mail.get('id', ''),
+               'type': 'Microsoft_Mails',
+               'title':  mail.get('subject', ''),
+               'sender': mail.get('toRecipients', [{}])[0].get('emailAddress', {}).get('address', '') if mail.get('toRecipients','') else '',
+               'link': f"https://outlook.live.com/mail/0/sentitems/id/{''.join('%2B' if n == '_' else n for n in mail.get('conversationId', '') )}%3D",   
+               'text': mail.get('body', '').get('content', ''),
+               'created_time': str(mail.get('sentDateTime', '')),
+               
+               'social_google_token_id': social_google_token,
+            })            
                         
         elapsed_time = time.time() - start_time                  
         print(f'Google Email loaded successfully ✅ - {format_time(elapsed_time)}')

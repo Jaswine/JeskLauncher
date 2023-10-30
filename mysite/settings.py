@@ -18,8 +18,7 @@ SECRET_KEY = '_6jbso1z+%9-qbavp0656*cxi@)#i$(%=(#2i)ly@osu@zh!w3'
 # * python -c 'import secrets; print(secrets.token_hex(24))' 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# DEVELOPMENT_MODE = os.environ.get("DEVELOPMENT_MODE", True)
+DEBUG = False
 
 # ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 ALLOWED_HOSTS = ['*']
@@ -56,6 +55,7 @@ INSTALLED_APPS = [
 ]
 
 #  python3 manage.py runserver_plus --cert-file /tmp/cert
+#  python3 manage.py runserver_plus --cert-file /tmp/cert --insecure
 
 SITE_ID = 2
 SOCIALACCOUNT_LOGIN_ON_GET=True

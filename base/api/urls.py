@@ -21,6 +21,7 @@ urlpatterns = [
     path('messages/facebook', messages.facebook_messages_list, name='facebook_messages_list'),
     path('messages/microsoft-todo', messages.microsoft_todos_list, name='microsoft_todos_list'),
     path('messages/microsoft-mails', messages.microsoft_mails_list, name='microsoft_mails_list'),
+    path('messages/microsoft-events', messages.microsoft_events_list, name='microsoft_events_list'),
     
     path('settings', user.update_settings, name='update_settings'),
     

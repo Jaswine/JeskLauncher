@@ -28,7 +28,6 @@ def MicrosoftTodoService(access_token, social_google_token):
             tasks =  response.json().get('value', [])
 
             for task in tasks:
-                print(f'\n\n\n {task} \n\n\n')
                 messages.append({
                      'id':  task.get('id', ''),
                      'type': 'Microsoft_Todo',

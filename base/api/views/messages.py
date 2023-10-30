@@ -9,6 +9,7 @@ from ...services.facebook import notifications as facebook_notifications
 
 from ...services.microsoft import todo as microsoft_todos
 from ...services.microsoft import mail as microsoft_mails
+from ...services.microsoft import calendar as microsoft_events
 
 
 # def messages_list(request):
@@ -340,7 +341,43 @@ def microsoft_mails_list(request):
             
             return JsonResponse({
                     'status':'success',
-                    'type': 'MicrosoftMails',
+                    'type': 'Microsoft_Mails',
+                    'data': sorted_events[::-1],
+                },  status=200)
+        else:
+            return JsonResponse({
+                    'status':'error',
+                    'message': response[1]
+                })
+            
+    return JsonResponse({
+        'status':'error',
+        'message': 'Tokens not found'
+    })
+
+
+"""
+   TODO: Microsoft Events
+"""
+def microsoft_events_list(request): 
+    socialMicrosoftTokens = SocialToken.objects.filter(account__user=request.user, account__provider='microsoft')
+    data = []
+    
+    if socialMicrosoftTokens:
+        for socialMicrosoftToken in socialMicrosoftTokens:
+            access_token = socialMicrosoftToken.token
+            
+            response = microsoft_events.MicrosoftCalendarService(access_token, socialMicrosoftToken.id)
+        
+            if response[0] == 'success':
+                data.extend(response[1])
+                
+        if data != []:
+            sorted_events = sorted(data, key=lambda event: event['created_time'])
+            
+            return JsonResponse({
+                    'status':'success',
+                    'type': 'Microsoft_Calendar',
                     'data': sorted_events[::-1],
                 },  status=200)
         else:

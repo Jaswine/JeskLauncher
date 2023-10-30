@@ -151,14 +151,22 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Fetching Microsoft Todos')
     const response = await fetch('/api/messages/microsoft-todo')
     const data = await response.json()
-    console.log('\n\n\n Microsoft Data fetched successfully \n\n\n', data)
     return data
   };
 
   // Fetch Microsoft Mails
   const fetchMicrosoftMailsData= async () => {
-    console.log('Fetching Microsoft Todos')
+    console.log('Fetching Microsoft Mails')
     const response = await fetch('/api/messages/microsoft-mails')
+    const data = await response.json()
+    console.log('\n\n\n Microsoft Mails fetched successfully \n\n\n', data)
+    return data
+  };
+
+  // Fetch Microsoft Events
+  const fetchMicrosoftEventsData= async () => {
+    console.log('Fetching Microsoft Events')
+    const response = await fetch('/api/messages/microsoft-events')
     const data = await response.json()
     console.log('\n\n\n Microsoft Data fetched successfully \n\n\n', data)
     return data
@@ -177,6 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
             githubData,
             microsoftTodosData,
             microsoftMailsData,
+            microsoftEventsData,
       ] = await Promise.all([
       fetchGoogleCalendarData(),
       fetchGoogleTodoData(),
@@ -185,6 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
       fetchGitHubNotifications(),
       fetchMicrosoftTodosData(),
       fetchMicrosoftMailsData(),
+      fetchMicrosoftEventsData()
     ]);  
 
     messages_list.innerHTML = inbox_icons.innerHTML = ''
@@ -214,8 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
     displayMessages(githubData),
     displayMessages(microsoftTodosData)
     displayMessages(microsoftMailsData)
-    
-    console.log(errors)
+    displayMessages(microsoftEventsData)
 
     const icons = document.querySelectorAll('.icon');
 
@@ -240,6 +249,12 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (type == 'Microsoft_Todo') {
         renderData(microsoftTodosData.data, messages_list)
         localStorage.setItem('inbox-show', 'Microsoft_Todo')
+      } else if (type == 'Microsoft_Mails') {
+        renderData(microsoftMailsData.data, messages_list)
+        localStorage.setItem('inbox-show', 'Microsoft_Mails')
+      } else if (type == 'Microsoft_Calendar') {
+        renderData(microsoftEventsData.data, messages_list)
+        localStorage.setItem('inbox-show', 'Microsoft_Calendar')
       } else {
         all_messages.sort(compareByCreated) 
         renderData(all_messages, messages_list)

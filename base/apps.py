@@ -16,23 +16,19 @@ def pre_social_login_callback(sender, request, sociallogin, **kwargs):
     socialaccount = sociallogin.account
     
     user = socialaccount.user if hasattr(socialaccount, "user") else None
+    existing_social_account = allauth.socialaccount.models.SocialAccount.objects.filter(provider=socialaccount.provider, uid=socialaccount.uid).first()
     
     # Первый вход пользователя через социальную сеть
-    if request.user.is_authenticated:
-        existing_social_account = allauth.socialaccount.models.SocialAccount.objects.filter(provider=socialaccount.provider, uid=socialaccount.uid).first()
-        
-        if existing_social_account:
-            print('\n\n\n',existing_social_account, existing_social_account.user.username, '\n\n\n')
-        else:
-            socialaccount = allauth.socialaccount.models.SocialAccount.objects.create(
-                user=request.user,
-                provider=socialaccount.provider,
-                uid=socialaccount.uid,
-                extra_data=socialaccount.extra_data,
-            )
-            socialaccount.save()
-        
-            request.user.socialaccount_set.add(socialaccount)
+    if request.user.is_authenticated and existing_social_account is None:
+        socialaccount = allauth.socialaccount.models.SocialAccount.objects.create(
+            user=request.user,
+            provider=socialaccount.provider,
+            uid=socialaccount.uid,
+            extra_data=socialaccount.extra_data,
+        )
+        socialaccount.save()
+
+        request.user.socialaccount_set.add(socialaccount)
     else:
         if not user:
             email = socialaccount.extra_data.get("email", "")
