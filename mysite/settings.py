@@ -18,7 +18,7 @@ SECRET_KEY = '_6jbso1z+%9-qbavp0656*cxi@)#i$(%=(#2i)ly@osu@zh!w3'
 # * python -c 'import secrets; print(secrets.token_hex(24))' 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 ALLOWED_HOSTS = ['*']
@@ -178,8 +178,10 @@ SOCIALACCOUNT_PROVIDERS = {
             
             'https://www.googleapis.com/auth/calendar.readonly',
             'https://www.googleapis.com/auth/calendar.events',
-            'https://www.googleapis.com/auth/youtube.readonly',
-            
+            'https://www.googleapis.com/auth/youtube.readonly',  
+        ],
+        'FIELDS': [
+            'id', 'name', 'email'
         ],
         'AUTH_PARAMS': {
             'access_type': 'offline',
@@ -198,6 +200,9 @@ SOCIALACCOUNT_PROVIDERS = {
             'read:org',
             'notifications',
         ],
+        'FIELDS': [
+            'id', 'name', 'email'
+        ],
         'AUTH_PARAMS': {'access_type': 'online'},
         'APP': {
             'client_id': os.environ.get('GITHUB_CLIENT_ID'),
@@ -207,20 +212,31 @@ SOCIALACCOUNT_PROVIDERS = {
     "microsoft": {
         'SCOPE': [
             'openid', 
+            'User.Read',
             'User.ReadBasic.All', 
             'Mail.Read', 
             'Mail.ReadWrite', 
             # 'Mail.Send',
             'Tasks.Read',
             'Tasks.ReadWrite',
-            'Calendars.Read',
-            'Calendars.ReadWrite', 
-            'User.Read',
+            'Calendars.Read', 
+            'Calendars.ReadWrite',
+            'Notes.Read', # OneNote
+            'Notes.Read.All',  
+            'Notes.ReadWrite',
+            'Notes.ReadWrite.All',
+        ],
+        'FIELDS': [
+            'id', 'name', 'email'
         ],
         'METHOD': 'oauth2',
         'VERIFIED_EMAIL': False,  
         # 'VERSION': 'v2.0',  # Версия Microsoft Graph API
-        'AUTH_PARAMS': {'access_type': 'online'},
+        # 'AUTH_PARAMS': {'access_type': 'online'},
+        'AUTH_PARAMS': {
+            'access_type': 'offline',
+            'prompt': 'consent',
+        },
         'APP': {
             'client_id': os.environ.get('MICROSOFT_CLIENT_ID'),
             'secret': os.environ.get('MICROSOFT_SECRET'),
@@ -233,15 +249,23 @@ SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
         'METHOD': 'oauth2',  # Set to 'js_sdk' to use the Facebook connect SDK
         # 'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
-        'SCOPE': ['email', 'public_profile'],
+        'SCOPE': [
+            'email', 'public_profile',
+
+        ],
          'APP': {
             'client_id': os.environ.get('FACEBOOK_CLIENT_ID'),
             'secret': os.environ.get('FACEBOOK_SECRET'),
+            'key': os.environ.get('FACEBOOK_API_KEY'),
             "settings": {
                 "tenant": "organizations",
             } 
         },
-        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'AUTH_PARAMS': {
+            'auth_type': 'reauthenticate',
+            'access_type': 'offline',
+            'prompt': 'consent',
+        },
         'INIT_PARAMS': {'cookie': True},
         'FIELDS': [
             'id',

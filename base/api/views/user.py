@@ -7,8 +7,10 @@ from django.contrib.auth import update_session_auth_hash
 
 from django.contrib.auth.models import User
 from ...models import Profile, TestUser
+from django.conf import settings
 
 import requests
+import base64
 
 
 @csrf_exempt
@@ -72,15 +74,38 @@ def update_settings(request):
         
 @csrf_exempt
 def rewrite_tokens(request):
-    social_token = SocialToken.objects.get(account__user=request.user, account__provider='google')  
-    
-    if social_token.token_secret:
-        
-        return JsonResponse({
-            'status': 'success',
-            'message': 'Tokens rewritten successfully'
-        }, status=200)
-        
+    social_tokens = SocialToken.objects.filter(account__user=request.user)  
+
+    for social_token in social_tokens:
+        access_token = None
+
+        if social_token.account.provider == 'google':
+            print(social_token)
+            response = requests.post("https://www.googleapis.com/oauth2/v4/token", headers={
+                "Authorization": "Basic " + base64.b64encode(f"{settings.SOCIALACCOUNT_PROVIDERS['google']['APP']['client_id']}:{settings.SOCIALACCOUNT_PROVIDERS['google']['APP']['secret']}".encode("utf-8")).decode("utf-8"),
+            }, data={
+                "grant_type": "refresh_token",
+                "refresh_token": social_token.token_secret,
+            })
+
+            if response.status_code == 200:
+                response_json = response.json()
+                access_token = response_json["access_token"]
+
+        if access_token != None:
+            social_token.token = access_token
+            social_token.save()
+
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Tokens rewritten successfully'
+            }, status=200)
+        else:
+            return JsonResponse({
+               'status': 'error',
+               'message': 'Could not get access token'
+            }, status=400)
+            
     return JsonResponse({
         'status': 'error',
         'message': 'Tokens could not be rewritten because you don\'t have a valid refresh token'
