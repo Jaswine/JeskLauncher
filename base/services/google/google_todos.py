@@ -6,7 +6,7 @@ from ...utils import format_time
 from datetime import datetime
 
 
-def GoogleTodoService(access_token, social_google_token):
+def GoogleTodoService(access_token, social_google_token, access_email=''):
    messages = []
    
    async def fetch_todos():
@@ -42,10 +42,11 @@ def GoogleTodoService(access_token, social_google_token):
                      'link': f"https://mail.google.com/tasks/canvas?pli=1&vid=default&task={task['id']}",   
                      'text': task.get('notes', ''),
                      'created_time': str(created_time),
-                     
                      'list_id': list_id,
-                     'social_google_token_id': social_google_token,
                      'status': task.get('status', ''),
+
+                     'account_email': access_email,
+                     'social_google_token_id': social_google_token,
                   })
                
          

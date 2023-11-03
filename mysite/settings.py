@@ -215,16 +215,16 @@ SOCIALACCOUNT_PROVIDERS = {
             'User.Read',
             'User.ReadBasic.All', 
             'Mail.Read', 
-            'Mail.ReadWrite', 
+            # 'Mail.ReadWrite', 
             # 'Mail.Send',
             'Tasks.Read',
-            'Tasks.ReadWrite',
+            # 'Tasks.ReadWrite',
             'Calendars.Read', 
-            'Calendars.ReadWrite',
+            # 'Calendars.ReadWrite',
             'Notes.Read', # OneNote
             'Notes.Read.All',  
-            'Notes.ReadWrite',
-            'Notes.ReadWrite.All',
+            # 'Notes.ReadWrite',
+            # 'Notes.ReadWrite.All',
         ],
         'FIELDS': [
             'id', 'name', 'email'

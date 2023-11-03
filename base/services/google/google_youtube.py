@@ -5,7 +5,7 @@ import time
 from ...utils import format_time
 
 
-def GoogleYoutubeService(access_token, social_google_token):
+def GoogleYoutubeService(access_token, social_google_token, access_email=''):
    messages = []
    
    async def fetch_todos():
@@ -33,10 +33,12 @@ def GoogleYoutubeService(access_token, social_google_token):
                'title':  activity.get('title', ''),
                'sender' : activity.get('channelTitle', ''),
                'thumbnail': activity.get('thumbnails', '').get('default', '').get('url', ''),
-               'link': "",   
-               'social_google_token_id': social_google_token,
+               'link': "https://www.youtube.com/watch?v={}".format(video_id),   
                'text': activity.get('description', ''),
                'created_time': str(created_time),
+
+               'account_email': access_email,
+               'social_google_token_id': social_google_token,
             })
                      
          elapsed_time = time.time() - start_time                  

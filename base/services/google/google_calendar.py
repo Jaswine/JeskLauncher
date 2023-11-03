@@ -5,7 +5,7 @@ import time
 from ...utils import format_time
 from datetime import datetime
 
-def CallendarService(access_token, social_google_token):
+def CallendarService(access_token, social_google_token, access_email=''):
    messages = []
 
    async def fetch_last_event(calendar_id):
@@ -30,9 +30,12 @@ def CallendarService(access_token, social_google_token):
                'sender': '',
                'link': event.get('htmlLink', ''),
                'text': description,
+               'created_time': str(created_time),
+
                'calendar_id': calendar_id,
+
+               'account_email': access_email,
                'social_google_token_id': social_google_token,
-               'created_time': str(created_time)
             })
             
       elif response.status_code == 401 or response.status_code == 403:

@@ -52,7 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
         ${message.type == 'Google_Todo' ? "<a class='google_todo_accomplished'>comp</a>" : ''}
       </div>
 
-      <span class='notification__time'>${message.created_time}</span>
+      <span class='special__time'>
+        <span>${message.account_email ? message.account_email : '' }</span>
+        <span class='notification__time'>${message.created_time}</span>
+      </span>
 
       <div class="notification__content">${message.text}</div>
       <input type='hidden' class='notification_id' value='${message.id}' />
@@ -171,6 +174,15 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('\n\n\n Microsoft Data fetched successfully \n\n\n', data)
     return data
   };
+
+  // Fetch Microsoft OneData
+  const fetchMicrosoftOneNotesData= async () => {
+    console.log('Fetching Microsoft OneNotes')
+    const response = await fetch('/api/messages/microsoft-onenotes')
+    const data = await response.json()
+    console.log('\n\n\n Microsoft Data fetched successfully \n\n\n', data)
+    return data
+  };
   
   // Show Messages
   const ShowMessages = async () => {
@@ -186,6 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
             microsoftTodosData,
             microsoftMailsData,
             microsoftEventsData,
+            microsoftOneNotesData,
       ] = await Promise.all([
       fetchGoogleCalendarData(),
       fetchGoogleTodoData(),
@@ -194,7 +207,8 @@ document.addEventListener('DOMContentLoaded', () => {
       fetchGitHubNotifications(),
       fetchMicrosoftTodosData(),
       fetchMicrosoftMailsData(),
-      fetchMicrosoftEventsData()
+      fetchMicrosoftEventsData(),
+      fetchMicrosoftOneNotesData()
     ]);  
 
     messages_list.innerHTML = inbox_icons.innerHTML = ''
@@ -225,6 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
     displayMessages(microsoftTodosData)
     displayMessages(microsoftMailsData)
     displayMessages(microsoftEventsData)
+    displayMessages(microsoftOneNotesData)
 
     const icons = document.querySelectorAll('.icon');
 
@@ -255,6 +270,9 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (type == 'Microsoft_Calendar') {
         renderData(microsoftEventsData.data, messages_list)
         localStorage.setItem('inbox-show', 'Microsoft_Calendar')
+      } else if (type == 'Microsoft_OneNote') {
+        renderData(microsoftOneNotesData.data, messages_list)
+        localStorage.setItem('inbox-show', 'Microsoft_OneNote')
       } else {
         all_messages.sort(compareByCreated) 
         renderData(all_messages, messages_list)
@@ -635,8 +653,27 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   })
 
+  const rewrite_tokens = () => {
+    console.log('Rewriting tokens...')
+    // Выполняем GET-запрос к серверу по адресу '/api/rewrite-tokens'
+    fetch('/api/rewrite-tokens')
+       .then(response => response.json())
+       .then(data => {
+          // Выводим полученные данные в консоль браузера
+          console.log(data);
+       })
+       .catch(error => {
+          // В случае ошибки выводим её в консоль браузера
+          console.error(error);
+       })
+ }
+ 
+ rewrite_tokens()
+ ShowMessages()
 
-  ShowMessages()
+ setInterval(() => {
+    rewrite_tokens()
+ },  2400000)
 
   setInterval(() => {
     ShowMessages();

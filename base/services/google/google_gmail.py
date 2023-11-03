@@ -6,7 +6,7 @@ from dateutil import parser
 from ...utils import format_time
 
 
-def GoogleGmailService(access_token, social_google_token, get_email_text, get_header_value):
+def GoogleGmailService(access_token, social_google_token, get_email_text, get_header_value, access_email=''):
    messages = []
    
    async def fetch_emails():
@@ -40,7 +40,6 @@ def GoogleGmailService(access_token, social_google_token, get_email_text, get_he
                   
                   messages.append({
                      'id': email_data.get('id'),
-                     'social_google_token_id': social_google_token,
                      'type': 'Gmail',
                      'title': get_header_value(email_data['payload']['headers'], 'Subject'), 
                      'sender': get_header_value(email_data['payload']['headers'], 'From'), 
@@ -48,6 +47,9 @@ def GoogleGmailService(access_token, social_google_token, get_email_text, get_he
                      'text': get_email_text(email_data['payload']),
                      'is_liked': is_liked,
                      'created_time': str(created_time),
+
+                     'account_email': access_email,
+                     'social_google_token_id': social_google_token,
                   })
                   
                elif email_response.status_code == 401 or email_response.status_code == 403:

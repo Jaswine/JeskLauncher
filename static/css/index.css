@@ -238,11 +238,23 @@
 }
 .notification__time {
    text-align: right;
-   font-size: 11px;
+}
+.special__time {
+   display: grid;
+   grid-template-columns: 50% 50%;
+   justify-content: space-between;
+   align-items: center;
+   gap: 6px;
    width: 100%;
+   margin-top: 4px;
+   font-size: 11px;
    font-weight: 900;
    color: var(--olightgray);
-   margin-top: 4px;
+}
+.notification__time span:first-child {
+}
+.notification__time span:last-child {
+   text-align: right;
 }
 .notification__buttons {
    display: flex;

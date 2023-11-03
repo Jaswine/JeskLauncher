@@ -12,7 +12,7 @@ def MicrosoftMailsService(access_token, social_google_token):
    async def fetch_microsoft_mails():
       start_time = time.time()
       
-      response = requests.get('https://graph.microsoft.com/v1.0/me/onenote/notebooks/', headers = {
+      response = requests.get('https://graph.microsoft.com/v1.0/me/messages/', headers = {
           'Authorization': 'Bearer ' + access_token
         }, 
         params = {
@@ -26,7 +26,7 @@ def MicrosoftMailsService(access_token, social_google_token):
             messages.append({
                'id':  mail.get('id', ''),
                'type': 'Microsoft_OneNote',
-               'title':  mail.get('displayName', ''),
+               'title':  mail.get('subject', ''),
                'sender': mail.get('toRecipients', [{}])[0].get('emailAddress', {}).get('address', '') if mail.get('toRecipients','') else '',
                'link': f"https://outlook.live.com/mail/0/sentitems/id/{''.join('%2B' if n == '_' else n for n in mail.get('conversationId', '') )}%3D",   
                'text': mail.get('body', '').get('content', ''),
@@ -36,7 +36,7 @@ def MicrosoftMailsService(access_token, social_google_token):
             })            
                         
         elapsed_time = time.time() - start_time                  
-        print(f'Google Email loaded successfully ✅ - {format_time(elapsed_time)}')
+        print(f'Microsoft mails loaded successfully ✅ - {format_time(elapsed_time)}')
         time.sleep(1)
          
       elif response.status_code == 401 or response.status_code == 403:

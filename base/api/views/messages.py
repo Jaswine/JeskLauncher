@@ -7,9 +7,10 @@ from ...services.google import google_calendar, google_todos , google_gmail, goo
 from ...services.github import github_notifications
 from ...services.facebook import notifications as facebook_notifications
 
-from ...services.microsoft import todo as microsoft_todos
-from ...services.microsoft import mail as microsoft_mails
-from ...services.microsoft import calendar as microsoft_events
+from ...services.microsoft import (microsoft_events, 
+                                                        microsoft_mails, 
+                                                        microsoft_onenotes, 
+                                                        microsoft_todos)
 
 
 # def messages_list(request):
@@ -103,8 +104,9 @@ def gmail_messages_list(request):
     if socialGoogleTokens:
         for socialGoogleToken in socialGoogleTokens:
             access_token = socialGoogleToken.token
+            access_email = socialGoogleToken.account.extra_data.get('email', None)
             
-            response = google_gmail.GoogleGmailService(access_token,  socialGoogleToken.id, get_email_text, get_header_value)
+            response = google_gmail.GoogleGmailService(access_token,  socialGoogleToken.id, get_email_text, get_header_value, access_email)
             
             if response[0] == 'success':
                 data.extend(response[1])
@@ -122,8 +124,6 @@ def gmail_messages_list(request):
                     'status':'error',
                     'message': response[1]
                 })
-                     
-                
 
 """
    TODO: Google Todo
@@ -135,8 +135,9 @@ def google_todo_messages_list(request):
     if socialGoogleTokens:
         for socialGoogleToken in socialGoogleTokens:
             access_token = socialGoogleToken.token
+            access_email = socialGoogleToken.account.extra_data.get('email', None)
             
-            response = google_todos.GoogleTodoService(access_token, socialGoogleToken.id)
+            response = google_todos.GoogleTodoService(access_token, socialGoogleToken.id, access_email)
             
             if response[0] == 'success':
                 data.extend(response[1])
@@ -165,8 +166,9 @@ def google_calendar_messages_list(request):
     if socialGoogleTokens:
         for socialGoogleToken in socialGoogleTokens:
             access_token = socialGoogleToken.token
+            access_email = socialGoogleToken.account.extra_data.get('email', None)
             
-            response = google_calendar.CallendarService(access_token, socialGoogleToken.id)
+            response = google_calendar.CallendarService(access_token, socialGoogleToken.id, access_email)
             
             if response[0] == 'success':
                 data.extend(response[1])
@@ -195,8 +197,9 @@ def google_youtube_messages_list(request):
     if socialGoogleTokens:
         for socialGoogleToken in socialGoogleTokens:
             access_token = socialGoogleToken.token
+            access_email = socialGoogleToken.account.extra_data.get('email', None)
             
-            response = google_youtube.GoogleYoutubeService(access_token, socialGoogleToken.id)
+            response = google_youtube.GoogleYoutubeService(access_token, socialGoogleToken.id, access_email)
         
             if response[0] == 'success':
                 data.extend(response[1])
@@ -378,6 +381,41 @@ def microsoft_events_list(request):
             return JsonResponse({
                     'status':'success',
                     'type': 'Microsoft_Calendar',
+                    'data': sorted_events[::-1],
+                },  status=200)
+        else:
+            return JsonResponse({
+                    'status':'error',
+                    'message': response[1]
+                })
+            
+    return JsonResponse({
+        'status':'error',
+        'message': 'Tokens not found'
+    })
+
+"""
+   TODO: Microsoft OneNote
+"""
+def microsoft_onenotes_list(request): 
+    socialMicrosoftTokens = SocialToken.objects.filter(account__user=request.user, account__provider='microsoft')
+    data = []
+    
+    if socialMicrosoftTokens:
+        for socialMicrosoftToken in socialMicrosoftTokens:
+            access_token = socialMicrosoftToken.token
+            
+            response = microsoft_onenotes.MicrosoftOneNotesService(access_token, socialMicrosoftToken.id)
+        
+            if response[0] == 'success':
+                data.extend(response[1])
+                
+        if data != []:
+            sorted_events = sorted(data, key=lambda event: event['created_time'])
+            
+            return JsonResponse({
+                    'status':'success',
+                    'type': 'Microsoft_OneNote',
                     'data': sorted_events[::-1],
                 },  status=200)
         else:

@@ -44,7 +44,7 @@ def MicrosoftCalendarService(access_token, social_google_token):
                      })
          
          elapsed_time = time.time() - start_time                  
-         print(f'Microsoft Todos loaded successfully ✅ - {format_time(elapsed_time)}')
+         print(f'Microsoft Events loaded successfully ✅ - {format_time(elapsed_time)}')
          time.sleep(1)
          
       elif response_lists.status_code == 401 or response_lists.status_code == 403:
