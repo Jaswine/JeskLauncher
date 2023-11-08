@@ -12,7 +12,6 @@ urlpatterns = [
     path('today-notes/<str:pk>', today_tasks.today_notes_delete, name='today_notes_delete'),
 
     # TODO: ____ messages _____
-    # path('messages', messages.messages_list, name='messages_list'),  
     path('messages/gmail', messages.gmail_messages_list, name='gmail_messages_list'),
     path('messages/google-todo', messages.google_todo_messages_list, name='google_todo_messages_list'),
     path('messages/google-calendar', messages.google_calendar_messages_list, name='google_calendar_messages_list'),

@@ -352,8 +352,32 @@
         <img src="/static/media/lending/faq_back.png" alt="faq" class="faq__back" />
 
     </div>
+
+    <div class="send__email" >
+        <div class="send__email__back">
+            <img src="/static/media/lending/form_back.png" alt="back" />
+            <div class="send__email__back__filter"></div>
+        </div>
+        <div class="send__email__item">
+            <form method="POST">
+                <h2>Stay tuned for our updates!</h2>
+                <p>Leave your email below</p>
+               <div class="send__email__field">
+                    {% csrf_token %}
+                    <img src="/static/media/lending/form_icon_user.svg" alt="icon user" />
+                    <input type="text"  name="email" required placeholder="Enter your email"  />
+               </div>
+               <div class="send__email__success">
+                Your email has been saved successfully!
+               </div>
+               <button>send</button>
+            </form>
+        </div>
+    </div>
+
 </div>
     
 <script src="/static/js/lending/lending.js"></script>
+<script src="/static/js/lending/sendData.js"></script>
 
 {% endblock content %}

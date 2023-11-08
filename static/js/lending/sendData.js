@@ -1,52 +1,27 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const header__links = document.querySelectorAll('.header__link')
-    const parts = document.querySelectorAll('.part')
-
-    const contactsForm = document.querySelector('#contactsForm')
-    const contacts__message = document.querySelector('.contacts__message')
-
-    contactsForm.addEventListener('submit', (e) => {
+    const form = document.querySelector('form')
+    
+    form.addEventListener('submit', (e) => {
         e.preventDefault()
 
-        let formData  = new FormData(contactsForm)
+        const formData = new FormData(e.target)
 
-        fetch('/api/create-new-user', {
-            method: 'POST',
-            body: formData
+        fetch(`/api/create-new-user`, {
+            'method': 'POST',
+            'body': formData
         })
-            .then(response => response.json())
-            .then(data => {
+            .then(res => res.json())
+            .then((data) => {
                 console.log(data)
 
-                let inputs = contactsForm.querySelectorAll('input')
+                const field = form.querySelector('.send__email__field')
+                const button = form.querySelector('button')
+                const success =  form.querySelector('.send__email__success')
 
-                inputs.forEach(i => i.value = '')
+                field.style.display = 'none'
+                button.style.display  = 'none'
+                success.style.display  = 'block'
 
-                contacts__message.style.display = 'flex'
-
-                setTimeout(() => {
-                    contacts__message.style.opacity = 1
-                }, 300)
-
-                setTimeout(() => {
-                    contacts__message.style.opacity = 0
-                    contacts__message.style.display = 'none'
-                }, 5000)
             })
-    })
-
-    document.querySelector('.try_demo').addEventListener('click', () => {
-        contactsForm.scrollIntoView({ behavior: 'smooth' });
-    })
-
-    document.querySelector('.to_about').addEventListener('click', () => {
-        parts[1].scrollIntoView({ behavior: 'smooth' });
-    })
-    
-
-    header__links.forEach((link, i) => {
-        link.addEventListener('click', () => {
-            parts[i].scrollIntoView({ behavior: 'smooth' });
-        })
     })
 })
