@@ -68,8 +68,8 @@
             </div>
 
             <div class="intro__buttons">
-                <a href="" class="butn">BUY</a>
-                <a href="" class="butn butn-bord">LEARN MORE</a>
+                <a class="butn buy" href="{% url 'base:sign-in' %}">BUY</a>
+                <a class="butn butn-bord learn_more butn_link" title="#About">LEARN MORE</a>
             </div>
 
             <div class="intro__bottom">
@@ -82,7 +82,7 @@
     </div>
 
     <div class="page__container">
-        <div class="about">
+        <div class="about" id="About">
             <h2 class="about__title">About</h2>
             <div class="about__content">
                 <div class="about__left">
@@ -135,8 +135,8 @@
                     </div>
                     <img src="/static/media/lending/chill_mode_screen.png" alt="chill mode screen" class="chill_mode__right__image" />
                     <div class="chill_mode__right__buttons">
-                        <a class="butn">TRY IT FREE</a>
-                        <a class="butn">SEND EMAIL</a>
+                        <a class="butn try-it-free" href="{% url 'base:sign-in' %}">TRY IT FREE</a>
+                        <a class="butn send-mail butn_link" title="#SendEmail">SEND EMAIL</a>
                     </div>
                 </div>
             </div>
@@ -331,7 +331,7 @@
                 <div class="faq__item__info">
                     <h3>YOUR PRODUCTIVITY NOW</h3>
                     <div class="faq__item__productivity">
-                        <span class="faq__item__percent">502%</span>
+                        <span class="faq__item__percent">500%</span>
                         <span class="faq__item__circle"></span>
                     </div>
                 </div>
@@ -353,7 +353,7 @@
 
     </div>
 
-    <div class="send__email" >
+    <div class="send__email" id="SendEmail" >
         <div class="send__email__back">
             <img src="/static/media/lending/form_back.png" alt="back" />
             <div class="send__email__back__filter"></div>
@@ -373,6 +373,78 @@
                <button>send</button>
             </form>
         </div>
+    </div>
+
+    <div class="footer">
+       <img src="/static/media/lending/footer_jesk.png" alt="jesk" class="footer__back" />
+      <div class="footer__item">
+        <div class="footer__top">
+            <img src="/static/media/lending/footer_logo.svg" alt="footer__logo" />
+            <img src="/static/media/lending/footer_mini_logo.svg" alt="footer__logo" />
+        </div>
+        <div class="footer__middle">
+
+            <div class="footer__middle__left">
+                <div class="footer__middle__left__top">
+                    <h3>Order in the Head</h3>
+                    <h3>Order the Workspace</h3>
+                </div>
+                <div class="footer__middle__left__bootom">
+                    <a href="/terms-of-use">Terms of Service</a>
+                    <a href="/privacy-police">Privacy Policy</a>
+                    <a href="/cookies">Cookies</a>
+                </div>
+            </div>
+
+            <div class="footer__middle__right">
+
+                <div class="footer__middle__right__spec">
+                    <h3>Platform</h3>
+                    <div class="footer__middle__right__content">
+                        <a href="">Plans and Pricing</a>
+                        <a href="">Manager</a>
+                    </div>
+                </div>
+
+                <div class="footer__middle__right__spec">
+                    <h3>Company</h3>
+                    <div class="footer__middle__right__content">
+                        <a href="">Blog</a>
+                        <a href="">Careers</a>
+                        <a href="">News</a>
+                    </div>
+                </div>
+
+                <div class="footer__middle__right__spec">
+                    <h3>Our Contacts</h3>
+                    <div class="footer__middle__right__content">
+                        <a href="">jesk@gmail.com</a>
+                        <a href="">@Jesk</a>
+                    </div>
+                </div>
+
+                <div class="footer__middle__right__three">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="footer__bottom">
+            <span class="footer__bottom__left"></span>  
+            <div class="footer__bottom__icons">
+                <a href="">
+                    <img src="/static/media/icons/instagram.svg" alt="instagram">
+                </a>
+                <a href="">
+                    <img src="/static/media/icons/telegram.svg" alt="telegram">
+                </a>
+            </div>
+            <span class="footer__bottom__right"></span>  
+        </div> 
+
+      </div>
     </div>
 
 </div>
