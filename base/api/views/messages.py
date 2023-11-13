@@ -1,6 +1,5 @@
 from django.http import JsonResponse
 from allauth.socialaccount.models import SocialToken, SocialApp
-import requests
 
 from ...utils import  get_email_text, get_header_value
 from ...services.google import google_calendar, google_todos , google_gmail, google_youtube

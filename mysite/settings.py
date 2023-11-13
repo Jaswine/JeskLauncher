@@ -18,7 +18,7 @@ SECRET_KEY = '_6jbso1z+%9-qbavp0656*cxi@)#i$(%=(#2i)ly@osu@zh!w3'
 # * python -c 'import secrets; print(secrets.token_hex(24))' 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = None
+DEBUG = True
 
 # ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 ALLOWED_HOSTS = ['*']
@@ -218,9 +218,10 @@ SOCIALACCOUNT_PROVIDERS = {
             # 'Mail.ReadWrite', 
             # 'Mail.Send',
             'Tasks.Read',
-            # 'Tasks.ReadWrite',
+            'Tasks.ReadWrite',
+            # 'Tasks.ReadWrite.All',
             'Calendars.Read', 
-            # 'Calendars.ReadWrite',
+            'Calendars.ReadWrite',
             'Notes.Read', # OneNote
             'Notes.Read.All',  
             # 'Notes.ReadWrite',
@@ -263,7 +264,7 @@ SOCIALACCOUNT_PROVIDERS = {
         },
         'AUTH_PARAMS': {
             'auth_type': 'reauthenticate',
-            'access_type': 'offline',
+            'access_type': 'offline',   
             'prompt': 'consent',
         },
         'INIT_PARAMS': {'cookie': True},

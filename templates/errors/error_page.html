@@ -8,17 +8,18 @@
 {% endblock title %}
 
 {% block content %}
-<div class="page" style="background-image: url('/static/media/Rectangle.png');">
-   <div class="error">
-        <h1>{{ title }}</h1>
-        <h2>{{ text }}</h2>
-   </div>
- </div> 
 
 {% if title == 'Error 500' %}
 <script>
      window.location.href = '/';
 </script>
 {% endif %}
+
+<div class="page" style="background-image: url('/static/media/Rectangle.png');">
+   <div class="error">
+        <h1>{{ title }}</h1>
+        <h2>{{ text }}</h2>
+   </div>
+ </div> 
 
 {% endblock content %}
