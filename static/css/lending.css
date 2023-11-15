@@ -69,6 +69,11 @@ body {
 .header__right {
     gap: calc((1vw + 1vh) * .8);
 }
+@media screen and (max-width: 500px) {
+    .header {
+        display: none;
+    }
+}
 
 /* !: Intro */
 .intro {
@@ -208,7 +213,6 @@ body {
     width: calc((1vw + 1vh) * 9.4);
     bottom: -10%;
     right: 4%;
-    
 }
 .butn {
     font-size: calc((1vw + 1vh) * .8);
@@ -245,6 +249,58 @@ body {
 .butn-bord:hover {
     background-color: var(--white);
     color: var(--black);
+}
+
+@media screen and (max-width: 500px) {
+    .intro {
+        padding: 2% 4%;
+    }
+    .intro__item {
+        padding: 8% 2%;
+        border-radius: 4px 4px 4px 40px;
+        max-width: 100%;
+    }
+    .intro .intro__top__line {
+        display: none;
+    }
+    .intro__top h2 {
+        margin-bottom: 1%;
+        font-size: calc((1vw + 1vh) * 3.8);
+    }
+    .intro__top p {
+        font-size: calc((1vw + 1vh) * 1.8);
+        max-width: 100%;
+        margin: 4%;
+        line-height: calc((1vw + 1vh) * 1.9);
+    }
+    .intro__buttons {
+        flex-direction: column;
+        gap: 10px;
+        margin: 4% 0;
+        width: 100%;
+        max-width: 90%;
+    }
+    .intro__buttons .butn:first-child {
+        font-size: calc((1vw + 1vh) * 2);
+    }
+    .butn {
+        max-width: 100%;
+        width: 100%;
+        text-align: center;
+        font-size: calc((1vw + 1vh) * 1.8);
+        padding: 10px 22px 10px 30px;
+    }
+    .intro__help {
+        bottom: -7%;
+        right: -10%;
+        width: calc((1vw + 1vh) * 11.4);
+    }
+    .intro__bottom {
+        font-size: calc((1vw + 1vh) * 1.4);
+    }
+    .intro__left {
+        display: none;
+    }
 }
 
 /* !: About */
@@ -353,6 +409,35 @@ li {
 }
 .about__right__content ul li p {
     font-size: 16px;
+}
+
+@media screen and (max-width: 500px) {
+    .about__title {
+        font-size: calc((1vw + 1vh) * 5.8);
+        height: 10vh;
+        text-align: center;
+    }
+    .about__left .about__left__laptop {
+        height: 50vh;
+        top: 16%;
+    }
+    .about__left .about__help {
+        top: 10%;
+        width: 25%;
+        left: 11%;
+    }
+    .about__right__content h2 {
+        font-size: calc((1vw + 1vh) * 2.4);
+    }
+    .about__right__content {
+        width: 90%;
+        position: absolute;
+        background-color: rgb(18, 29, 74, .8);
+        right: 2%;
+        margin-left: 0;
+        margin-right: 0;
+        bottom: 5%;
+    }
 }
 
 /* !: Chill Mode */
@@ -508,6 +593,65 @@ li {
     background-color: transparent;
     color: var(--white);
     border: calc((1vw + 1vh)*.24) solid var(--white);
+}
+@media screen and (max-width: 500px) {
+    .chill_mode .about__title {
+        font-size: calc((1vw + 1vh) * 5.4);
+        height: 16vh;
+    }
+    .chill_mode__content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .chill_mode__left {
+        height: 40vh;
+    }
+    .chill_mode__left div h3 {
+        font-size: calc(((1vw + 1vh) * 3));
+    }
+    .chill_mode__left div p {
+        font-size: calc(((1vw + 1vh) * .9));
+    }
+    .chill_mode__left div {
+        padding: 0;
+    }
+    .chill_mode__left img {
+        width: 85vw;
+        z-index: -1;
+        top: -10vh;
+        left: 10%;
+    }
+    .chill_mode__right img {
+        left: 0vw;
+        height: 40vh;
+        width: auto;
+    }
+    .chill_mode__right__back .block6 {
+        width: 22%;
+        height: 22%;
+        bottom: -5%;
+        left: -2%;
+    }
+    .chill_mode__right__buttons {
+        bottom: -55%;
+        flex-direction: column;
+    }
+    .chill_mode__right__back .block1 {
+        width: 20%;
+        height: 22%;
+        top: -4%;
+        left: -4%;
+    }
+    .chill_mode__right__buttons .butn {
+        margin-bottom: 3%;
+        width: 100%;
+        max-width: 100%;
+        font-size: calc((1vw + 1vh) * 1.8);
+        height: auto;
+        padding: 10px 18px 10px 22px;
+    }
 }
 
 /*  !: Calendar */
@@ -1210,3 +1354,4 @@ li {
     width: 12%;
     background-color: var(--white);
 }
+
