@@ -497,7 +497,7 @@ li {
         text-align: center;
     }
     .about__left .about__left__laptop {
-        height: 38vh;
+        height: 40vh;
         /* width: 94vw; */
         top: 10%;
         right: -14%;
@@ -533,7 +533,7 @@ li {
         padding: 2% 5%;
         margin-left: 0;
         margin-right: 0;
-        bottom: 2   %;
+        bottom: 2%;
         border: none;
         background-color: transparent;
         box-shadow: none;
@@ -948,23 +948,24 @@ li {
     }
     .calendar__design {
         position: absolute;
-        height: 80%;
+        height: 85%;
         right: -10%;
         top: 5%;
     }
     .calendar__todo {
-        left: 3%;
+        left: -2%;
     }
     .calendar__content__left span:first-child {
-        left: 20%;
+        left: 16%;
     }
     .calendar__content__left__block2 {
         width: 24%;
-        left: 12%;
+        left: 4%;
     }
     .calendar__content__help {
-        left: 15%;
-        top: 10%;
+        left: 5%;
+        top: 6%;
+        width: 24%;
     }
 }
 
@@ -1123,6 +1124,46 @@ li {
     font-size: calc((1vw + 1vh) * .75);
     margin-top: calc((1vw + 1vh) * .4);
     max-width: calc((1vw + 1vh) * 7.6);
+}
+@media screen and (max-width: 600px) {
+    .info {
+        height: 150vh;
+        padding: 4vh 4vw;
+    }
+    .info__title {
+        height: 20vh;
+        margin-bottom: 2vh;
+    }
+    .info__title div h3 {
+        font-size: calc((1vw + 1vh) * 3.6);
+        line-height: normal;
+    }
+    .info__title div { 
+        max-width: 100%;
+    }
+    .info__description {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .info__description__left {
+        margin: 6% 0;
+        width: 100%;
+        gap: 7vh;
+        margin-bottom: 5vh;
+    }
+    .info__block {
+        max-width: calc((1vw + 1vh) * 24);
+        padding: calc((1vw + 1vh) * 2.4) calc((1vw + 1vh) * 1.4);
+    }
+    .info__block h4 {
+        font-size: calc((1vw + 1vh) * 1.8);
+        line-height: normal;
+    }
+    .info__description__right__img {
+        width: calc((1vw + 1vh) * 7.5);
+        left: 70%;
+    }
 }
 
 /* !: faq */
@@ -1381,6 +1422,39 @@ li {
     font-size: calc((1vw + 1vh) * 1.2);
     border-radius: 10px;
     display: none;
+}
+@media screen and (max-width: 600px) {
+    .send__email__item form {
+        gap: 2vh;
+    }
+    .send__email__item {
+        padding: 6vh 4vw;
+    }
+    .send__email__item h2 {
+        font-size: calc((1vw + 1vh) * 4);
+        margin-bottom: 3vh;
+    }
+    .send__email__item p {
+        font-size: calc((1vw + 1vh) * 1.8);
+        margin-bottom: 3vh;
+    }
+    .send__email__field {
+        width: 100%;
+        padding: 3%;
+    }
+    .send__email__field img {
+        width: calc((1vw + 1vh) * 1.8);
+    }
+    .send__email__field input {
+        font-size: calc((1vw + 1vh) * 1.8);
+    }
+    .send__email__item button {
+        width: 60%;
+        font-size: calc((1vw + 1vh) *  2.2);
+        padding: 3% 3%;
+        border-radius: 3px 3px 3px 20px;
+    }
+
 }
 
 /* TODO: footer */
