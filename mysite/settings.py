@@ -215,16 +215,15 @@ SOCIALACCOUNT_PROVIDERS = {
             'User.Read',
             'User.ReadBasic.All', 
             'Mail.Read', 
-            # 'Mail.ReadWrite', 
+            'Mail.ReadWrite', 
             # 'Mail.Send',
             'Tasks.Read',
             'Tasks.ReadWrite',
-            # 'Tasks.ReadWrite.All',
             'Calendars.Read', 
             'Calendars.ReadWrite',
             'Notes.Read', # OneNote
             'Notes.Read.All',  
-            # 'Notes.ReadWrite',
+            'Notes.ReadWrite',
             # 'Notes.ReadWrite.All',
         ],
         'FIELDS': [
@@ -290,6 +289,8 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_EMAIL_REQUIRED = True
 
 SOCIALACCOUNT_STORE_TOKENS = True
+
+SOCIALTOKEN_LIFETIME = 50
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',

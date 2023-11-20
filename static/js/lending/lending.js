@@ -14,4 +14,13 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll(".butn_link").forEach((button) => {
         button.addEventListener("click", onButtonClick)
       })
+
+     document.querySelector('.mobile__icon__button').onclick = () => {
+      let menu = document.querySelector('.header__menu')
+      if (menu.style.top != "80px") {
+        menu.style.top = "80px"
+      } else {
+        menu.style.top = "-1000%"
+      }
+    }
 })

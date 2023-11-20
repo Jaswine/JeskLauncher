@@ -6,7 +6,7 @@ from dateutil import parser
 from ...utils import format_time
 
 
-def MicrosoftMailsService(access_token, social_google_token):
+def MicrosoftMailsService(access_token, social_google_token, access_email=""):
    messages = []
    
    async def fetch_microsoft_mails():
@@ -25,13 +25,14 @@ def MicrosoftMailsService(access_token, social_google_token):
         for mail in mails:
             messages.append({
                'id':  mail.get('id', ''),
-               'type': 'Microsoft_OneNote',
+               'type': 'Microsoft_Mails',
                'title':  mail.get('subject', ''),
                'sender': mail.get('toRecipients', [{}])[0].get('emailAddress', {}).get('address', '') if mail.get('toRecipients','') else '',
                'link': f"https://outlook.live.com/mail/0/sentitems/id/{''.join('%2B' if n == '_' else n for n in mail.get('conversationId', '') )}%3D",   
                'text': mail.get('body', '').get('content', ''),
                'created_time': str(mail.get('sentDateTime', '')),
                
+               'account_email': access_email,
                'social_google_token_id': social_google_token,
             })            
                         

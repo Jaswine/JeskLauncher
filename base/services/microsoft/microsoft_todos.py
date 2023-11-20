@@ -6,7 +6,7 @@ from dateutil import parser
 from ...utils import format_time
 
 
-def MicrosoftTodoService(access_token, social_google_token):
+def MicrosoftTodoService(access_token, social_google_token, access_email=""):
    messages = []
    
    async def fetch_microsoft_todos():
@@ -37,6 +37,7 @@ def MicrosoftTodoService(access_token, social_google_token):
                      'text': task.get('notes', ''),
                      'created_time': str(task.get('createdDateTime', '')),
                      
+                     'account_email': access_email,
                      'social_google_token_id': social_google_token,
                      'status': task.get('status', ''),
                   })

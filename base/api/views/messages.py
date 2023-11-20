@@ -24,7 +24,7 @@ def gmail_messages_list(request):
             access_token = socialGoogleToken.token
             access_email = socialGoogleToken.account.extra_data.get('email', None)
             
-            response = google_gmail.GoogleGmailService(access_token,  socialGoogleToken.id, get_email_text, get_header_value, access_email)
+            response = google_gmail.GoogleGmailService(access_token,  socialGoogleToken.id, access_email)
             
             if response[0] == 'success':
                 data.extend(response[1])

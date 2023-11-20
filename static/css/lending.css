@@ -1,5 +1,8 @@
 @import './variables.css';
 
+html {
+    overflow-x: hidden;
+}
 body {
     position: relative;
     overflow-y: auto;
@@ -21,6 +24,7 @@ body {
     position: absolute;
     top: 2.5vh;
     z-index: 1;
+    height: calc((1vh + 1vw) * 3.8);
 }
 .header__left {
 
@@ -69,8 +73,73 @@ body {
 .header__right {
     gap: calc((1vw + 1vh) * .8);
 }
-@media screen and (max-width: 500px) {
+.mobile__icon {
+    display: none;
+}
+.header__menu__sign-in {
+    display: none;
+}
+
+@media screen and (max-width: 1100px) {
     .header {
+        position: relative;
+        box-shadow: 0 0 1px 50px #132156;
+        z-index: 100;
+        height: 80px
+    }
+    .header__menu {
+        /* display: none; */
+        position: absolute;
+        flex-direction: column;
+        width: 100vw;
+        top: 44px;
+        background-color: var(--lightblue);
+        z-index: -1;
+        right: 0;
+        /* box-shadow: -10px 0 15px 1px rgb(20,20,20,.6); */
+        filter:drop-shadow(0 40px 42px rgba(0, 0, 0, 0.4));
+        top: -1000%;
+        /* top: 80px; */
+
+        transition: all .5s linear;
+    }
+    .header__menu a {
+        font-size: calc((1vw + 1vh) * 2);
+        padding: 12px 0;
+        width: 100%;
+    }
+    .header__menu a:hover::after {
+        display: none;
+    }
+    .header__menu__sign-in {
+        display: block;
+        border: 2px solid white;
+        color: #202020 !important;
+        background-color: white;
+    }
+    .mobile__icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .mobile__icon img {
+        width: calc((1vw + 1vh) * 3)
+    }
+}
+@media screen and (max-width: 1100px) and (min-width: 600px) {
+    .mobile__icon {
+        margin-left: 27%;
+    }
+    .mobile__icon img {
+        width: calc((1vw + 1vh) * 2.2)
+    }
+}
+@media screen and (max-width:600px) {
+    .header {
+        height: 80px;
+    }
+    .header__right {
         display: none;
     }
 }
@@ -251,12 +320,13 @@ body {
     color: var(--black);
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 600px) {
     .intro {
-        padding: 2% 4%;
+        padding: 2% 2%;
+        justify-content: flex-start;
     }
     .intro__item {
-        padding: 8% 2%;
+        padding: 8vh 4vw;
         border-radius: 4px 4px 4px 40px;
         max-width: 100%;
     }
@@ -291,11 +361,13 @@ body {
         padding: 10px 22px 10px 30px;
     }
     .intro__help {
-        bottom: -7%;
+        bottom: -6%;
         right: -10%;
-        width: calc((1vw + 1vh) * 11.4);
+        width: calc((1vw + 1vh) * 13);
     }
     .intro__bottom {
+        margin-top: 2vh;
+        margin-bottom: 1vh;
         font-size: calc((1vw + 1vh) * 1.4);
     }
     .intro__left {
@@ -392,7 +464,7 @@ li {
 }
 .about__right__content__p {
     font-weight: 800;
-    font-size: 16px;
+    font-size: calc((1vw + 1vh) * 1);
     margin: 14px 0;
 }
 .about__right__content ul li {
@@ -408,35 +480,64 @@ li {
     margin-top: 4px;
 }
 .about__right__content ul li p {
-    font-size: 16px;
+    /* font-size: 16px; */
+    font-size: calc((1vw + 1vh) * .8);
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 600px) {
+    .about {
+        height: 100vh;
+    }
+    .about__content {
+
+    }
     .about__title {
         font-size: calc((1vw + 1vh) * 5.8);
         height: 10vh;
         text-align: center;
     }
     .about__left .about__left__laptop {
-        height: 50vh;
-        top: 16%;
+        height: 38vh;
+        /* width: 94vw; */
+        top: 10%;
+        right: -14%;
     }
     .about__left .about__help {
         top: 10%;
         width: 25%;
         left: 11%;
+        display: none;
     }
     .about__right__content h2 {
-        font-size: calc((1vw + 1vh) * 2.4);
+        font-size: calc((1vw + 1vh) * 3);
+    }
+    .about__right__content__p {
+        font-size: calc((1vw + 1vh) * 1.8);
+    }
+    .about__right__content ul {
+        margin-top: 6px;
+    }
+    .about__right__content ul li img {
+        width: calc((1vw + 1vh) * 1.5);
+        height: auto;
+    }
+    .about__right__content ul li p {
+        /* font-size: 16px; */
+        font-size: calc((1vw + 1vh) * 1.5);
+        margin-bottom: 6px;
     }
     .about__right__content {
-        width: 90%;
+        width: 100%;
         position: absolute;
-        background-color: rgb(18, 29, 74, .8);
-        right: 2%;
+        right: 0;
+        padding: 2% 5%;
         margin-left: 0;
         margin-right: 0;
-        bottom: 5%;
+        bottom: 2   %;
+        border: none;
+        background-color: transparent;
+        box-shadow: none;
+        background-color: #081444
     }
 }
 
@@ -568,6 +669,7 @@ li {
     width: 96%;
     border-radius: 16px;
     position: absolute;
+    left: -3vw;
 }
 .chill_mode__right__buttons {
     display: flex;
@@ -594,7 +696,10 @@ li {
     color: var(--white);
     border: calc((1vw + 1vh)*.24) solid var(--white);
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 600px) {
+    .chill_mode {
+        height: 110vh;
+    }
     .chill_mode .about__title {
         font-size: calc((1vw + 1vh) * 5.4);
         height: 16vh;
@@ -612,7 +717,7 @@ li {
         font-size: calc(((1vw + 1vh) * 3));
     }
     .chill_mode__left div p {
-        font-size: calc(((1vw + 1vh) * .9));
+        font-size: calc(((1vw + 1vh) * 1.2));
     }
     .chill_mode__left div {
         padding: 0;
@@ -622,6 +727,7 @@ li {
         z-index: -1;
         top: -10vh;
         left: 10%;
+        opacity: .6;
     }
     .chill_mode__right img {
         left: 0vw;
@@ -635,7 +741,7 @@ li {
         left: -2%;
     }
     .chill_mode__right__buttons {
-        bottom: -55%;
+        bottom: -30%;
         flex-direction: column;
     }
     .chill_mode__right__back .block1 {
@@ -794,6 +900,73 @@ li {
     position: relative;
     margin: 2%;
 }
+@media screen and (max-width: 600px) {
+    .calendar {
+        /* height: 120vh; */
+    }
+    .calendar__title {
+        font-size: calc((1vw + 1vh) * 3.6);
+        line-height: normal;
+        height: 20vh;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .calendar__right__item img {
+        display: none;
+    }
+    .calendar__content__right {
+        height: 40vh;
+        padding: 0;
+    }
+    .calendar__right__item {
+        max-width: 100%;
+        position: static;
+        border-left: none;
+        padding: 0;
+    }
+    .calendar__right__item h3 {
+        font-size: calc((1vw + 1vh) * 3);
+    }
+    .calendar__right__item b {
+        font-size: calc((1vw + 1vh) * 1.8)
+    }
+    .calendar__right__item p span {
+        font-size: calc((1vw + 1vh) * 1.8);
+    }
+    .calendar__right__item p {
+        font-size: calc((1vw + 1vh) * 1.7)
+    }
+    .calendar .about__content {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    .calendar__content__right__img {
+        display: none;
+    }
+    .calendar__design {
+        position: absolute;
+        height: 80%;
+        right: -10%;
+        top: 5%;
+    }
+    .calendar__todo {
+        left: 3%;
+    }
+    .calendar__content__left span:first-child {
+        left: 20%;
+    }
+    .calendar__content__left__block2 {
+        width: 24%;
+        left: 12%;
+    }
+    .calendar__content__help {
+        left: 15%;
+        top: 10%;
+    }
+}
 
 /* !: Info */
 .info {
@@ -880,7 +1053,7 @@ li {
     position: absolute;
 }
 .info__block h4 {
-    font-weight: 500;
+    font-weight: 600;
     line-height: calc((1vw + 1vh) * 1.4);
     font-size: calc((1vw + 1vh) * 1);
 }
@@ -942,7 +1115,7 @@ li {
     width: calc((1vw + 1vh) * .9);
 }
 .info__section__header h4 {
-    font-weight: 500;
+    font-weight: 600;
     font-size: calc((1vw + 1vh) * .9);
 }
 .info__section__block p {
@@ -1271,7 +1444,7 @@ li {
 .footer__middle__left__top h3 {
     font-size: calc((1vw + 1vh) * 1.4);
     font-family: var(--DMSans);
-    font-weight: 500;
+    font-weight: 600;
 }
 .footer__middle__left__bootom {
     display: flex;
@@ -1301,7 +1474,7 @@ li {
 .footer__middle__right__spec h3 {
     font-size: calc((1vw + 1vh) * 1.4);
     font-family: var(--DMSans);
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: calc((1vw + 1vh) * .8);
 }
 .footer__middle__right__content {

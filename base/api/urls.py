@@ -1,6 +1,9 @@
 from django.urls import path
 from .views import todo, today_tasks, messages, user, social_messages
+
 from .views.google import google_calendar, google_todos, google_email
+from .views.microsoft import microsoft_calendar, microsoft_email, microsoft_onenote, microsoft_todos
+
 
 urlpatterns = [
     # TODO: ____ todos _____
@@ -34,7 +37,6 @@ urlpatterns = [
     
     # TODO: ____ google todo _____
     path('create-todo', google_todos.GoogleTodoCreate, name='create_google_todo'),
-    
     path('delete-todo/<int:socialGoogleTokenId>/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoDelete, name='delete_google_todo'),
     path('сomplete-todo/<int:socialGoogleTokenId>/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoComplete, name='complete_google_todo'),
     path('patch-title-todo/<int:socialGoogleTokenId>/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoPatchTitle, name='patch_title_google_todo'),
@@ -47,12 +49,17 @@ urlpatterns = [
     path('google-gmail/<int:socialGoogleTokenId>/<str:email_id>/unread', google_email.GoogleGmailAddUnreadStatus, name='google_gmail_unread_status'),
     path('google-gmail/<int:socialGoogleTokenId>/<str:email_id>/star/<str:star>', google_email.GoogleGmailAddStar, name='google_gmail_star'),
     
-    
     # TODO: ____ google event _____
     path('google-event/<int:socialGoogleTokenId>/<str:calendarId>/<str:eventId>', google_calendar.GoogleCalendarPatchTitle, name='google_event'),
     
+    # TODO: ____ microsoft todo _____
+    path('microsoft-todo/<int:socialGoogleTokenId>', microsoft_todos.MicrosoftTodoCreate, name='microsoft_todo_create'),
+    path('microsoft-todo/<int:socialGoogleTokenId>/lists/<str:todo_list>/tasks/<str:todo_id>', microsoft_todos.MicrosoftTodo, name='microsoft_todo'),
+    path('microsoft-todo/<int:socialGoogleTokenId>/lists/<str:todo_list>/tasks/<str:todo_id>/change-place', microsoft_todos.MicrosoftTodoComplete, name='microsoft_todo_change_place'),
+
     # TODO: ____ account ____
     path('rewrite-tokens', user.rewrite_tokens, name='rewrite_tokens'), 
     path('create-new-user', user.create_new_user, name='create_new_new'),
     path('delete-account/<int:id>', user.deleteAccount, name='delete_account'),
+
 ]

@@ -6,7 +6,7 @@ from dateutil import parser
 from ...utils import format_time
 
 
-def MicrosoftOneNotesService(access_token, social_google_token):
+def MicrosoftOneNotesService(access_token, social_google_token, access_email=''):
    messages = []
    
    async def fetch_microsoft_one_notes():
@@ -32,6 +32,7 @@ def MicrosoftOneNotesService(access_token, social_google_token):
                'text': '',
                'created_time': str(note.get('createdDateTime', '')),
                
+               'account_email': access_email,
                'social_google_token_id': social_google_token,
             })      
                         

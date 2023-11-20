@@ -44,40 +44,56 @@ def MicrosoftTodoCreate(request):
         }, safe=False)
       
 @csrf_exempt
-def MicrosoftTodoPatchTitle(request, socialMicrosoftTokenId, todo_list, todo_id):
-   if request.method == 'PUT':
-      socialToken = SocialToken.objects.get(id=socialMicrosoftTokenId)
+def MicrosoftTodo(request, socialMicrosoftTokenId, todo_list, todo_id):
+    socialToken = SocialToken.objects.get(id=socialMicrosoftTokenId)
    
-      if socialToken:
+    if socialToken:
         access_token = socialToken.token
 
-        title = request.POST.get('title')
+        if request.method == 'PUT':
+            title = request.POST.get('title')
 
-        if len(title) > 4:
-            response = requests.put(f'https://graph.microsoft.com/v1.0/me/todo/lists/{todo_list}/tasks/{todo_id}', headers = {
+            if len(title) > 4:
+                response = requests.put(f'https://graph.microsoft.com/v1.0/me/todo/lists/{todo_list}/tasks/{todo_id}', headers = {
+                        'Authorization': 'Bearer ' + access_token
+                }, data = {
+                    'title': title,
+                }) 
+            else:
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Todo is too short',
+                }, status=400)
+            
+            if response.status_code == 200:
+                return  JsonResponse({
+                'status': 'success',
+                'message': f'Microsoft todo with ID {todo_id} updated successfully'
+                }, safe=False)
+            else:
+                return JsonResponse({
+                'status': 'error',
+                'message': f'Failed to update Microsoft todo with ID {todo_id}, status code: {response.status_code}'
+                }, safe=False)
+        if request.method == 'DELETE':
+            response = requests.delete(f'https://graph.microsoft.com/v1.0/me/todo/lists/{todo_list}/tasks/{todo_id}', headers = {
                     'Authorization': 'Bearer ' + access_token
-            }, data = {
-                'title': title,
             }) 
-        else:
-           return JsonResponse({
-              'status': 'error',
-              'message': 'Todo is too short',
-           })
-         
-        if response.status_code == 200:
-            return  JsonResponse({
-               'status': 'success',
-               'message': f'Microsoft todo with ID {todo_id} updated successfully'
-            }, safe=False)
-        else:
-            return JsonResponse({
-              'status': 'error',
-              'message': f'Failed to update Microsoft todo with ID {todo_id}, status code: {response.status_code}'
-            }, safe=False)
+            
+            if response.status_code == 204:
+                return  JsonResponse({
+                'status': 'success',
+                'message': f'Microsoft todo with ID {todo_id} deleted successfully'
+                }, safe=False)
+            else:
+                return JsonResponse({
+                'status': 'error',
+                'message': f'Failed to delete Microsoft todo with ID {todo_id}, status code: {response.status_code}'
+                }, safe=False)
+            
         
 @csrf_exempt
-def MicrosoftTodoComplete(request, socialMicrosoftTokenId, todo_list, todo_id):
+def MicrosoftTodoComplete(request, socialMicrosoftTokenId, todo_list, todo_id, completion_status, message):
    if request.method == 'PUT':
       socialToken = SocialToken.objects.get(id=socialMicrosoftTokenId)
    
@@ -112,27 +128,3 @@ def MicrosoftTodoComplete(request, socialMicrosoftTokenId, todo_list, todo_id):
             'status': 'error',
             'message': f'Failed to update Microsoft todo with ID {todo_id}, status code: {response.status_code}'
         }, safe=False)
-         
-@csrf_exempt
-def MicrosoftTodoDelete(request, socialMicrosoftTokenId, todo_list, todo_id):
-   if request.method == 'DELETE':
-      socialToken = SocialToken.objects.get(id=socialMicrosoftTokenId)
-   
-      if socialToken:
-         access_token = socialToken.token
-         
-         response = requests.delete(f'https://graph.microsoft.com/v1.0/me/todo/lists/{todo_list}/tasks/{todo_id}', headers = {
-                'Authorization': 'Bearer ' + access_token
-        }) 
-         
-         if response.status_code == 204:
-            return  JsonResponse({
-               'status': 'success',
-               'message': f'Microsoft todo with ID {todo_id} deleted successfully'
-            }, safe=False)
-         else:
-            return JsonResponse({
-              'status': 'error',
-              'message': f'Failed to delete Microsoft todo with ID {todo_id}, status code: {response.status_code}'
-            }, safe=False)
-         

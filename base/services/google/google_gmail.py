@@ -4,9 +4,10 @@ import time
 
 from dateutil import parser
 from ...utils import format_time
+from ...utils import get_email_text, get_header_value
 
 
-def GoogleGmailService(access_token, social_google_token, get_email_text, get_header_value, access_email=''):
+def GoogleGmailService(access_token, social_google_token, access_email=""):
    messages = []
    
    async def fetch_emails():

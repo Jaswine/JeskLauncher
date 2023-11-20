@@ -6,7 +6,7 @@ from dateutil import parser
 from ...utils import format_time
 
 
-def MicrosoftCalendarService(access_token, social_google_token):
+def MicrosoftCalendarService(access_token, social_google_token, access_email=''):
    messages = []
    
    async def fetch_microsoft_calendar():
@@ -39,6 +39,7 @@ def MicrosoftCalendarService(access_token, social_google_token):
                         'text': event.get('bodyPreview', ''),
                         'created_time': str(event.get('createdDateTime', '')),
                         
+                        'account_email': access_email,
                         'social_google_token_id': social_google_token,
                         'status': event.get('status', ''),
                      })

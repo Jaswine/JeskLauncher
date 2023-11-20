@@ -5,7 +5,7 @@ import time
 from ...utils import format_time
 from datetime import datetime
 
-def CallendarService(access_token, social_google_token, access_email=''):
+def CallendarService(access_token, social_google_token, access_email = ""):
    messages = []
 
    async def fetch_last_event(calendar_id):

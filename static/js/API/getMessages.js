@@ -48,8 +48,17 @@ document.addEventListener('DOMContentLoaded', () => {
     
       <div class="notification__buttons">
         <a href="${message.link}" target='_blank'>show</a>
-        ${message.type == 'Gmail' || message.type == 'Google_Todo' || message.type == 'Google_Event' ? "<a class='google_todo_delete'>del</a>" : ''}
-        ${message.type == 'Google_Todo' ? "<a class='google_todo_accomplished'>comp</a>" : ''}
+        ${message.type == 'Gmail' || 
+            message.type == 'Google_Todo' || 
+            message.type == 'Google_Event' ||
+            message.type == 'Microsoft_Todo' || 
+            message.type == 'Microsoft_Mails' ||
+            message.type == 'Microsoft_OneNote' ||
+            message.type == 'Microsoft_Calendar' ? 
+        "<a class='google_todo_delete'>del</a>" : ''}
+        ${message.type == 'Google_Todo' ||
+            message.type == 'Microsoft_Todo' ? 
+        "<a class='google_todo_accomplished'>comp</a>" : ''}
       </div>
 
       <span class='special__time'>
@@ -103,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Fetch Gmail Data
   const fetchGmailData = async () => {
-    console.log('Fetching Gmail data')
+    // console.log('Fetching Gmail data')
     const response = await fetch('/api/messages/gmail')
     const data = await response.json()
     return data
@@ -111,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Fetch Google Calendar
   const fetchGoogleCalendarData = async () => {
-    console.log('Fetching Callendar data')
+    // console.log('Fetching Callendar data')
     const response = await fetch('/api/messages/google-calendar')
     const data = await response.json()
     return data
@@ -119,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Fetch Google Todo
   const fetchGoogleTodoData = async () => {
-    console.log('Fetching Google Todo data')
+    // console.log('Fetching Google Todo data')
     const response = await fetch('/api/messages/google-todo')
     const data = await response.json()
     return data
@@ -127,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Fetch YouTube
   const fetchYouTubeData = async () => {
-    console.log('Fetching YouTube data')
+    // console.log('Fetching YouTube data')
     const response = await fetch('/api/messages/youtube')
     const data = await response.json()
     return data
@@ -135,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Fetch GitHub
   const fetchGitHubNotifications = async () => {
-    console.log('Fetching GitHub notifications')
+    // console.log('Fetching GitHub notifications')
     const response = await fetch('/api/messages/github')
     const data = await response.json()
     return data
@@ -143,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Fetch Facebook
   const fetchFacebookNotifications = async () => {
-    console.log('Fetching Facebook notifications')
+    // console.log('Fetching Facebook notifications')
     const response = await fetch('/api/messages/facebook')
     const data = await response.json()
     return data
@@ -151,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Fetch Microsoft Todos
   const fetchMicrosoftTodosData= async () => {
-    console.log('Fetching Microsoft Todos')
+    // console.log('Fetching Microsoft Todos')
     const response = await fetch('/api/messages/microsoft-todo')
     const data = await response.json()
     return data
@@ -159,28 +168,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Fetch Microsoft Mails
   const fetchMicrosoftMailsData= async () => {
-    console.log('Fetching Microsoft Mails')
+    // console.log('Fetching Microsoft Mails')
     const response = await fetch('/api/messages/microsoft-mails')
     const data = await response.json()
-    console.log('\n\n\n Microsoft Mails fetched successfully \n\n\n', data)
+    // console.log('\n\n\n Microsoft Mails fetched successfully \n\n\n', data)
     return data
   };
 
   // Fetch Microsoft Events
   const fetchMicrosoftEventsData= async () => {
-    console.log('Fetching Microsoft Events')
+    // console.log('Fetching Microsoft Events')
     const response = await fetch('/api/messages/microsoft-events')
     const data = await response.json()
-    console.log('\n\n\n Microsoft Data fetched successfully \n\n\n', data)
+    // console.log('\n\n\n Microsoft Data fetched successfully \n\n\n', data)
     return data
   };
 
   // Fetch Microsoft OneData
   const fetchMicrosoftOneNotesData= async () => {
-    console.log('Fetching Microsoft OneNotes')
+    // console.log('Fetching Microsoft OneNotes')
     const response = await fetch('/api/messages/microsoft-onenotes')
     const data = await response.json()
-    console.log('\n\n\n Microsoft Data fetched successfully \n\n\n', data)
+    // console.log('\n\n\n Microsoft Data fetched successfully \n\n\n', data)
     return data
   };
   
@@ -222,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
    
     const displayMessages = (data) => {
-      console.log(data)
+      // console.log(data)
       if (data.status == 'success') {
         renderButton(data.type,  inbox_icons)
         all_messages = all_messages.concat(data.data)
@@ -315,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
           let type = notification.querySelector('.notification__type').value;
           let content = notification.querySelector('.notification__content').innerHTML;
 
-          console.log(notification)
+          // console.log(notification)
           today__work.innerHTML = `
             ${type == 'Gmail' ? `
               <div class='today__notification__panel'>
@@ -382,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                   .then(response => response.json())
                   .then(data => {
-                    console.log(data);
+                    // console.log(data);
                   })
                   .catch(error => {
                     console.log('Ошибка: ', error);
@@ -395,7 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                   .then(response => response.json())
                   .then(data => {
-                    console.log(data);
+                    // console.log(data);
                   })
                   .catch(error => {
                     console.log('Ошибка: ', error);
@@ -417,7 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(response => response.json())
                 .then(data => {
                   ShowMessages()
-                  console.log('Архивирование', data);
+                  // console.log('Архивирование', data);
                 })
                 .catch(error => {
                   console.log('Ошибка: ', error);
@@ -434,7 +443,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   ShowMessages()
                   today__work.innerHTML = ''
                   notification.style.display = 'none'
-                  console.log('Добавление в Спам', data);
+                  // console.log('Добавление в Спам', data);
                 })
                 .catch(error => {
                   console.log('Ошибка: ', error);
@@ -451,7 +460,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   ShowMessages()
                   today__work.innerHTML = ''
                   notification.style.display = 'none'
-                  console.log('Удаление ( перемещение в корзину )', data);
+                  // console.log('Удаление ( перемещение в корзину )', data);
                 })  
                 .catch(error => {
                   console.log('Ошибка: ', error);
@@ -465,7 +474,7 @@ document.addEventListener('DOMContentLoaded', () => {
               })
                 .then(response => response.json())
                 .then(data => {
-                  console.log("Изменение письму статус на не прочитаное", data);
+                  // console.log("Изменение письму статус на не прочитаное", data);
                 })  
                 .catch(error => {
                   console.log('Ошибка: ', error);
@@ -489,9 +498,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(response => response.json())
                 .then(data => {
                   ShowMessages()
-                  console.log('Отметка письма ( звездочка )', data)
+                  // console.log('Отметка письма ( звездочка )', data)
                   let star__button = document.querySelector('.today__notification__panel__start')
-                  console.log(star__button)
+                  // console.log(star__button)
 
                   if (star__button.id == 'Unstar') {
                     star__button.id = 'Star'
@@ -529,7 +538,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
               ShowMessages()
               notification.style.opacity = '1';
-              console.log("Обработчик для завершения Google Todo", data)
+              // console.log("Обработчик для завершения Google Todo", data)
             })
             .catch(error => {
               console.log('Ошибка: ', error);
@@ -544,7 +553,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
               ShowMessages()
               notification.style.opacity = '.3';
-              console.log("Обработчик для отмены завершения Google Todo", data)
+              // console.log("Обработчик для отмены завершения Google Todo", data)
             })
             .catch(error => {
               console.log('Ошибка: ', error);
@@ -567,23 +576,23 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
               ShowMessages()
               notification.style.display = 'none';
-              console.log("Обработчик для удаления сообщения Google Todo", data)
+              // console.log("Обработчик для удаления сообщения Google Todo", data)
             })  
             .catch(error => {
               console.log('Ошибка: ', error);
             });
         } else if (type == 'Gmail') {
 
-        // Удаляем письмо Gmail
+          // Удаляем письмо Gmail
           fetch(`/api/google-gmail/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.notification_id').value}`, {
             method: 'DELETE',
           })
             .then(response => response.json())
             .then(data => {
               ShowMessages()
-              console.log(data)
+              // console.log(data)
               notification.style.display = 'none';
-              console.log("Удаляем письмо Gmail", data)
+              // console.log("Удаляем письмо Gmail", data)
             })  
             .catch(error => {
               console.log('Ошибка: ', error);
@@ -598,7 +607,23 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
               ShowMessages()
               notification.style.display = 'none';
-              console.log("Удаляем событие Google Event", data)
+              // console.log("Удаляем событие Google Event", data)
+            })  
+            .catch(error => {
+              console.log('Ошибка: ', error);
+            });
+        } else if (type == 'Gmail') {
+
+          // Удаляем письмо Microsoft Mail
+          fetch(`/api/google-gmail/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.notification_id').value}`, {
+            method: 'DELETE',
+          })
+            .then(response => response.json())
+            .then(data => {
+              ShowMessages()
+              // console.log(data)
+              notification.style.display = 'none';
+              // console.log("Удаляем письмо Gmail", data)
             })  
             .catch(error => {
               console.log('Ошибка: ', error);
@@ -625,8 +650,8 @@ document.addEventListener('DOMContentLoaded', () => {
           })
             .then(response => response.json())
             .then(data => {
-              console.log(data);
-              console.log("Отправляем ответ на Gmail письмо", data)
+              // console.log(data);
+              // console.log("Отправляем ответ на Gmail письмо", data)
             })  
             .catch(error => {
               console.log('Ошибка: ', error);
@@ -654,7 +679,7 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   const rewrite_tokens = () => {
-    console.log('Rewriting tokens...')
+    // console.log('Rewriting tokens...')
     // Выполняем GET-запрос к серверу по адресу '/api/rewrite-tokens'
     fetch('/api/rewrite-tokens')
        .then(response => response.json())
@@ -665,7 +690,7 @@ document.addEventListener('DOMContentLoaded', () => {
        .catch(error => {
           // В случае ошибки выводим её в консоль браузера
           console.error(error);
-       })
+       }) 
  }
  
  rewrite_tokens()
@@ -680,7 +705,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 10000); // 60000 == 1 минута
 
   // выводим  1 секунду
-  setInterval(() => {
-      console.log('1 секунда');
-  }, 1000);
+  // setInterval(() => {
+  //     console.log('1 секунда');
+  // }, 1000);
 })
