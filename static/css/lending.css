@@ -325,6 +325,7 @@ body {
         padding: 2% 2%;
         justify-content: flex-start;
     }
+
     .intro__item {
         padding: 8vh 4vw;
         border-radius: 4px 4px 4px 40px;
@@ -372,6 +373,47 @@ body {
     }
     .intro__left {
         display: none;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 1100px) {
+    .intro__item {
+        padding: 10% 6%;
+        max-width: 90%;
+    }
+    .intro__top h2 {
+        font-size: calc((1vw + 1vh) * 3.4);
+    }
+    .intro__buttons {
+        gap: 5%;
+        margin: 4% 0;
+        width: 100%;
+        max-width: 90%;
+    }
+    .intro__top p {
+        max-width: 70%;
+        font-size: calc((1vw + 1vh) * 1.4);
+        line-height: 0;
+        line-height: normal;
+        margin-bottom: 3%;
+    }
+    .intro__buttons .butn:first-child {
+        font-size: calc((1vw + 1vh) * 1.4);
+    }
+    .butn {
+        max-width: 100%;
+        width: 100%;
+        text-align: center;
+        font-size: calc((1vw + 1vh) * 1.2);
+        padding: 16px 22px 16px 30px;
+    }
+    .intro__help {
+        bottom: -8%;
+        right: -15%;
+        width: calc((1vw + 1vh) * 12);
+    }
+    .intro__bottom {
+        font-size: calc((1vw + 1vh) * 1.2);
     }
 }
 
@@ -482,6 +524,37 @@ li {
 .about__right__content ul li p {
     /* font-size: 16px; */
     font-size: calc((1vw + 1vh) * .8);
+}
+@media screen and (min-width: 600px) and (max-width: 1100px) {
+    .about {
+        height: 66vh;
+    }
+    .about__title {
+        font-size: calc((1vw + 1vh) * 4.2);
+    }
+    .about__left .about__help {
+        width: 18%;
+        top: 5.4%;
+        left: 10%;
+    }
+    .about__left .about__left__laptop {
+        height: 50vh;
+    }
+    .about__content {
+        grid-template-columns: 60% 40% 
+    }
+    .about__right__content {
+        background-color: #121D4B;
+        padding: 6%;
+        margin-bottom: 10%;
+    }
+    .about__right__content ul li p {
+        font-size: calc((1vw + 1vh) * 1);
+    }
+    .about__right__content ul li img {
+        width: 20px;
+        height: 20px;
+    }
 }
 
 @media screen and (max-width: 600px) {
@@ -698,7 +771,7 @@ li {
 }
 @media screen and (max-width: 600px) {
     .chill_mode {
-        height: 110vh;
+        height: 120vh;
     }
     .chill_mode .about__title {
         font-size: calc((1vw + 1vh) * 5.4);
@@ -717,7 +790,7 @@ li {
         font-size: calc(((1vw + 1vh) * 3));
     }
     .chill_mode__left div p {
-        font-size: calc(((1vw + 1vh) * 1.2));
+        font-size: calc(((1vw + 1vh) * 1.4));
     }
     .chill_mode__left div {
         padding: 0;
@@ -741,7 +814,7 @@ li {
         left: -2%;
     }
     .chill_mode__right__buttons {
-        bottom: -30%;
+        bottom: -45%;
         flex-direction: column;
     }
     .chill_mode__right__back .block1 {
@@ -1163,6 +1236,28 @@ li {
     .info__description__right__img {
         width: calc((1vw + 1vh) * 7.5);
         left: 70%;
+        top: -21%;
+    }
+    .info__description__right {
+        padding: calc((1vw + 1vh) * .8) calc((1vw + 1vh) * .3);
+    }
+    .info__description__section {
+        padding: calc((1vw + 1vh) * .8);
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 5px;
+    }
+    .info__section__header {
+        gap: calc((1vw + 1vh) * .6)
+    }
+    .info__section__header img {
+        width: calc((1vw + 1vh) * 1.2);
+    }
+    .info__section__header h4 {
+        font-size: calc((1vw + 1vh) * 1.2);
+    }
+    .info__section__block p {
+        margin-left: calc((1vw + 1vh) * 1.6);
+        font-size: calc((1vw + 1vh) * .95)
     }
 }
 
@@ -1284,7 +1379,7 @@ li {
     background: #D9D9D9;
     box-shadow: 0px 0px 16px 4px rgba(0, 0, 0, 0.47) inset, 4px 4px 6px 5px rgba(0, 0, 0, 0.25), -9px -7px 6px 1px rgba(255, 255, 255, 0.10);
     padding: 2%;
-    margin-bottom: calc((1vw + 1vh) * 1.4);
+    margin-bottom: calc((1vw + 1vh) * 2);
 }
 .faq__item__percent {
     width: 200px;
@@ -1308,6 +1403,60 @@ li {
 }
 .faq__item__circle:first-child {
     background-color: #484848;
+}
+@media screen and (max-width: 600px) {
+    .faq {
+        padding: 2vh 4vw;
+        height: 105vh;
+    }
+    .faq__info {
+        padding-bottom: 2vh;
+    }
+    .faq__title {
+        font-size: calc((1vw + 1vh) * 4);
+        line-height: normal;
+    }
+    .faq__desc {
+        font-size: calc((1vw + 1vh) * 1.8);
+    }
+    .faq__back {
+        display: none;
+    }
+    .faq__item {
+        padding: 2vh 0 5vh;
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        justify-content: start;
+        height: 100%;
+    }
+    .faq__item__left {
+        margin-left: 0;
+        max-width: 100%;
+    }
+    .faq__item__right {
+        max-width: 100%;
+        margin-bottom: 2vh;
+    }
+    .faq__item__info h3 {
+        font-size: calc((1vw + 1vh)*1.8);
+    }
+    .faq__item__productivity {
+        max-width: calc((1vw + 1vh) *18);
+        height: calc((1vw + 1vh) * 6.2);
+    }
+    .faq__item__percent {
+        font-size: calc((1vw + 1vh) * 2.4);
+    }
+    .faq__item__question__title {
+
+    }
+    .faq__item__question__title h3 {
+        font-size: calc((1vw + 1vh) * 1.4);
+    }
+    .faq__item__question__title img {
+        width: calc((1vw + 1vh) *1.4);
+    }
 }
 
 /* TODO: Send Email */
