@@ -16,6 +16,19 @@ from ...services.microsoft import (microsoft_events,
                                                         microsoft_onenotes, 
                                                         microsoft_todos)
 
+def refresh_google_token(socialToken):
+    response = requests.post("https://www.googleapis.com/oauth2/v4/token", headers={
+        "Authorization": "Basic " + base64.b64encode(f"{settings.SOCIALACCOUNT_PROVIDERS['google']['APP']['client_id']}:{settings.SOCIALACCOUNT_PROVIDERS['google']['APP']['secret']}".encode("utf-8")).decode("utf-8"),
+    }, data={
+        "grant_type": "refresh_token",
+        "refresh_token": socialToken.token_secret,
+    })
+    if response.status_code == 200:
+        response_json = response.json()
+        socialToken.token = response_json["access_token"]
+        socialToken.save()
+        return ''
+
 def messages_list(request):
     messages_list = []
     services = dict()
@@ -53,16 +66,7 @@ def messages_list(request):
             if socialToken.expires_at < timezone.now() - datetime.timedelta(minutes=settings.SOCIALTOKEN_LIFETIME):
                 if socialToken.account.provider == 'google':
                     # TODO: Google token rewriting
-                    response = requests.post("https://www.googleapis.com/oauth2/v4/token", headers={
-                        "Authorization": "Basic " + base64.b64encode(f"{settings.SOCIALACCOUNT_PROVIDERS['google']['APP']['client_id']}:{settings.SOCIALACCOUNT_PROVIDERS['google']['APP']['secret']}".encode("utf-8")).decode("utf-8"),
-                    }, data={
-                        "grant_type": "refresh_token",
-                        "refresh_token": socialToken.token_secret,
-                    })
-                    if response.status_code == 200:
-                        response_json = response.json()
-                        socialToken.token = response_json["access_token"]
-                        socialToken.save()
+                    refresh_google_token(socialToken)
                 else:
                     break
 

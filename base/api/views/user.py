@@ -24,7 +24,7 @@ def update_settings(request):
                 'data': {
                     'username': user.username,
                     'email': user.email,
-                    'avatar': profile.avatar.url
+                    'avatar': profile.avatar.url if profile.avatar else '/media/logos/jeskOpacity.png'
                 }
             }, status=200)
         

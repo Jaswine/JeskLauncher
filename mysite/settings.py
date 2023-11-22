@@ -98,7 +98,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'mysite.wsgi.application'
+# WSGI_APPLICATION = 'mysite.wsgi.application'
+ASGI_APPLICATION = 'mysite.asgi.application'
 
 
 # Database
@@ -302,3 +303,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "allauth.account.context_processors.account",
     "allauth.socialaccount.context_processors.socialaccount",
 )
+
+# Переводчик
+# For Business / For Personal 

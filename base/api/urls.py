@@ -1,5 +1,10 @@
 from django.urls import path
-from .views import todo, today_tasks, messages, user, social_messages
+from .views import (todo, 
+                                today_tasks, 
+                                messages, 
+                                user, 
+                                social_messages,
+                                social_messages2)
 
 from .views.google import google_calendar, google_todos, google_email
 from .views.microsoft import microsoft_calendar, microsoft_email, microsoft_onenote, microsoft_todos
@@ -31,6 +36,7 @@ urlpatterns = [
 
     # TODO: ____ messages ____
     path('messages', social_messages.messages_list, name='social_messages'),
+    path('messages2/', social_messages2.messages_list, name='social_messages2'),
     
     # TODO: ____ settings ____
     path('settings', user.update_settings, name='update_settings'),
