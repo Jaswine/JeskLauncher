@@ -46,25 +46,17 @@ class MessagesListView(View):
                 services[service_name] = updated_data
             else:
                 services[service_name] = sorted(data, key=lambda event: event["created_time"])
-        
-    def show_messages_from_provider(self, user, provider, included_services, message_list, services):
-        socialTokens = SocialToken.objects.filter(
-            account__user=user, 
-            account__provider=provider
-        )
-
-        threads = []
-        for socialToken in socialTokens:
-            if socialToken.expires_at < timezone.now() - datetime.timedelta(minutes=settings.SOCIALTOKEN_LIFETIME):
-                if socialToken.account.provider == 'google':
-                    # TODO: Google token rewriting
-                    self.refresh_google_token(socialToken)
-                else:
-                    continue
+    
+    def token_processing(self, socialToken, included_services, provider, message_list, services):
+        if socialToken.expires_at < timezone.now() - datetime.timedelta(minutes=settings.SOCIALTOKEN_LIFETIME):
+            if socialToken.account.provider == 'google':
+                # TODO: Google token rewriting
+                self.refresh_google_token(socialToken)
 
             access_token = socialToken.token
             access_email = socialToken.account.extra_data.get('email', None)
 
+            threads = []
             for provider_info in included_services:
                 provider_name = provider_info["provider"]
 
@@ -79,6 +71,21 @@ class MessagesListView(View):
                     break
                 else:
                     continue
+            
+            for thread in threads:
+                thread.join()
+        
+    def show_messages_from_provider(self, user, provider, included_services, message_list, services):
+        socialTokens = SocialToken.objects.filter(
+            account__user=user, 
+            account__provider=provider
+        )
+
+        threads = []
+        for socialToken in socialTokens:
+            thread = threading.Thread(target=self.token_processing, args=(socialToken, included_services, provider, message_list, services))
+            thread.start()
+            threads.append(thread)
             
         for thread in threads:
             thread.join()
