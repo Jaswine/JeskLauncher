@@ -1,112 +1,148 @@
 from django.http import JsonResponse
-from allauth.socialaccount.models import SocialToken, SocialApp
+from allauth.socialaccount.models import SocialToken
 from django.utils import timezone
 from django.conf import settings
+
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from django.views import View
 
 import datetime
 import requests
 import base64
-from asgiref.sync import sync_to_async
-import asyncio
-from concurrent.futures import ThreadPoolExecutor
+import threading
 
 from ...services.google import google_calendar, google_todos , google_gmail, google_youtube
-from ...services.github import github_notifications
-from ...services.facebook import notifications as facebook_notifications
-
 from ...services.microsoft import (microsoft_events, 
                                                         microsoft_mails, 
                                                         microsoft_onenotes, 
                                                         microsoft_todos)
 
-async def refresh_google_token(socialToken):
-    response = requests.post("https://www.googleapis.com/oauth2/v4/token", headers={
-        "Authorization": "Basic " + base64.b64encode(f"{settings.SOCIALACCOUNT_PROVIDERS['google']['APP']['client_id']}:{settings.SOCIALACCOUNT_PROVIDERS['google']['APP']['secret']}".encode("utf-8")).decode("utf-8"),
-    }, data={
-        "grant_type": "refresh_token",
-        "refresh_token": socialToken.token_secret,
-    })
-    if response.status_code == 200:
-        response_json = response.json()
-        socialToken.token = response_json["access_token"]
-        socialToken.save()
-        return ''
-    
-# Modify show_messages to use sync_to_async for the database queries
-# @sync_to_async
-async def show_messages_for_provider_async(user, provider, included_services, message_list, services):
-    socialTokens = await SocialToken.objects.filter(
-        account__user=user, 
-        account__provider=provider
-    )
+class MessagesListView(View):
+    def refresh_google_token(self, socialToken):
+        response = requests.post("https://www.googleapis.com/oauth2/v4/token", headers={
+            "Authorization": "Basic " + base64.b64encode(f"{settings.SOCIALACCOUNT_PROVIDERS['google']['APP']['client_id']}:{settings.SOCIALACCOUNT_PROVIDERS['google']['APP']['secret']}".encode("utf-8")).decode("utf-8"),
+        }, data={
+            "grant_type": "refresh_token",
+            "refresh_token": socialToken.token_secret,
+        })
+        if response.status_code == 200:
+            response_json = response.json()
+            socialToken.token = response_json["access_token"]
+            socialToken.save()
+            return ''
+        
+    def get_messages_from_service(self, service_name, service_class, access_token,
+                                                             socialToken, access_email, message_list, services):
+        response = service_class(access_token, socialToken.id, access_email)
 
-    for socialToken in socialTokens:
-        if socialToken.expires_at < timezone.now() - datetime.timedelta(minutes=settings.SOCIALTOKEN_LIFETIME):
-            if socialToken.account.provider == 'google':
-                # TODO: Google token rewriting
-                await refresh_google_token(socialToken)
+        if response[0] == "success":
+            data = sorted(response[1], key=lambda event: event["created_time"])
+            message_list.extend(data)
+
+            if service_name in services:
+                existing_data = services[service_name]
+                updated_data = sorted(existing_data + data, key=lambda event: event["created_time"])
+                services[service_name] = updated_data
             else:
-                break
+                services[service_name] = sorted(data, key=lambda event: event["created_time"])
+        
+    def show_messages_from_provider(self, user, provider, included_services, message_list, services):
+        socialTokens = SocialToken.objects.filter(
+            account__user=user, 
+            account__provider=provider
+        )
 
-        access_token = socialToken.token
-        access_email = socialToken.account.extra_data.get('email', None)
+        functions = []
+        for socialToken in socialTokens:
+            if socialToken.expires_at < timezone.now() - datetime.timedelta(minutes=settings.SOCIALTOKEN_LIFETIME):
+                if socialToken.account.provider == 'google':
+                    # TODO: Google token rewriting
+                    self.refresh_google_token(socialToken)
+                else:
+                    break
 
-        for provider_info in included_services:
-            provider_name = provider_info["provider"]
+            access_token = socialToken.token
+            access_email = socialToken.account.extra_data.get('email', None)
 
-            if provider_name == provider:
-                provider_services = provider_info["services"]
+            for provider_info in included_services:
+                provider_name = provider_info["provider"]
 
-                for service_name, service_class in provider_services.items():
-                    response = await service_class(access_token, socialToken.id, access_email)
+                if provider_name == provider:
+                    provider_services = provider_info["services"]
 
-                    if response[0] == "success":
-                        data = sorted(response[1], key=lambda event: event["created_time"])
-                        message_list.extend(data)
+                    for service_name, service_class in provider_services.items():
+                       functions.append(self.get_messages_from_service(service_name, service_class, 
+                                                                    access_token, socialToken, 
+                                                                    access_email,message_list, services))
+                    break
+                else:
+                    continue
+        
+        threads = []
+        for function in functions:
+            thread = threading.Thread(target=function)
+            thread.start()
+            threads.append(thread)
 
-                        if service_name in services:
-                            existing_data = services[service_name]
-                            updated_data = sorted(existing_data + data, key=lambda event: event["created_time"])
-                            services[service_name] = updated_data
-                        else:
-                            services[service_name] = sorted(data, key=lambda event: event["created_time"])
-                break
-            else:
-                continue
+        for thread in threads:
+            thread.join()
 
-async def messages_list(request):
-    message_list = []
-    services = dict()
+        for function in functions:
+            print('\n\n\nDATA loaded successfully!')    
 
-    providers = ['google', 'github', 'facebook', 'microsoft']
+    def get(self, request, *args, **kwargs):
+        message_list = []
+        services = dict()
 
-    included_services = [
-        {
-            "provider": "google",
-            "services": {
-                "Gmail": google_gmail.GoogleGmailService,
-                "Google_Todo": google_todos.GoogleTodoService,
-                "Google_Event": google_calendar.CallendarService,
-                "YouTube": google_youtube.GoogleYoutubeService,
-            },
-        }, 
-        {
-            "provider": "microsoft",
-            "services": {
-                "Microsoft_Mails": microsoft_mails.MicrosoftMailsService,
-                "Microsoft_Todo": microsoft_todos.MicrosoftTodoService,
-                "Microsoft_Calendar": microsoft_events.MicrosoftCalendarService,
-                "Microsoft_OneNote": microsoft_onenotes.MicrosoftOneNotesService,
+        providers = ['google', 'github', 'facebook', 'microsoft']
+
+        included_services = [
+            {
+                "provider": "google",
+                "services": {
+                    "Gmail": google_gmail.GoogleGmailService,
+                    "Google_Todo": google_todos.GoogleTodoService,
+                    "Google_Event": google_calendar.CallendarService,
+                    "YouTube": google_youtube.GoogleYoutubeService,
+                },
+            }, 
+            {
+                "provider": "microsoft",
+                "services": {
+                    "Microsoft_Mails": microsoft_mails.MicrosoftMailsService,
+                    "Microsoft_Todo": microsoft_todos.MicrosoftTodoService,
+                    "Microsoft_Calendar": microsoft_events.MicrosoftCalendarService,
+                    "Microsoft_OneNote": microsoft_onenotes.MicrosoftOneNotesService,
+                }
             }
-        }
-    ]
+        ]
 
-    # Используйте sync_to_async для вызова асинхронной функции show_messages_for_provider_async
-    await asyncio.gather(*[sync_to_async(show_messages_for_provider_async)(
-        request.user, provider, included_services, message_list, services
-    ) for provider in providers])
+        # Создаем список функций для взятия данных с API
+        provider_functions = []
+        for provider in providers:
+            provider_functions.append(self.show_messages_from_provider(request.user, provider, included_services, message_list, services))
 
-    return JsonResponse({
-        "messages": message_list,
-        "services": services,
-    }, status=200)
+        # Запускаем функции параллельно
+        provider_threads = []
+        for function in provider_functions:
+            thread = threading.Thread(target=function)
+            thread.start()
+            provider_threads.append(thread)
+
+        # Ждем завершения всех функций
+        for thread in provider_threads:
+            thread.join()
+
+        # Обрабатываем полученные данные
+        for function in provider_functions:
+            # data = function()
+            print('\n\n\n DATA: ', 'Get successfully!!')
+
+        return JsonResponse({
+            "messages": message_list,
+            "services": services,
+        }, status=200)
+    
+    if __name__ == '__main__':
+        get()

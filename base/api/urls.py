@@ -36,7 +36,7 @@ urlpatterns = [
 
     # TODO: ____ messages ____
     path('messages', social_messages.messages_list, name='social_messages'),
-    path('messages2/', social_messages2.messages_list, name='social_messages2'),
+    path('messages2/', social_messages2.MessagesListView.as_view(), name='social_messages2'),
     
     # TODO: ____ settings ____
     path('settings', user.update_settings, name='update_settings'),
