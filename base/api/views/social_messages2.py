@@ -53,14 +53,14 @@ class MessagesListView(View):
             account__provider=provider
         )
 
-        functions = []
+        threads = []
         for socialToken in socialTokens:
             if socialToken.expires_at < timezone.now() - datetime.timedelta(minutes=settings.SOCIALTOKEN_LIFETIME):
                 if socialToken.account.provider == 'google':
                     # TODO: Google token rewriting
                     self.refresh_google_token(socialToken)
                 else:
-                    break
+                    continue
 
             access_token = socialToken.token
             access_email = socialToken.account.extra_data.get('email', None)
@@ -72,24 +72,16 @@ class MessagesListView(View):
                     provider_services = provider_info["services"]
 
                     for service_name, service_class in provider_services.items():
-                       functions.append(self.get_messages_from_service(service_name, service_class, 
-                                                                    access_token, socialToken, 
-                                                                    access_email,message_list, services))
+                        thread = threading.Thread(target=self.get_messages_from_service, args=(service_name, service_class, access_token, 
+                                                                                            socialToken, access_email, message_list, services))
+                        thread.start()
+                        threads.append(thread)
                     break
                 else:
                     continue
-        
-        threads = []
-        for function in functions:
-            thread = threading.Thread(target=function)
-            thread.start()
-            threads.append(thread)
-
+            
         for thread in threads:
             thread.join()
-
-        for function in functions:
-            print('\n\n\nDATA loaded successfully!')    
 
     def get(self, request, *args, **kwargs):
         message_list = []

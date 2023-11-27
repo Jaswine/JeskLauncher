@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     getMessages2()
 
     setInterval(() => {
-        // console.log('1 секунда');
+        console.log('1 секунда');
         loadSeconds+= 1
         loadSeconds2 +=1
     }, 1000);
