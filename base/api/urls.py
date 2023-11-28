@@ -35,8 +35,8 @@ urlpatterns = [
     path('messages/microsoft-onenotes', messages.microsoft_onenotes_list, name='microsoft_onenotes_list'),
 
     # TODO: ____ messages ____
-    path('messages', social_messages.messages_list, name='social_messages'),
-    path('messages2/', social_messages2.MessagesListView.as_view(), name='social_messages2'),
+    path('messages2/', social_messages.messages_list, name='social_messages2'),
+    path('messages/', social_messages2.MessagesListView.as_view(), name='social_messages'),
     
     # TODO: ____ settings ____
     path('settings', user.update_settings, name='update_settings'),

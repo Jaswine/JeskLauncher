@@ -132,7 +132,7 @@ class MessagesListView(View):
             print('\n\n\n DATA: ', 'Get successfully!!')
 
         return JsonResponse({
-            "messages": message_list,
+            "messages": sorted(message_list, key=lambda event: event["created_time"])[::-1],
             "services": services,
         }, status=200)
     

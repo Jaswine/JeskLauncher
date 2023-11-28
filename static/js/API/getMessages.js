@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  let Seconds = 0
   // Получаем ссылку на форму настроек почтового ящика
   let inboxSettingsForm = document.querySelector('#inboxSettingsForm');
   // Получаем CSRF-токен из атрибута элемента
@@ -195,6 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Show Messages
   const ShowMessages = async () => {
+    console.log('Get Messages... (V1)')
     var all_messages = []
     let errors = []
     
@@ -220,100 +222,101 @@ document.addEventListener('DOMContentLoaded', () => {
       fetchMicrosoftOneNotesData()
     ]);  
 
-    messages_list.innerHTML = inbox_icons.innerHTML = ''
+    // messages_list.innerHTML = inbox_icons.innerHTML = ''
 
-    inbox_icons.innerHTML += `
-      <button class='icon' id='show_all_messages'>
-        <span class="material-symbols-outlined">
-          mark_chat_unread
-        </span>
-      </button>`
+    // inbox_icons.innerHTML += `
+    //   <button class='icon' id='show_all_messages'>
+    //     <span class="material-symbols-outlined">
+    //       mark_chat_unread
+    //     </span>
+    //   </button>`
 
    
-    const displayMessages = (data) => {
-      // console.log(data)
-      if (data.status == 'success') {
-        renderButton(data.type,  inbox_icons)
-        all_messages = all_messages.concat(data.data)
-      } else {
-        errors = errors.concat({'status': data.status, 'message': data.message})
-      }
-    }
+    // const displayMessages = (data) => {
+    //   // console.log(data)
+    //   if (data.status == 'success') {
+    //     renderButton(data.type,  inbox_icons)
+    //     all_messages = all_messages.concat(data.data)
+    //   } else {
+    //     errors = errors.concat({'status': data.status, 'message': data.message})
+    //   }
+    // }
 
-    displayMessages(gmailData),
-    displayMessages(calendarData),
-    displayMessages(todoData),
-    displayMessages(youtubeData),
-    displayMessages(githubData),
-    displayMessages(microsoftTodosData)
-    displayMessages(microsoftMailsData)
-    displayMessages(microsoftEventsData)
-    displayMessages(microsoftOneNotesData)
+    // displayMessages(gmailData),
+    // displayMessages(calendarData),
+    // displayMessages(todoData),
+    // displayMessages(youtubeData),
+    // displayMessages(githubData),
+    // displayMessages(microsoftTodosData)
+    // displayMessages(microsoftMailsData)
+    // displayMessages(microsoftEventsData)
+    // displayMessages(microsoftOneNotesData)
 
-    const icons = document.querySelectorAll('.icon');
+    // const icons = document.querySelectorAll('.icon');
 
-    const MessagesColumnChecking = (type, icon) => {
-      icon.classList.add('inbox-show');
+    // const MessagesColumnChecking = (type, icon) => {
+    //   icon.classList.add('inbox-show');
 
-      if (type == 'Gmail') {  
-        renderData(gmailData.data, messages_list)
-        localStorage.setItem('inbox-show', type)
-      } else if (type == 'Google_Event') {
-        renderData(calendarData.data, messages_list)
-        localStorage.setItem('inbox-show', type)
-      } else if (type == 'Google_Todo') {
-        renderData(todoData.data, messages_list)
-        localStorage.setItem('inbox-show', 'Google_Todo')
-      } else if (type == 'YouTube') {
-        renderData(youtubeData.data, messages_list)
-        localStorage.setItem('inbox-show', 'YouTube')
-      } else if (type == 'GitHub') {
-        renderData(githubData.data, messages_list)
-        localStorage.setItem('inbox-show', 'GitHub')
-      } else if (type == 'Microsoft_Todo') {
-        renderData(microsoftTodosData.data, messages_list)
-        localStorage.setItem('inbox-show', 'Microsoft_Todo')
-      } else if (type == 'Microsoft_Mails') {
-        renderData(microsoftMailsData.data, messages_list)
-        localStorage.setItem('inbox-show', 'Microsoft_Mails')
-      } else if (type == 'Microsoft_Calendar') {
-        renderData(microsoftEventsData.data, messages_list)
-        localStorage.setItem('inbox-show', 'Microsoft_Calendar')
-      } else if (type == 'Microsoft_OneNote') {
-        renderData(microsoftOneNotesData.data, messages_list)
-        localStorage.setItem('inbox-show', 'Microsoft_OneNote')
-      } else {
-        all_messages.sort(compareByCreated) 
-        renderData(all_messages, messages_list)
-        localStorage.setItem('inbox-show', type)
-      }
-    }
+    //   if (type == 'Gmail') {  
+    //     renderData(gmailData.data, messages_list)
+    //     localStorage.setItem('inbox-show', type)
+    //   } else if (type == 'Google_Event') {
+    //     renderData(calendarData.data, messages_list)
+    //     localStorage.setItem('inbox-show', type)
+    //   } else if (type == 'Google_Todo') {
+    //     renderData(todoData.data, messages_list)
+    //     localStorage.setItem('inbox-show', 'Google_Todo')
+    //   } else if (type == 'YouTube') {
+    //     renderData(youtubeData.data, messages_list)
+    //     localStorage.setItem('inbox-show', 'YouTube')
+    //   } else if (type == 'GitHub') {
+    //     renderData(githubData.data, messages_list)
+    //     localStorage.setItem('inbox-show', 'GitHub')
+    //   } else if (type == 'Microsoft_Todo') {
+    //     renderData(microsoftTodosData.data, messages_list)
+    //     localStorage.setItem('inbox-show', 'Microsoft_Todo')
+    //   } else if (type == 'Microsoft_Mails') {
+    //     renderData(microsoftMailsData.data, messages_list)
+    //     localStorage.setItem('inbox-show', 'Microsoft_Mails')
+    //   } else if (type == 'Microsoft_Calendar') {
+    //     renderData(microsoftEventsData.data, messages_list)
+    //     localStorage.setItem('inbox-show', 'Microsoft_Calendar')
+    //   } else if (type == 'Microsoft_OneNote') {
+    //     renderData(microsoftOneNotesData.data, messages_list)
+    //     localStorage.setItem('inbox-show', 'Microsoft_OneNote')
+    //   } else {
+    //     all_messages.sort(compareByCreated) 
+    //     renderData(all_messages, messages_list)
+    //     localStorage.setItem('inbox-show', type)
+    //   }
+    // }
 
-    if (errors.length < 6) {
-      let type_from_localStorage = localStorage.getItem('inbox-show');
+    // if (errors.length < 6) {
+    //   let type_from_localStorage = localStorage.getItem('inbox-show');
 
-      if (type_from_localStorage) {
-        MessagesColumnChecking(
-          type_from_localStorage, 
-          document.getElementById(type_from_localStorage)
-        );
-      } else {
-        renderData(all_messages, messages_list);
-      }
+    //   if (type_from_localStorage) {
+    //     MessagesColumnChecking(
+    //       type_from_localStorage, 
+    //       document.getElementById(type_from_localStorage)
+    //     );
+    //   } else {
+    //     renderData(all_messages, messages_list);
+    //   }
 
-       // Добавляем обработчики событий для кнопок категорий
-      for (const icon of icons) {
-        icon.addEventListener('click', () => {
-          RemoveInboxShow(icons);
-          MessagesColumnChecking(icon.id, icon)
-        });
-      }
+    //    // Добавляем обработчики событий для кнопок категорий
+    //   for (const icon of icons) {
+    //     icon.addEventListener('click', () => {
+    //       RemoveInboxShow(icons);
+    //       MessagesColumnChecking(icon.id, icon)
+    //     });
+    //   }
 
-    } else {
-      messages_list.innerHTML = `<div class='inbox__messages__error'>
-        ${errors[0].message}, please re-login or when requesting access to social networks, mark what you would like to show.
-      </div>`
-    }
+    // } else {
+    //   messages_list.innerHTML = `<div class='inbox__messages__error'>
+    //     ${errors[0].message}, please re-login or when requesting access to social networks, mark what you would like to show.
+    //   </div>`
+    // }
+        console.log(`Data from social messages(v1) loaded successfully! Seconds: ${Seconds} ✅`)
   }
 
   // Добавляем обработчики событий для кнопок в списке сообщений
@@ -696,13 +699,17 @@ document.addEventListener('DOMContentLoaded', () => {
  rewrite_tokens()
  ShowMessages()
 
- setInterval(() => {
-    rewrite_tokens()
- },  2400000)
+//  setInterval(() => {
+//     rewrite_tokens()
+//  },  2400000)
+
+//   setInterval(() => {
+//     ShowMessages();
+//   }, 10000); // 60000 == 1 минута
 
   setInterval(() => {
-    ShowMessages();
-  }, 10000); // 60000 == 1 минута
+    Seconds += 1
+  }, 1000); 
 
   // выводим  1 секунду
   // setInterval(() => {
