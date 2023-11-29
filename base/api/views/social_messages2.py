@@ -2,9 +2,6 @@ from django.http import JsonResponse
 from allauth.socialaccount.models import SocialToken
 from django.utils import timezone
 from django.conf import settings
-
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
 from django.views import View
 
 import datetime
@@ -13,10 +10,7 @@ import base64
 import threading
 
 from ...services.google import google_calendar, google_todos , google_gmail, google_youtube
-from ...services.microsoft import (microsoft_events, 
-                                                        microsoft_mails, 
-                                                        microsoft_onenotes, 
-                                                        microsoft_todos)
+from ...services.microsoft import (microsoft_events, microsoft_mails, microsoft_onenotes, microsoft_todos)
 
 class MessagesListView(View):
     def refresh_google_token(self, socialToken):
@@ -79,7 +73,7 @@ class MessagesListView(View):
                     break
                 else:
                     continue
-        
+                
         for thread in threads:
             thread.join()
 
@@ -89,6 +83,7 @@ class MessagesListView(View):
 
         providers = ['google', 'github', 'facebook', 'microsoft']
 
+        #  Список провайдеров с их сервисами
         included_services = [
             {
                 "provider": "google",
@@ -98,8 +93,7 @@ class MessagesListView(View):
                     "Google_Event": google_calendar.CallendarService,
                     "YouTube": google_youtube.GoogleYoutubeService,
                 },
-            }, 
-            {
+            }, {
                 "provider": "microsoft",
                 "services": {
                     "Microsoft_Mails": microsoft_mails.MicrosoftMailsService,
@@ -135,6 +129,3 @@ class MessagesListView(View):
             "messages": sorted(message_list, key=lambda event: event["created_time"])[::-1],
             "services": services,
         }, status=200)
-    
-    if __name__ == '__main__':
-        get()

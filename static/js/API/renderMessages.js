@@ -28,8 +28,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Функция рендеринка сообщения для вывода сообщений на экране
     const renderMessage = (message, message_list) => {
         const div = document.createElement('div');
+
         div.classList.add('notification');
         div.id = `id${message.id}`;
+
+        if (message.status == 'completed') {
+          div.style.opacity = '.3';
+        }
+
+        const servicesWithTheAbilityToDelete = [
+          'Gmail', 'Google_Todo', 'Google_Event', 
+          'Microsoft_Todo', 'Microsoft_Mails', 'Microsoft_Calendar', 'Microsoft_OneNote'
+        ]
+
+        const servicesWithTheAbilityToComplete = [
+          'Google_Todo', 'Microsoft_Todo', 
+        ]
 
         div.innerHTML = `
             <h2 class="notification__title">${message.sender}</h2>
@@ -37,17 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             <div class="notification__buttons">
             <a href="${message.link}" target='_blank'>show</a>
-            ${message.type == 'Gmail' || 
-                message.type == 'Google_Todo' || 
-                message.type == 'Google_Event' ||
-                message.type == 'Microsoft_Todo' || 
-                message.type == 'Microsoft_Mails' ||
-                message.type == 'Microsoft_OneNote' ||
-                message.type == 'Microsoft_Calendar' ? 
-            "<a class='google_todo_delete'>del</a>" : ''}
-            ${message.type == 'Google_Todo' ||
-                message.type == 'Microsoft_Todo' ? 
-            "<a class='google_todo_accomplished'>comp</a>" : ''}
+            ${servicesWithTheAbilityToDelete.includes(message.type) ? "<a class='google_todo_delete'>del</a>" : ''}
+            ${servicesWithTheAbilityToComplete.includes(message.type) ? "<a class='google_todo_accomplished'>comp</a>" : ''}
         </div>
 
         <span class='special__time'>
@@ -67,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Функция для удаления класса "inbox-show" у всех кнопок категорий
     const RemoveInboxShow = (icons) => {
         for (const icon of icons) {
-        icon.classList.remove('inbox-show');
+          icon.classList.remove('inbox-show');
         }
     }
 
@@ -91,23 +96,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const getMessages = async () => {
         console.log('get Messages... (v2) ')
+        // Берем данные с сервера
         const response = await fetch('/api/messages/')
         const data = await response.json()
+        console.log(data)
         console.log(`Data from social messages(v2) loaded successfully! Seconds: ${loadSeconds} ✅`)
 
         // Добавление иконки просмотра всех сообщений
         inbox_icons.innerHTML += `
         <button class='icon' id='show_all_messages'>
-          <span class="material-symbols-outlined">
-            mark_chat_unread
-          </span>
+          <span class="material-symbols-outlined">mark_chat_unread</span>
         </button>`
 
-        // Вывод всех сообщений
-        renderData(data.messages, messages_list)
-
+        // Рендерим кнопки - иконки для отображения сообщений социальных сетей
         for (const key in data.services) {
-           renderButton(key, inbox_icons);
+          renderButton(key, inbox_icons);
+        }
+
+        // Берем все кнопки - иконки
+        const icons = document.querySelectorAll('.icon');
+
+        // Вывод сообщений из текущей ветки сервиса
+        let inboxSavedCurrentService = localStorage.getItem('inbox-show')
+
+        if (inboxSavedCurrentService) {
+          if (data.services.hasOwnProperty(inboxSavedCurrentService) 
+                &&  data.services[inboxSavedCurrentService].length > 0) {
+            renderData(data.services[inboxSavedCurrentService], messages_list)
+            inbox_icons.querySelector(`#${inboxSavedCurrentService}`).classList.add('inbox-show');
+          }
+        } else {
+          // Вывод всех сообщений
+          inbox_icons.querySelector(`#show_all_messages`).classList.add('inbox-show');
+          renderData(data.messages, messages_list)
+        }
+        
+        // Добавляем обработчики событий для удаления класса и показывания сообщений из социальных сетей
+        for (const icon of icons) {
+          icon.addEventListener('click', () => {
+            RemoveInboxShow(icons);
+
+            if (icon.id == 'show_all_messages') {
+              renderData(data.messages, messages_list)
+            } else if (data.services.hasOwnProperty(icon.id) &&  data.services[icon.id].length > 0) {
+              renderData(data.services[icon.id], messages_list)
+            }
+
+            icon.classList.add('inbox-show');              
+            localStorage.setItem('inbox-show', icon.id)
+          });
         }
     }
 
