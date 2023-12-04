@@ -430,70 +430,35 @@ document.addEventListener('DOMContentLoaded', () => {
       // Обработчик для удаления сообщения
       if (e.target.classList.contains('google_todo_delete')) {
         let notification = e.target.parentNode.parentNode;
-
         let type = notification.querySelector('.notification__type').value;
-        
-        // Удаляем Google Todo
-        if (type == 'Google_Todo') {
-          fetch(`/api/delete-todo/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.list_id').value}/${notification.querySelector('.notification_id').value}`, {
-            method: 'DELETE',
-          })
-            .then(response => response.json())
-            .then(data => {
-              getMessages()
-              notification.style.display = 'none';
-              // console.log("Обработчик для удаления сообщения Google Todo", data)
-            })  
-            .catch(error => {
-              console.log('Ошибка: ', error);
-            });
-        } else if (type == 'Gmail') {
+        let path
 
-          // Удаляем письмо Gmail
-          fetch(`/api/google-gmail/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.notification_id').value}`, {
-            method: 'DELETE',
-          })
-            .then(response => response.json())
-            .then(data => {
-              getMessages()
-              // console.log(data)
-              notification.style.display = 'none';
-              // console.log("Удаляем письмо Gmail", data)
-            })  
-            .catch(error => {
-              console.log('Ошибка: ', error);
-            });
-        } else if (type == 'Google_Event') {
+        switch (type) {
+          case 'Google_Todo':
+            path = `/api/google-todo/${notification.querySelector('.socialGoogleTokenID').value}/lists/${notification.querySelector('.list_id').value}/tasks/${notification.querySelector('.notification_id').value}`
+            break;
+          case 'Gmail':
+            path = `/api/google-gmail/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.notification_id').value}`            
+            break;
+          case 'Google_Event':
+            path = `/api/google-event/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.calendar_id').value}/${notification.querySelector('.notification_id').value}`
+            break;
+          default:
+            break;
+        }
 
-          // Удаляем событие Google Event
-          fetch(`/api/google-event/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.calendar_id').value}/${notification.querySelector('.notification_id').value}`, {
+        if (path) {
+          fetch(path, {
             method: 'DELETE',
           })
             .then(response => response.json())
             .then(data => {
               getMessages()
               notification.style.display = 'none';
-              // console.log("Удаляем событие Google Event", data)
             })  
             .catch(error => {
               console.log('Ошибка: ', error);
-            });
-        } else if (type == 'Gmail') {
-
-          // Удаляем письмо Microsoft Mail
-          fetch(`/api/google-gmail/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.notification_id').value}`, {
-            method: 'DELETE',
-          })
-            .then(response => response.json())
-            .then(data => {
-              getMessages()
-              // console.log(data)
-              notification.style.display = 'none';
-              // console.log("Удаляем письмо Gmail", data)
-            })  
-            .catch(error => {
-              console.log('Ошибка: ', error);
-            });
+            });  
         }
       }
 

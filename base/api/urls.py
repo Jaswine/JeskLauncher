@@ -42,7 +42,7 @@ urlpatterns = [
     path('settings', user.update_settings, name='update_settings'),
     
     # TODO: ____ google todo _____
-    path('create-todo', google_todos.GoogleTodoCreate, name='google_todo_create'),
+    path('google-todo/', google_todos.GoogleTodoCreate, name='google_todo_create'),
     path('google-todo/<int:socialGoogleTokenId>/lists/<str:todo_list>/tasks/<str:todo_id>/complete', google_todos.GoogleTodoComplete, name='google_todo_complete'),
     path('google-todo/<int:socialGoogleTokenId>/lists/<str:todo_list>/tasks/<str:todo_id>', google_todos.GoogleTodoUpdateDelete, name='google_todo_update_delete'),
     

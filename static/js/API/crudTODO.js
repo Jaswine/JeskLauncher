@@ -82,14 +82,16 @@ document.addEventListener('DOMContentLoaded', () => {
         })
             .then(response => response.json())
             .then(e => {
-                // Инициализируем отображение списка заметок при удачном создании заметки
-                showTodos()
-                
+                console.log(e)
                 // Очищаем форму после создания заметки
                 create_form
                     .querySelector('.inbox__backlog__notes__form')
                     .querySelector('input')
                     .value = ''
+                
+                // Инициализируем отображение списка заметок при удачном создании заметки
+                getMessages()
+                
             })      
             .catch(error => {
                 console.error('Error:', error);
@@ -107,7 +109,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (inputs[0].checked) {
             sendTodo('/api/todos', formData)
         } else if  (inputs[1].checked) {
-            sendTodo('/api/create-todo', formData)
+            sendTodo('/api/google-todo/', formData)
+        } else if  (inputs[2].checked) {
+                sendTodo('/api/microsoft-todo/', formData)
         } else {
             sendTodo('/api/todos', formData)
         }

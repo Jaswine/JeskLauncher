@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from allauth.socialaccount.models import SocialToken, SocialApp
 from django.views.decorators.csrf import csrf_exempt
 import requests
+import json
 
 @csrf_exempt   
 def MicrosoftTodoCreate(request):
@@ -14,33 +15,44 @@ def MicrosoftTodoCreate(request):
         response_lists = requests.get(f'https://graph.microsoft.com/v1.0/me/todo/lists', headers = {
           'Authorization': 'Bearer ' + access_token
         })
+        print('RESPONSE_LISTS', response_lists.status_code)
          
         if response_lists.status_code == 200: 
             list =  response_lists.json().get('value', [])
 
-            title =  request.POST.get('title')
+            title =  request.POST.get('message')
 
-            if len(title) > 4: 
-               response = requests.get(f"https://graph.microsoft.com/v1.0/me/todo/lists/{list[0].get('id', '')}/tasks", headers = {
-                    'Authorization': 'Bearer ' + access_token
-                }, data = {
-                "title": title
+            if len(title) > 2: 
+                payload = json.dumps({
+                    "title": title
                 })
+                response = requests.post(f"https://graph.microsoft.com/v1.0/me/todo/lists/{list[0].get('id', '')}/tasks", 
+                    headers = {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + access_token
+                    }, data = payload)
+
+                print('RESPONSE', response.status_code, response.text)
+
+                if response.status_code == 201:
+                    return  JsonResponse({
+                        'status': 'success',
+                        'message': 'Todo created successfully!',
+                    }, safe=False)
+                else:
+                        return JsonResponse({
+                        'status': 'error',
+                        'message': f'Todo creation failed, status code: {response.status_code}'
+                    }, safe=False)
             else:
                 return JsonResponse({
                     'status': 'error',
                     'message': 'Todo is too short',
                 })
-
-            if response.status_code == 201:
-                return  JsonResponse({
-                    'status': 'success',
-                    'message': 'Todo created successfully!',
-                    'id': response.get('id'),
-                }, safe=False)
-            
+                
         return  JsonResponse({
             'status': 'error',
+            'message': f'Failed to create Microsoft todo, status code: {response.status_code}'
         }, safe=False)
       
 @csrf_exempt
@@ -67,8 +79,8 @@ def MicrosoftTodo(request, socialMicrosoftTokenId, todo_list, todo_id):
             
             if response.status_code == 200:
                 return  JsonResponse({
-                'status': 'success',
-                'message': f'Microsoft todo with ID {todo_id} updated successfully'
+                    'status': 'success',
+                    'message': f'Microsoft todo with ID {todo_id} updated successfully'
                 }, safe=False)
             else:
                 return JsonResponse({
