@@ -42,10 +42,9 @@ urlpatterns = [
     path('settings', user.update_settings, name='update_settings'),
     
     # TODO: ____ google todo _____
-    path('create-todo', google_todos.GoogleTodoCreate, name='create_google_todo'),
-    path('delete-todo/<int:socialGoogleTokenId>/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoDelete, name='delete_google_todo'),
-    path('сomplete-todo/<int:socialGoogleTokenId>/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoComplete, name='complete_google_todo'),
-    path('patch-title-todo/<int:socialGoogleTokenId>/<str:todo_list>/<str:todo_id>', google_todos.GoogleTodoPatchTitle, name='patch_title_google_todo'),
+    path('create-todo', google_todos.GoogleTodoCreate, name='google_todo_create'),
+    path('google-todo/<int:socialGoogleTokenId>/lists/<str:todo_list>/tasks/<str:todo_id>/complete', google_todos.GoogleTodoComplete, name='google_todo_complete'),
+    path('google-todo/<int:socialGoogleTokenId>/lists/<str:todo_list>/tasks/<str:todo_id>', google_todos.GoogleTodoUpdateDelete, name='google_todo_update_delete'),
     
     # TODO: ____ google email _____
     path('google-gmail/<int:socialGoogleTokenId>/<str:email_id>', google_email.GoogleGmail, name='google_gmail'),
@@ -59,7 +58,7 @@ urlpatterns = [
     path('google-event/<int:socialGoogleTokenId>/<str:calendarId>/<str:eventId>', google_calendar.GoogleCalendarPatchTitle, name='google_event'),
     
     # TODO: ____ microsoft todo _____
-    path('microsoft-todo/<int:socialGoogleTokenId>', microsoft_todos.MicrosoftTodoCreate, name='microsoft_todo_create'),
+    path('microsoft-todo/', microsoft_todos.MicrosoftTodoCreate, name='microsoft_todo_create'),
     path('microsoft-todo/<int:socialGoogleTokenId>/lists/<str:todo_list>/tasks/<str:todo_id>', microsoft_todos.MicrosoftTodo, name='microsoft_todo'),
     path('microsoft-todo/<int:socialGoogleTokenId>/lists/<str:todo_list>/tasks/<str:todo_id>/change-place', microsoft_todos.MicrosoftTodoComplete, name='microsoft_todo_change_place'),
 

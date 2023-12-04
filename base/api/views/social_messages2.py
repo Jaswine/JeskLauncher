@@ -36,10 +36,10 @@ class MessagesListView(View):
 
             if service_name in services:
                 existing_data = services[service_name]
-                updated_data = sorted(existing_data + data, key=lambda event: event["created_time"])
+                updated_data = sorted(existing_data + data, key=lambda event: event["created_time"])[::-1]
                 services[service_name] = updated_data
             else:
-                services[service_name] = sorted(data, key=lambda event: event["created_time"])
+                services[service_name] = sorted(data, key=lambda event: event["created_time"])[::-1]
         
     def show_messages_from_provider(self, user, provider, included_services, message_list, services):
         socialTokens = SocialToken.objects.filter(

@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         otherInput.checked = false;
 
                         // Применяем стили для невыбранного input
-                        addStyles(otherInput, '.6', 'None')
+                        addStyles(otherInput, '.6', 'None', 'transparent')
                     }   
                 });
 
@@ -112,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
             sendTodo('/api/todos', formData)
         }
     })
+
 
     // Обработчик события клика на заметку для удаления
     todo_list.addEventListener('click', (e) => {

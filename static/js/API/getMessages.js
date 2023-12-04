@@ -697,7 +697,7 @@ document.addEventListener('DOMContentLoaded', () => {
  }
  
  rewrite_tokens()
- ShowMessages()
+//  ShowMessages()
 
 //  setInterval(() => {
 //     rewrite_tokens()
