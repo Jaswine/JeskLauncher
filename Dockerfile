@@ -1,14 +1,22 @@
 FROM python:3.10
 
-RUN mkdir jesk
-WORKDIR jesk
+ARG APP_HOME=/app
+WORKDIR ${APP_HOME}
 
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+COPY requirements.txt ${APP_HOME}
+# install python dependencies
 RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-ADD . /jesk/
+COPY . ${APP_HOME}
 
-ENV APP_NAME=JESK
+# running migrations
+RUN python manage.py migrate
 
-COPY . .
-CMD gunicorn demo.wsgi:application -b 0.0.0.0:8080
+# gunicorn
+# CMD ["gunicorn", "--config", "gunicorn-cfg.py", "config.wsgi"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
