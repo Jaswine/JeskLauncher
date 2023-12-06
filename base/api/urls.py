@@ -59,9 +59,15 @@ urlpatterns = [
     
     # TODO: ____ microsoft todo _____
     path('microsoft-todo/', microsoft_todos.MicrosoftTodoCreate, name='microsoft_todo_create'),
-    path('microsoft-todo/<int:socialGoogleTokenId>/lists/<str:todo_list>/tasks/<str:todo_id>', microsoft_todos.MicrosoftTodo, name='microsoft_todo'),
-    path('microsoft-todo/<int:socialGoogleTokenId>/lists/<str:todo_list>/tasks/<str:todo_id>/change-place', microsoft_todos.MicrosoftTodoComplete, name='microsoft_todo_change_place'),
+    path('microsoft-todo/<int:socialMicrosoftTokenId>/lists/<str:todo_list>/tasks/<str:todo_id>/', microsoft_todos.MicrosoftTodo, name='microsoft_todo'),
+    path('microsoft-todo/<int:socialMicrosoftTokenId>/lists/<str:todo_list>/tasks/<str:todo_id>/change-place', microsoft_todos.MicrosoftTodoComplete, name='microsoft_todo_change_place'),
 
+    # TODO: ____ microsoft email _____
+    path('microsoft-email/<int:socialMicrosoftTokenId>/<str:email_id>/', microsoft_email.MicrosoftEmail, name='microsoft_email'),
+
+    # TODO: ____ microsoft calendar _____
+    path('microsoft-event/<int:socialMicrosoftTokenId>/list/<str:calendar_id>/tasks/<str:event_id>', microsoft_calendar.MicrosoftCalendar, name='microsoft_calendar'),
+    
     # TODO: ____ account ____
     path('rewrite-tokens', user.rewrite_tokens, name='rewrite_tokens'), 
     path('create-new-user', user.create_new_user, name='create_new_new'),

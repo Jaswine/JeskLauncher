@@ -119,12 +119,7 @@ class MessagesListView(View):
         # Ждем завершения всех функций
         for thread in provider_threads:
             thread.join()
-
-        # Обрабатываем полученные данные
-        for function in provider_functions:
-            # data = function()
-            print('\n\n\n DATA: ', 'Get successfully!!')
-
+            
         return JsonResponse({
             "messages": sorted(message_list, key=lambda event: event["created_time"])[::-1],
             "services": services,

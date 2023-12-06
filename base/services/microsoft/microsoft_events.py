@@ -38,6 +38,7 @@ def MicrosoftCalendarService(access_token, social_google_token, access_email='')
                         'link': event.get('webLink', ''),   
                         'text': event.get('bodyPreview', ''),
                         'created_time': str(event.get('createdDateTime', '')),
+                        'list_id': calendar.get('id', ''),
                         
                         'account_email': access_email,
                         'social_google_token_id': social_google_token,

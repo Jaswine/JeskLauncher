@@ -1,10 +1,14 @@
-document.addEventListener('DOMContentLoaded', () => {
+// document.addEventListener('DOMContentLoaded', () => {
     // Получаем список сообщений
     let messages_list = document.getElementById('messages-list'); 
     // Получаем контейнер для иконок социальных сетей
     let inbox_icons = document.querySelector('#inbox-icons');
     // Получаем контейнер для сегодняшних задач
     let today__work = document.querySelector('.today__work');
+    // Получаем CSRF-токен из атрибута элемента
+    let csrfToken = document.getElementById('csrf-token').getAttribute('data-csrf-token');
+    // Получаем контейнер для сообщений в почтовом ящике
+    let inbox__messages = document.querySelector('.inbox__messages');
 
     let loadSeconds = 0
     
@@ -108,6 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(`Data from social messages(v2) loaded successfully! Seconds: ${loadSeconds} ✅`)
 
         inbox_icons.innerHTML = ''
+        messages_list.innerHTML = ''
+
         // Добавление иконки просмотра всех сообщений
         inbox_icons.innerHTML += `
         <button class='icon' id='show_all_messages'>
@@ -153,34 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
           });
         }
     }
-
-    //  Список доступных сервисов
-    const services = [
-        {
-            "Delete": [
-                {
-                    'Google_Todo': 'google-todo/socialGoogleTokenId/lists/todo_list/tasks/todo_id/delete',
-                    'Google_Todo': 'google-todo/socialGoogleTokenId/lists/todo_list/tasks/todo_id/delete',
-                    'Google_Todo': 'google-todo/socialGoogleTokenId/lists/todo_list/tasks/todo_id/delete',
-                }
-            ]
-        },
-        {
-            "Complete": [
-                {
-                    "": "",
-                }
-            ]
-        }
-    ]
-
-    // Функции для взаимодействия с сообщениями
-//    messages_list.addEventListener('click', (e) => {
-//        if (e.target.classList.contains('notification__text')) {
-//
-//        }
-//    })
-
 
     // FROM RENDER MESSAGES
     // Добавляем обработчики событий для кнопок в списке сообщений
@@ -247,104 +225,72 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.change_message_title').addEventListener('submit', (e) => {
               e.preventDefault();
         
-              let formData = new FormData(document.querySelector('.change_message_title'));          
+              let formData = new FormData(document.querySelector('.change_message_title'));
+              let path
 
-              // Обновляем Google Todo
               if (type == 'Google_Todo') {
-                fetch(`/api/patch-title-todo/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.list_id').value}/${notification.querySelector('.notification_id').value}`, {
-                  method: 'POST',
-                  body: formData,
-                })
-                  .then(response => response.json())
-                  .then(data => {
-                    // console.log(data);
-                  })
-                  .catch(error => {
-                    console.log('Ошибка: ', error);
-                  });
-              // Обновляем Google Event
+                path = `/api/google-todo/${notification.querySelector('.socialGoogleTokenID').value}/lists/${notification.querySelector('.list_id').value}/tasks/${notification.querySelector('.notification_id').value}`      
               } else if (type == 'Google_Event') {
-                fetch(`/api/google-event/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.calendar_id').value}/${notification.querySelector('.notification_id').value}`, {
+                path = `/api/google-event/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.calendar_id').value}/${notification.querySelector('.notification_id').value}`      
+              }
+
+              if (path) {
+                fetch(path, {
                   method: 'POST',
                   body: formData,
                 })
                   .then(response => response.json())
-                  .then(data => {
-                    // console.log(data);
-                  })
+                  .then(data => {})
                   .catch(error => {
                     console.log('Ошибка: ', error);
                   });
               }
-
+              
               let ntf = inbox__messages.querySelector(`#id${notification.querySelector('.notification_id').value}`);
               ntf.querySelector('.notification__text').innerHTML = formData.get('title');
             });
           } 
 
+          const handleNotificationAction = (action, endpoint) => {
+            let path = `/api/google-gmail/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.notification_id').value}/${endpoint}`
+
+            fetch(path, {
+              method: action === 'DELETE' ? 'DELETE' : 'POST',
+            })
+              .then(response => response.json())
+              .then(data => {
+                  getMessages();
+
+                  if (endpoint === 'spam' || endpoint === 'trash') {
+                    today__work.innerHTML = '';
+                    notification.style.display = 'none';
+                  }
+                })
+              .catch(error => {
+                  console.log(`Ошибка при ${action}:`, error);
+                });
+          }
+
           // Работа с Gmail письмом
           if (type == 'Gmail') {
             // Архивирование
             document.querySelector('.today__notification__panel__archive').addEventListener('click', () => {
-              fetch(`/api/google-gmail/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.notification_id').value}/archive`, {
-                method: 'POST',
-              })
-                .then(response => response.json())
-                .then(data => {
-                  getMessages()
-                  // console.log('Архивирование', data);
-                })
-                .catch(error => {
-                  console.log('Ошибка: ', error);
-                });
+                handleNotificationAction('POST','archive')
             })
 
             // Добавление в Спам
             document.querySelector('.today__notification__panel__in_span').addEventListener('click', () => {
-              fetch(`/api/google-gmail/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.notification_id').value}/spam`, {
-                method: 'POST',
-              })
-                .then(response => response.json())
-                .then(data => {
-                  getMessages()
-                  today__work.innerHTML = ''
-                  notification.style.display = 'none'
-                  // console.log('Добавление в Спам', data);
-                })
-                .catch(error => {
-                  console.log('Ошибка: ', error);
-                });
+              handleNotificationAction('POST','spam')
             })
 
             // Удаление ( перемещение в корзину )
             document.querySelector('.today__notification__panel__delete').addEventListener('click', () => {
-              fetch(`/api/google-gmail/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.notification_id').value}`, {
-                method: 'DELETE',
-              })
-                .then(response => response.json())
-                .then(data => {
-                  getMessages()
-                  today__work.innerHTML = ''
-                  notification.style.display = 'none'
-                  // console.log('Удаление ( перемещение в корзину )', data);
-                })  
-                .catch(error => {
-                  console.log('Ошибка: ', error);
-                });
+              handleNotificationAction('POST','trash')
             })
 
             // Изменение письму статус на не прочитаное
             document.querySelector('.today__notification__panel__unread').addEventListener('click', () => {
-              fetch(`/api/google-gmail/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.notification_id').value}/unread`, {
-                method: 'POST',
-              })
-                .then(response => response.json())
-                .then(data => {
-                  // console.log("Изменение письму статус на не прочитаное", data);
-                })  
-                .catch(error => {
-                  console.log('Ошибка: ', error);
-                });
+              handleNotificationAction('POST','unread')
             })
 
             document.querySelector('.today__notification__panel_add_to_tasks').addEventListener('click', () => {
@@ -396,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let notification = e.target.parentNode.parentNode;
         
         if (notification.style.opacity == '0.3') {
-          fetch(`/api/сomplete-todo/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.list_id').value}/${notification.querySelector('.notification_id').value}`, {
+          fetch(`/api/google-todo/${notification.querySelector('.socialGoogleTokenID').value}/lists/${notification.querySelector('.list_id').value}/tasks/${notification.querySelector('.notification_id').value}/complete`, {
             method: 'POST',
             body: JSON.stringify({status: 'needsAction'}),
           })
@@ -411,7 +357,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
         } else {
-          fetch(`/api/сomplete-todo/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.list_id').value}/${notification.querySelector('.notification_id').value}`, {
+          fetch(`/api/google-todo/${notification.querySelector('.socialGoogleTokenID').value}/lists/${notification.querySelector('.list_id').value}/tasks/${notification.querySelector('.notification_id').value}/complete`, {
             method: 'POST',
             body: JSON.stringify({status: 'completed'}),
           })
@@ -432,6 +378,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let notification = e.target.parentNode.parentNode;
         let type = notification.querySelector('.notification__type').value;
         let path
+        console.log(notification)
 
         switch (type) {
           case 'Google_Todo':
@@ -442,6 +389,15 @@ document.addEventListener('DOMContentLoaded', () => {
             break;
           case 'Google_Event':
             path = `/api/google-event/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.calendar_id').value}/${notification.querySelector('.notification_id').value}`
+            break;
+          case 'Microsoft_Todo':
+            path = `/api/microsoft-todo/${notification.querySelector('.socialGoogleTokenID').value}/lists/${notification.querySelector('.list_id').value}/tasks/${notification.querySelector('.notification_id').value}`
+            break;
+          case 'Microsoft_Mails':
+            path = `/api/microsoft-email/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.notification_id').value}`
+            break;
+          case 'Microsoft_Calendar':
+            path = `/api/microsoft-event/${notification.querySelector('.socialGoogleTokenID').value}/list/${notification.querySelector('.list_id').value}/tasks/${notification.querySelector('.notification_id').value}`
             break;
           default:
             break;
@@ -455,6 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
               getMessages()
               notification.style.display = 'none';
+              console.log(data)
             })  
             .catch(error => {
               console.log('Ошибка: ', error);
@@ -516,4 +473,4 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('1 секунда');
         loadSeconds+= 1
     }, 1000);
-})
+// })

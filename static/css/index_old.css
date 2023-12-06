@@ -340,6 +340,9 @@
    transition: all .3s linear;
    position: relative;
 }
+.today__work * {
+   color: var(--white) !important;
+}
 
 /* calendar top */
 .callender__top {

@@ -36,6 +36,7 @@ def MicrosoftTodoService(access_token, social_google_token, access_email=""):
                      'link': f"https://to-do.live.com/tasks/id/{task.get('id', '')}/details",   
                      'text': task.get('notes', ''),
                      'created_time': str(task.get('createdDateTime', '')),
+                     'list_id': list[0].get('id', ''),
                      
                      'account_email': access_email,
                      'social_google_token_id': social_google_token,
