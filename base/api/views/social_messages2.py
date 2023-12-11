@@ -27,7 +27,7 @@ class MessagesListView(View):
             return ''
         
     def get_messages_from_service(self, service_name, service_class, access_token,
-                                                             socialToken, access_email, message_list, services):
+                                                             socialToken, access_email, message_list, services, errors):
         response = service_class(access_token, socialToken.id, access_email)
 
         if response[0] == "success":
@@ -40,8 +40,10 @@ class MessagesListView(View):
                 services[service_name] = updated_data
             else:
                 services[service_name] = sorted(data, key=lambda event: event["created_time"])[::-1]
+        else:
+            errors.extend(response[1])
         
-    def show_messages_from_provider(self, user, provider, included_services, message_list, services):
+    def show_messages_from_provider(self, user, provider, included_services, message_list, services, errors):
         socialTokens = SocialToken.objects.filter(
             account__user=user, 
             account__provider=provider
@@ -67,7 +69,7 @@ class MessagesListView(View):
 
                     for service_name, service_class in provider_services.items():
                         thread = threading.Thread(target=self.get_messages_from_service, args=(service_name, service_class, access_token, 
-                                                                                            socialToken, access_email, message_list, services))
+                                                                                            socialToken, access_email, message_list, services, errors))
                         thread.start()
                         threads.append(thread)
                     break
@@ -80,6 +82,7 @@ class MessagesListView(View):
     def get(self, request, *args, **kwargs):
         message_list = []
         services = dict()
+        errors = []
 
         providers = ['google', 'github', 'facebook', 'microsoft']
 
@@ -107,7 +110,7 @@ class MessagesListView(View):
         # Создаем список функций для взятия данных с API
         provider_functions = []
         for provider in providers:
-            provider_functions.append(self.show_messages_from_provider(request.user, provider, included_services, message_list, services))
+            provider_functions.append(self.show_messages_from_provider(request.user, provider, included_services, message_list, services, errors))
 
         # Запускаем функции параллельно
         provider_threads = []
@@ -123,4 +126,5 @@ class MessagesListView(View):
         return JsonResponse({
             "messages": sorted(message_list, key=lambda event: event["created_time"])[::-1],
             "services": services,
+            'errors': errors
         }, status=200)

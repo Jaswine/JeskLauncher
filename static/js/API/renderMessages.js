@@ -166,6 +166,9 @@
       if (e.target.classList.contains('notification__text')) {
           let notification  = e.target.parentNode;
 
+          let update_title_types = ['Google_Todo', 'Google_Event', 'Microsoft_Todo', 'Microsoft_Calendar', 'Microsoft_OneNote'];
+
+
           let type = notification.querySelector('.notification__type').value;
           let content = notification.querySelector('.notification__content').innerHTML;
 
@@ -207,7 +210,7 @@
                 </button>
               </div>
             ` :  ''}
-            ${type  == 'Google_Todo' || type == 'Google_Event' ? 
+            ${update_title_types.includes(type) ? 
             `<form class='change_message_title' method='POST'>
               <input type="hidden" name="csrfmiddlewaretoken" value="${csrfToken}">
               <input type='text' value='${notification.querySelector(".notification__text").innerHTML}' name='title' placeholder='Введите заголовок' />
@@ -221,7 +224,7 @@
             </div>
           `;
 
-          if (type == 'Google_Todo' || type == 'Google_Event' ) {
+          if (update_title_types.includes(type)) {
             document.querySelector('.change_message_title').addEventListener('submit', (e) => {
               e.preventDefault();
         
@@ -232,9 +235,14 @@
                 path = `/api/google-todo/${notification.querySelector('.socialGoogleTokenID').value}/lists/${notification.querySelector('.list_id').value}/tasks/${notification.querySelector('.notification_id').value}`      
               } else if (type == 'Google_Event') {
                 path = `/api/google-event/${notification.querySelector('.socialGoogleTokenID').value}/${notification.querySelector('.calendar_id').value}/${notification.querySelector('.notification_id').value}`      
+              } else if (type == 'Microsoft_Todo') {
+                path = `/api/microsoft-todo/${notification.querySelector('.socialGoogleTokenID').value}/lists/${notification.querySelector('.list_id').value}/tasks/${notification.querySelector('.notification_id').value}/`
+              } else if (type == 'Microsoft_Calendar') {
+                path = `/api/microsoft-event/${notification.querySelector('.socialGoogleTokenID').value}/list/${notification.querySelector('.list_id').value}/tasks/${notification.querySelector('.notification_id').value}`
               }
 
               if (path) {
+                getMessages
                 fetch(path, {
                   method: 'POST',
                   body: formData,
@@ -466,8 +474,29 @@
     })
   })
 
+
+  const rewrite_tokens = () => {
+    // console.log('Rewriting tokens...')
+    // Выполняем GET-запрос к серверу по адресу '/api/rewrite-tokens'
+    fetch('/api/rewrite-tokens')
+       .then(response => response.json())
+       .then(data => {
+          // Выводим полученные данные в консоль браузера
+          console.log(data);
+       })
+       .catch(error => {
+          // В случае ошибки выводим её в консоль браузера
+          console.error(error);
+       }) 
+ }
+
+    rewrite_tokens()
     // Вызываем функцию для получения сообщений
     getMessages()
+
+    setInterval(() => {
+      getMessages()
+    }, 10000)
 
     setInterval(() => {
         console.log('1 секунда');

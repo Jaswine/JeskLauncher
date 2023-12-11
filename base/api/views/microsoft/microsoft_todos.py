@@ -32,8 +32,6 @@ def MicrosoftTodoCreate(request):
                         'Authorization': 'Bearer ' + access_token
                     }, data = payload)
 
-                print('RESPONSE', response.status_code, response.text)
-
                 if response.status_code == 201:
                     return  JsonResponse({
                         'status': 'success',
@@ -65,20 +63,29 @@ def MicrosoftTodo(request, socialMicrosoftTokenId, todo_list, todo_id):
         if request.method == 'POST':
             title = request.POST.get('title')
 
-            if len(title) > 4:
-                response = requests.put(f'https://graph.microsoft.com/v1.0/me/todo/lists/{todo_list}/tasks/{todo_id}', headers = {
-                        'Authorization': 'Bearer ' + access_token
-                }, data = {
-                    'title': title,
-                }) 
+            payload = json.dumps({
+                "title": title
+            })
+
+            if len(title) > 2:
+                response = requests.put(f'https://graph.microsoft.com/v1.0/me/todo/lists/{todo_list}/tasks/{todo_id}', 
+                headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + access_token
+                }, data = payload)
 
                 if response.status_code == 200:
                     return  JsonResponse({
                         'status': 'success',
                         'message': f'Microsoft todo with ID {todo_id} updated successfully'
                     }, safe=False)
-            else:
+                                
                 return JsonResponse({
+                    'status': 'error',
+                    'message': f'Failed to update Microsoft todo with ID {todo_id}, status code: {response.status_code}, message: {response.content}'
+                }, status=400)
+            
+            return JsonResponse({
                     'status': 'error',
                     'message': 'Todo is too short',
                 }, status=400)
@@ -99,15 +106,15 @@ def MicrosoftTodo(request, socialMicrosoftTokenId, todo_list, todo_id):
                 'status': 'error',
                 'message': f'Failed to delete Microsoft todo with ID {todo_id}, status code: {response.status_code}'
                 }, status=400)
-        else:
-            return JsonResponse({
+
+        return JsonResponse({
             'status': 'error',
             'message': 'Method not allowed'
             }, status=402)
     
     return JsonResponse({
            'status': 'error',
-           'message': 'Token not found'
+            'message': 'Token not found'
         }, status=401)
             
         
